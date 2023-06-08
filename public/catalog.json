@@ -1,0 +1,28 @@
+{
+    "catalog": [
+        {
+            "id": "item-1",
+            "name": "Blue Sofa",
+            "image": "https://example.com/images/blue-sofa.png",
+            "width": 1,
+            "height": 1,
+            "type": "floor"
+        },
+        {
+            "id": "item-2",
+            "name": "Red Painting",
+            "image": "https://example.com/images/red-painting.png",
+            "width": 1,
+            "height": 1,
+            "type": "wall"
+        },
+        {
+            "id": "item-3",
+            "name": "Green Chair",
+            "image": "https://example.com/images/green-chair.png",
+            "width": 1,
+            "height": 1,
+            "type": "floor"
+        }
+    ]
+}

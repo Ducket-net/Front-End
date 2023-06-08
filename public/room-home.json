@@ -1,0 +1,41 @@
+{
+    "id": "room-1",
+    "items": [
+        {
+            "roomX": 1,
+            "roomY": 2,
+            "roomZ": 0,
+            "direction": 2,
+            "type": "throne"
+        },
+        {
+            "roomX": 1,
+            "roomY": 3,
+            "roomZ": 0,
+            "direction": 2,
+            "type": "throne"
+        },
+        {
+            "roomX": 1,
+            "roomY": 4,
+            "roomZ": 0,
+            "direction": 2,
+            "type": "throne"
+        },
+        {
+            "roomX": 1,
+            "roomY": 1,
+            "roomZ": 0,
+            "direction": 2,
+            "type": "throne"
+        },
+        {
+            "roomX": 4,
+            "roomY": 1,
+            "roomZ": 0,
+            "direction": 2,
+            "type": "rare_colourable_dragonlamp*1",
+            "animation": "1"
+        }
+    ]
+}
