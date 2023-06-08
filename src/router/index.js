@@ -13,13 +13,13 @@ const routes = [
     component: HomeView, // Set the home component for the root URL
   },
   {
-    path: "/*",
-    component: HomeView,
-  },
-  {
     path: "/room/:id", // Add the dynamic :id parameter
     name: "GameRoom",
     component: GameRoom,
+  },
+  {
+    path: "/*",
+    component: HomeView,
   },
 ];
 
