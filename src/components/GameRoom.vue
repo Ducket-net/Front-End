@@ -1,6 +1,6 @@
 <!-- src/components/GameRoom.vue -->
 <template>
-  <div ref="container">
+  <div ref="container" class="max-w-lg mx-auto">
     <!-- <h2>Room {{ roomId }}</h2> -->
     <div
       ref="canvasContainer"
