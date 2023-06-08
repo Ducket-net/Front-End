@@ -73,8 +73,8 @@ export default class Game {
     });
 
     this.renderItem(roomData, room);
-    room.wallColor = "#EA333D";
-    room.floorColor = "#2E2E36";
+    room.wallColor = "#dbbe6e";
+    room.floorColor = "#eeeeee";
     return room; // Update this line
   }
 
