@@ -7,22 +7,26 @@ import GameRoom from "../components/GameRoom.vue";
 Vue.use(VueRouter);
 
 const routes = [
-    {
-        path: "/",
-        name: "Home",
-        component: HomeView, // Set the home component for the root URL
-    },
-    {
-        path: "/room/:id", // Add the dynamic :id parameter
-        name: "GameRoom",
-        component: GameRoom,
-    },
+  {
+    path: "/",
+    name: "Home",
+    component: HomeView, // Set the home component for the root URL
+  },
+  {
+    path: "/*",
+    component: HomeView,
+  },
+  {
+    path: "/room/:id", // Add the dynamic :id parameter
+    name: "GameRoom",
+    component: GameRoom,
+  },
 ];
 
 const router = new VueRouter({
-    mode: "history",
-    base: process.env.BASE_URL,
-    routes,
+  mode: "history",
+  base: process.env.BASE_URL,
+  routes,
 });
 
 export default router;
