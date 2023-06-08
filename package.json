@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@tetreum/shroom": "0.7.6",
+    "@websanova/vue-auth": "^4.2.1",
     "autoprefixer": "^10.4.14",
     "axios": "^1.4.0",
     "core-js": "^3.8.3",
