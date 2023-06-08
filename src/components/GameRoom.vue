@@ -14,6 +14,27 @@
         class="max-w-sm mx-auto bg-white bg-opacity-50 rounded-md shadow-md p-4 text-white mt-4"
       >
         <h3 class="text-xs uppercase font-mono mb-3">Selected Item</h3>
+        <div class="grid grid-cols-3 gap-1 mb-3">
+          <button
+            @click="game.unselectFurniture(selectedItem)"
+            class="w-full py-2 mt-2 font-semibold text-white bg-black rounded text-xs"
+          >
+            Unselect
+          </button>
+          <button
+            @click="updateItem(selectedItem)"
+            type="button"
+            class="w-full py-2 mt-2 font-semibold text-white bg-black rounded text-xs"
+          >
+            Save
+          </button>
+          <button
+            @click="clearRoomItems"
+            class="w-full py-2 mt-2 font-semibold text-white bg-black rounded text-xs"
+          >
+            Clear Room
+          </button>
+        </div>
 
         <div class="text-xs mb-4">
           <p>Type: {{ selectedItem.type }}</p>
@@ -27,13 +48,6 @@
         </div>
 
         <div class="space-y-4">
-          <button
-            @click="game.unselectFurniture(selectedItem)"
-            class="w-full py-2 bg-black text-white rounded text-xs"
-          >
-            Unselect
-          </button>
-
           <div class="flex items-center">
             <label class="w-1/3">Position Z</label>
             <button
@@ -101,14 +115,6 @@
               class="w-full p-2 border border-gray-300 rounded text-xs"
             />
           </div> -->
-
-          <button
-            @click="updateItem(selectedItem)"
-            type="button"
-            class="w-full py-2 mt-2 font-semibold text-white bg-black rounded text-xs"
-          >
-            Update Item
-          </button>
         </div>
       </div>
     </div>
@@ -149,6 +155,16 @@ export default {
     this.game.application.stage.addChild(this.game.room);
   },
   methods: {
+    clearRoomItems() {
+      this.game.room.roomObjects.forEach((object) => {
+        if (object instanceof FloorFurniture) {
+          this.game.room.removeRoomObject(object);
+        }
+      });
+      this.saveRoomToLocalStorage();
+      //reload page
+      location.reload();
+    },
     saveRoomToLocalStorage() {
       const roomData = this.game.getSerializedRoom();
       localStorage.setItem("savedRoom", JSON.stringify(roomData));

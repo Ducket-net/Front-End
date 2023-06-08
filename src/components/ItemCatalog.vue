@@ -5,7 +5,7 @@
       type="text"
       v-model="searchQuery"
       placeholder="Search items..."
-      class="p-2 w-full bg-gray-100 rounded"
+      class="p-2 w-full bg-gray-100 rounded text-black"
     />
     <div
       v-for="item in filteredItems"
