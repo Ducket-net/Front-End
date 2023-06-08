@@ -9,96 +9,103 @@
       tabindex="0"
     >
       <canvas ref="canvas" class="mx-auto outline-0"></canvas>
-      <div>
-        <p v-if="selectedItemType">
-          hi Selected Item Type: {{ selectedItemType }}
-        </p>
-        <div
-          v-if="selectedItem"
-          class="add-item-form space-y-4"
-          ref="selectedItemForm"
-        >
+      <div
+        v-if="selectedItem"
+        class="max-w-sm mx-auto bg-white bg-opacity-50 rounded-md shadow-md p-4 text-white mt-4"
+      >
+        <h3 class="text-xs uppercase font-mono mb-3">Selected Item</h3>
+
+        <div class="text-xs mb-4">
+          <p>Type: {{ selectedItem.type }}</p>
+          <p>
+            Position: ({{ selectedItem.roomX.toFixed(2) }},
+            {{ selectedItem.roomY.toFixed(2) }})
+          </p>
+          <p>Position Z: {{ selectedItem.roomZ.toFixed(2) }}</p>
+          <p>Direction: {{ selectedItem.direction }}</p>
+          <!-- <p>Animation: {{ selectedItem.animation }}</p> -->
+        </div>
+
+        <div class="space-y-4">
           <button
             @click="game.unselectFurniture(selectedItem)"
-            class="px-2 py-1 bg-blue-500 text-white rounded"
+            class="w-full py-2 bg-black text-white rounded text-xs"
           >
             Unselect
           </button>
-          <div>
-            <label>Type</label>
-            <input
-              v-model="selectedItem.type"
-              placeholder="Type"
-              class="w-full p-2 border border-gray-300 rounded"
-            />
-          </div>
-          <div>
-            <label>Position Z</label>
+
+          <div class="flex items-center">
+            <label class="w-1/3">Position Z</label>
             <button
               @click="selectedItem.roomZ -= 0.2"
-              class="px-2 py-1 mr-2 bg-blue-500 text-white rounded"
+              class="bg-black text-white rounded p-4 text-xs"
             >
               Down
             </button>
             <button
               @click="selectedItem.roomZ += 0.2"
-              class="px-2 py-1 ml-2 bg-blue-500 text-white rounded"
+              class="bg-black text-white rounded p-4 ml-2 text-xs"
             >
               Up
             </button>
           </div>
-          <div>
-            <label>Position X</label>
+
+          <div class="flex items-center">
+            <label class="w-1/3">Position X</label>
             <button
-              @click="selectedItem.roomX -= 1"
-              class="px-2 py-1 mr-2 bg-blue-500 text-white rounded"
+              @click="selectedItem.roomX -= 0.2"
+              class="bg-black text-white rounded p-4 text-xs"
             >
               -
             </button>
-            {{ selectedItem.roomX }}
             <button
-              @click="selectedItem.roomX += 1"
-              class="px-2 py-1 ml-2 bg-blue-500 text-white rounded"
+              @click="selectedItem.roomX += 0.2"
+              class="bg-black text-white rounded p-4 ml-2 text-xs"
             >
               +
             </button>
           </div>
-          <div>
-            <label>Position Y</label>
+
+          <div class="flex items-center">
+            <label class="w-1/3">Position Y</label>
             <button
-              @click="selectedItem.roomY -= 1"
-              class="px-2 py-1 mr-2 bg-blue-500 text-white rounded"
+              @click="selectedItem.roomY -= 0.2"
+              class="bg-black text-white rounded p-4 text-xs"
             >
               -
             </button>
-            {{ selectedItem.roomY }}
             <button
-              @click="selectedItem.roomY += 1"
-              class="px-2 py-1 ml-2 bg-blue-500 text-white rounded"
+              @click="selectedItem.roomY += 0.2"
+              class="bg-black text-white rounded p-4 ml-2 text-xs"
             >
               +
             </button>
           </div>
-          <div>
-            <label>Direction</label>
+
+          <div class="flex items-center">
+            <label class="w-1/3">Direction</label>
             <button
               @click="selectedItem.direction = (selectedItem.direction + 2) % 8"
-              class="px-2 py-1 bg-blue-500 text-white rounded"
+              class="w-full py-2 bg-black text-white rounded text-xs"
             >
-              Change
+              Change Direction
             </button>
-            {{ selectedItem.direction }}
           </div>
-          <label>Animation</label>
-          <input
-            v-model="selectedItem.animation"
-            placeholder="Animation"
-            class="w-full p-2 border border-gray-300 rounded"
-          />
+
+          <!-- <div>
+            <label for="animation">Animation</label>
+            <input
+              id="animation"
+              v-model="selectedItem.animation"
+              placeholder="Animation"
+              class="w-full p-2 border border-gray-300 rounded text-xs"
+            />
+          </div> -->
+
           <button
             @click="updateItem(selectedItem)"
             type="button"
-            class="w-full py-2 mt-2 font-bold text-white bg-blue-500 rounded"
+            class="w-full py-2 mt-2 font-semibold text-white bg-black rounded text-xs"
           >
             Update Item
           </button>
@@ -142,6 +149,10 @@ export default {
     this.game.application.stage.addChild(this.game.room);
   },
   methods: {
+    saveRoomToLocalStorage() {
+      const roomData = this.game.getSerializedRoom();
+      localStorage.setItem("savedRoom", JSON.stringify(roomData));
+    },
     addItemByClassName(classname) {
       const newItem = new FloorFurniture({
         type: classname,
@@ -158,6 +169,7 @@ export default {
     addItem() {
       const newItem = new FloorFurniture({ ...this.form });
       this.game.addItem(newItem);
+      this.saveRoomToLocalStorage();
 
       // unselectFurniture
       // this.game.unselectFurniture();
@@ -165,6 +177,7 @@ export default {
     updateItem() {
       // Call the game updateItem method
       this.game.updateItem(this.selectedItem);
+      this.saveRoomToLocalStorage();
     },
     handleKeydown(event) {
       if (!this.selectedItem) return;
@@ -190,6 +203,7 @@ export default {
           this.selectedItem.direction = (this.selectedItem.direction + 1) % 8;
           break;
       }
+      this.saveRoomToLocalStorage();
     },
   },
   created() {
@@ -209,6 +223,7 @@ export default {
     this.$root.$on("add-to-room", (classname) => {
       console.log("add-to-room", classname);
       this.addItemByClassName(classname);
+      this.saveRoomToLocalStorage();
     });
   },
 };

@@ -73,8 +73,8 @@ export default class Game {
     });
 
     this.renderItem(roomData, room);
-    room.wallColor = "#dbbe6e";
-    room.floorColor = "#eeeeee";
+    room.wallColor = "#EA333D";
+    room.floorColor = "#2E2E36";
     return room; // Update this line
   }
 
@@ -134,5 +134,34 @@ export default class Game {
       this.onFurnitureItemClick(furnitureItem);
     };
     this.room.addRoomObject(furnitureItem);
+  }
+
+  floorFurnitureToJSON(floorFurniture) {
+    return {
+      type: floorFurniture.type,
+      roomX: floorFurniture.roomX,
+      roomY: floorFurniture.roomY,
+      roomZ: floorFurniture.roomZ,
+      direction: floorFurniture.direction,
+      animation: floorFurniture.animation,
+    };
+  }
+
+  getSerializedRoom() {
+    const roomData = {
+      wallColor: this.room.wallColor,
+      floorColor: this.room.floorColor,
+      avatar: this.avatar ? this.avatar.toJSON() : null,
+      items: [],
+    };
+
+    this.room.roomObjects.forEach((object) => {
+      // Check if the object is an instance of FloorFurniture before pushing to items
+      if (object instanceof FloorFurniture) {
+        roomData.items.push(this.floorFurnitureToJSON(object));
+      }
+    });
+
+    return roomData;
   }
 }

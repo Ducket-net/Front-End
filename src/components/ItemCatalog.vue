@@ -1,23 +1,28 @@
 <template>
-  <div>
-    <h2>Catalog</h2>
+  <div class="mt-4 bg-white rounded-md bg-opacity-50 shadow-md p-4 text-white">
+    <h3 class="text-xs uppercase font-mono text-white mb-3">Catalog</h3>
     <input
       type="text"
       v-model="searchQuery"
       placeholder="Search items..."
-      class="p-2 bg-gray-100 rounded"
+      class="p-2 w-full bg-gray-100 rounded"
     />
     <div
       v-for="item in filteredItems"
       :key="item.id"
-      class="flex items-center p-2 cursor-pointer hover:bg-gray-100"
+      class="flex items-center p-2 my-2 bg-slate-500 rounded cursor-pointer hover:bg-gray-200"
       @click="selectItem(item)"
     >
-      <img :src="item.image_url" class="w-8 h-8" />
-      <span class="ml-2">{{ item.name }}</span>
+      <img :src="item.image_url" class="max-w-[30px]" />
+      <div class="ml-4">
+        <h4 class="text-sm font-semibold">{{ item.name }}</h4>
+        <p class="text-xs">
+          {{ item.classname }} | {{ item.category }} | {{ item.furniline }}
+        </p>
+      </div>
       <button
-        @click="addToRoom(item.classname)"
-        class="ml-2 px-2 py-1 bg-green-500 text-white rounded"
+        @click.stop="addToRoom(item.classname)"
+        class="ml-auto px-3 py-1 bg-green-500 text-white rounded text-xs"
       >
         Add
       </button>

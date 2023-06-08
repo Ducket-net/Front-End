@@ -31,10 +31,20 @@ export default new Vuex.Store({
   actions: {
     async fetchCurrentRoom({ commit }, roomId) {
       try {
-        // Replace the URL with your actual server URL
-        const response = await axios.get(`/room-${roomId}.json`);
-        commit("setCurrentRoom", response.data);
-        return response.data;
+        let roomData;
+
+        // Check if room data exists in local storage
+        if (localStorage.getItem("savedRoom")) {
+          roomData = JSON.parse(localStorage.getItem("savedRoom"));
+        } else {
+          // If no room data in local storage, fetch from server
+          // Replace the URL with your actual server URL
+          const response = await axios.get(`/room-${roomId}.json`);
+          roomData = response.data;
+        }
+
+        commit("setCurrentRoom", roomData);
+        return roomData;
       } catch (error) {
         console.error("Error fetching room:", error);
         return null;

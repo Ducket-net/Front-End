@@ -1,9 +1,8 @@
 <!-- src/components/Home.vue -->
 <template>
   <div>
-    <h1>Welcome to Suite... Coming soon</h1>
     <GameRoom room-id="home" />
-    <div class="mx-auto max-w-sm max-h-52 overflow-y-scroll">
+    <div class="mx-auto max-w-sm max-h-52">
       <ItemCatalog />
     </div>
   </div>
