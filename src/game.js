@@ -85,7 +85,7 @@ export default class Game {
     room.floorTexture = loadRoomTexture("tile.png");
     room.y = 100;
     //50% width
-    room.x = this.application.renderer.width / 4 - room.width / 2;
+    room.x = 59;
     return room; // Update this line
   }
 
