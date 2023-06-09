@@ -1,7 +1,7 @@
 <!-- src/components/RoomItemsList.vue -->
 
 <template>
-  <div class="rounded p-1 overflow-y-auto" v-if="localRoomItems.length > 0">
+  <div class="rounded p-1 grid grid-cols-8" v-if="localRoomItems.length > 0">
     <div
       v-for="item in localRoomItems"
       :key="item.id"
