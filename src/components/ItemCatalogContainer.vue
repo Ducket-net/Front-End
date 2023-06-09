@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="grid grid-cols-2 gap-0.5">
     <div v-for="(search, index) in searches" :key="index">
       <ItemCatalog :index="index" :search="search" />
     </div>

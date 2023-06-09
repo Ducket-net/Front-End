@@ -26,7 +26,7 @@
       placeholder="Search items..."
       class="p-2 w-full bg-gray-100 rounded text-black"
     />
-    <div class="grid grid-cols-2 gap-1 p-0.5 mt-2">
+    <div class="grid grid-cols-1 gap-1 p-0.5 mt-2">
       <div
         v-for="item in filteredItems"
         :key="item.id"
@@ -84,7 +84,7 @@ export default {
       //   this.minimized = localStorage.getItem(`minimized_${this.index}`);
 
       if (localStorage.getItem(`minimized_${this.index}`) === "true") {
-        this.$refs.catalog.classList.toggle("max-h-12");
+        this.$refs.catalog.classList.toggle("h-12");
         this.minimized = true;
       }
     }
@@ -118,7 +118,7 @@ export default {
   },
   methods: {
     minimize() {
-      this.$refs.catalog.classList.toggle("max-h-12");
+      this.$refs.catalog.classList.toggle("h-12");
       this.minimized = !this.minimized ? true : false;
       localStorage.setItem(`minimized_${this.index}`, this.minimized);
     },

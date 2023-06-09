@@ -1,9 +1,9 @@
 <template>
   <div
     v-if="selectedItem"
-    class="max-w-sm mx-auto bg-white bg-opacity-50 rounded-md shadow-md p-2 text-white"
+    class="max-w-sm mx-auto rounded-md shadow-md p-1 text-white"
   >
-    <div class="grid grid-cols-4 gap-1 mb-3">
+    <div class="grid grid-cols-4 gap-1 mb-2">
       <button
         @click="selectedItem.roomX -= 0.5"
         class="w-full py-2 mt-2 font-semibold text-white bg-black rounded text-xs"
@@ -27,7 +27,7 @@
         @click="game.unselectFurniture(selectedItem)"
         class="w-full py-2 mt-2 font-semibold text-white bg-black rounded text-xs"
       >
-        <font-awesome-icon :icon="['fas', 'object-group']" /> De-Select
+        <font-awesome-icon :icon="['fas', 'star']" /> De-Select
       </button>
       <button
         @click="selectedItem.roomZ += 0.5"
@@ -71,15 +71,22 @@
       </button>
     </div>
 
+    <button
+      @click="game.unselectFurniture(selectedItem)"
+      class="w-full py-3 mb-2 font-semibold bg-green-700 text-white rounded text-xs"
+    >
+      <font-awesome-icon :icon="['fas', 'star']" /> Save (Unselect)
+    </button>
+
     <div class="text-xs mb-4">
-      <div class="grid grid-cols-2">
+      <div class="grid grid-cols-[auto,1fr] gap-3">
         <div class="grid grid-cols-[50px,auto]">
           <img
             :src="getIconUrl(selectedItem.type)"
             class="max-w-full max-h-full object-contain"
           />
           <div>
-            <p>Type: {{ selectedItem.type }}</p>
+            <p>{{ selectedItem.type }}</p>
             <p>
               {{ selectedItem.roomX.toFixed(2) }} |
               {{ selectedItem.roomY.toFixed(2) }} | Z:
@@ -93,13 +100,7 @@
             @click="removeRoomItem"
             class="p-2 mt-2 mr-2 font-semibold text-white bg-black rounded text-xs hover:bg-gray-800"
           >
-            Remove Furni
-          </button>
-          <button
-            @click="clearRoomItems"
-            class="p-2 mt-2 font-semibold text-white rounded text-xs hover:bg-gray-800"
-          >
-            Clear Room
+            <font-awesome-icon :icon="['fas', 'trash']" /> Furni
           </button>
         </div>
       </div>

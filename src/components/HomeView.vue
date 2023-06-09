@@ -13,6 +13,13 @@
         <font-awesome-icon :icon="['fas', 'trash']" /> Reset All
       </button>
     </div>
+    <!-- Scroll To Top -->
+    <button
+      @click="scrollToTop"
+      class="fixed bottom-0 right-0 mb-2 mr-2 text-white text-xs py-3 px-5 rounded-md bg-black bg-opacity-10 hover:bg-opacity-20"
+    >
+      <font-awesome-icon :icon="['fas', 'arrow-up']" />
+    </button>
   </div>
 </template>
 
@@ -32,6 +39,12 @@ export default {
     };
   },
   methods: {
+    scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    },
     clearLocalStorage() {
       //Confirm
       if (!confirm("Are you sure you want to reset all?")) return;
