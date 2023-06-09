@@ -128,6 +128,7 @@ export default {
     EventBus.$on("item-unselected", (item) => {
       console.log("item unselected", item);
       this.selectedItem = null;
+      this.saveRoomToLocalStorage();
     });
   },
   methods: {
@@ -144,6 +145,7 @@ export default {
     },
     updateItem() {
       EventBus.$emit("update-item", this.selectedItem);
+      this.saveRoomToLocalStorage();
     },
     removeRoomItem() {
       this.game.room.removeRoomObject(this.selectedItem);
