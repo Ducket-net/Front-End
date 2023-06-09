@@ -12,12 +12,22 @@
 </head>
 
 <style>
-  .dark-bg {
-    background-color: rgb(75 85 99 / 1)
-  }
-
   body {
     touch-action: manipulation;
+    background: url('/bg_empty.gif') center center fixed;
+  }
+
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
   }
 </style>
 <script>
@@ -26,7 +36,7 @@
   }
 </script>
 
-<body class="dark-bg">
+<body>
   <noscript>
     <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled.
         Please enable it to continue.</strong>

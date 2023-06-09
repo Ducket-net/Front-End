@@ -1,10 +1,7 @@
 <!-- src/components/RoomItemsList.vue -->
 
 <template>
-  <div
-    class="absolute top-2 bg-white rounded shadow-md p-1 overflow-y-auto"
-    v-if="localRoomItems.length > 0"
-  >
+  <div class="rounded p-1 overflow-y-auto" v-if="localRoomItems.length > 0">
     <div
       v-for="item in localRoomItems"
       :key="item.id"
@@ -14,7 +11,7 @@
     >
       <img
         class="max-w-full max-h-full object-contain"
-        :src="'https://ducket.net/assets/furni/' + item.type + '_icon.png'"
+        :src="getIconUrl(item.type)"
       />
     </div>
   </div>
@@ -41,6 +38,13 @@ export default {
     selectItem(item) {
       EventBus.$emit("select-item", item);
     },
+    getIconUrl(type) {
+      //Remove from here
+      return `https://ducket.net/assets/furni/${type.replace(
+        "*",
+        "_"
+      )}_icon.png`;
+    },
   },
   mounted() {
     this.localRoomItems = [...this.roomItems];
@@ -52,6 +56,13 @@ export default {
 
     EventBus.$on("furni-added", (item) => {
       this.localRoomItems.push(item);
+    });
+
+    EventBus.$on("furni-removed", (item) => {
+      this.localRoomItems.splice(
+        this.localRoomItems.findIndex((i) => i === item),
+        1
+      );
     });
 
     EventBus.$on("item-unselected", () => {

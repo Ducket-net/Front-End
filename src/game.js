@@ -1,6 +1,12 @@
 // src/game.js
 import * as PIXI from "pixi.js";
-import { Room, Avatar, Shroom, FloorFurniture } from "@tetreum/shroom";
+import {
+  Room,
+  Avatar,
+  Shroom,
+  FloorFurniture,
+  loadRoomTexture,
+} from "@tetreum/shroom";
 import { EventBus } from "./eventBus"; // Import the EventBus
 
 export default class Game {
@@ -25,8 +31,8 @@ export default class Game {
       antialias: false,
       resolution: window.devicePixelRatio,
       autoDensity: true,
-      width: 273,
-      height: 375,
+      width: 384,
+      height: 400,
       transparent: true,
     });
     // eslint-disable-next-line no-undef
@@ -74,9 +80,12 @@ export default class Game {
     });
 
     this.renderItem(roomData, room);
-    room.wallColor = "#dbbe6e";
-    room.floorColor = "#eeeeee";
+    room.wallColor = roomData.wallColor || "#DE6E2B";
+    room.floorColor = roomData.floorColor || "#cccccc";
+    room.floorTexture = loadRoomTexture("tile.png");
     room.y = 100;
+    //50% width
+    room.x = this.application.renderer.width / 4 - room.width / 2;
     return room; // Update this line
   }
 

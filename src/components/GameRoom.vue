@@ -5,7 +5,8 @@
     <div
       ref="canvasContainer"
       id="canvasContainer"
-      class="relative w-full bg-black bg-opacity-5 rounded-md mx-auto"
+      class="relative w-full rounded-md mx-auto"
+      :style="{ backgroundColor: bgColor.hex }"
       @keydown="handleKeydown"
       tabindex="0"
     >
@@ -21,12 +22,33 @@
     ></room-items-list>
 
     <button
-      @click="clearRoomItems"
-      class="p-2 mt-2 font-semibold text-white bg-black rounded text-xs hover:bg-gray-800"
+      @click="roomSettingsOpen = !roomSettingsOpen"
+      class="block text-white text-xs mt-2 py-2"
     >
-      Clear Room
+      <font-awesome-icon :icon="['fas', 'gear']" /> Room Settings
     </button>
 
+    <div class="grid grid-cols-1" v-if="roomSettingsOpen">
+      <div class="color-picker-container">
+        <div class="color-picker-container">
+          <label class="text-white font-bold text-sm" for="bgColor"
+            >Background Color</label
+          >
+          <color-picker v-if="game && game.room" v-model="bgColor" />
+        </div>
+        <label class="text-white font-bold text-sm" for="wallColor"
+          >Wall Color</label
+        >
+        <color-picker v-if="game && game.room" v-model="wallColor" />
+      </div>
+
+      <div class="color-picker-container">
+        <label class="text-white font-bold text-sm" for="floorColor"
+          >Floor Color</label
+        >
+        <color-picker v-if="game && game.room" v-model="floorColor" />
+      </div>
+    </div>
     <!-- src/components/GameRoom.vue -->
   </div>
 </template>
@@ -37,17 +59,29 @@ import { FloorFurniture } from "@tetreum/shroom";
 import { EventBus } from "@/eventBus"; // Import the EventBus
 import RoomItemsList from "@/components/RoomItemList.vue"; // Import RoomItemsList
 import GameController from "@/components/GameController.vue";
+import { Chrome } from "vue-color";
 
 export default {
   name: "GameRoom",
   components: {
     RoomItemsList,
     GameController,
+    ColorPicker: Chrome,
   },
   props: ["roomId"],
   data() {
     return {
       game: null,
+      bgColor: {
+        hex: "#4D5562",
+      },
+      wallColor: {
+        hex: null,
+      },
+      floorColor: {
+        hex: null,
+      },
+      roomSettingsOpen: false,
       selectedItemType: "",
       selectedItem: null,
       form: {
@@ -67,17 +101,48 @@ export default {
     const currentRoom = this.$store.state.currentRoom;
     this.game = new Game(canvas, currentRoom);
     this.game.application.stage.addChild(this.game.room);
+
+    //Load Saved Wall Color
+    if (localStorage.getItem("wallColor")) {
+      this.game.room.wallColor = localStorage.getItem("wallColor");
+    }
+
+    //Load Saved Floor Color
+    if (localStorage.getItem("floorColor")) {
+      this.game.room.floorColor = localStorage.getItem("floorColor");
+    }
+
+    if (localStorage.getItem("bgColor")) {
+      this.bgColor = {
+        hex: localStorage.getItem("bgColor"),
+      };
+    }
+
+    this.wallColor = {
+      hex: this.game.room.wallColor,
+    };
+
+    this.floorColor = {
+      hex: this.game.room.floorColor,
+    };
   },
   methods: {
-    clearRoomItems() {
-      this.game.room.roomObjects.forEach((object) => {
-        if (object instanceof FloorFurniture) {
-          this.game.room.removeRoomObject(object);
-        }
-      });
-      this.saveRoomToLocalStorage();
-      //reload page
-      location.reload();
+    // eslint-disable-next-line no-unused-vars
+    handleWallColorChange(hexColor) {
+      // Call the fromHex function or handle the color change here
+      this.game.room.wallColor = hexColor;
+      localStorage.setItem("wallColor", hexColor);
+    },
+    // eslint-disable-next-line no-unused-vars
+    handleFloorColorChange(hexColor) {
+      // Call the fromHex function or handle the color change here
+      this.game.room.floorColor = hexColor;
+      localStorage.setItem("floorColor", hexColor);
+    },
+    handleBgColorChange(hexColor) {
+      // Call the fromHex function or handle the color change here
+      this.game.room.bgColor = hexColor;
+      localStorage.setItem("bgColor", hexColor);
     },
     saveRoomToLocalStorage() {
       const roomData = this.game.getSerializedRoom();
@@ -128,6 +193,26 @@ export default {
           break;
       }
       this.saveRoomToLocalStorage();
+    },
+  },
+  watch: {
+    wallColor: {
+      handler(newColor) {
+        this.handleWallColorChange(newColor.hex);
+      },
+      deep: true,
+    },
+    floorColor: {
+      handler(newColor) {
+        this.handleFloorColorChange(newColor.hex);
+      },
+      deep: true,
+    },
+    bgColor: {
+      handler(newColor) {
+        this.handleBgColorChange(newColor.hex);
+      },
+      deep: true,
     },
   },
   created() {
