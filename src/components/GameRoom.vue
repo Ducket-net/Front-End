@@ -15,7 +15,7 @@
       </div>
     </div>
 
-    <game-controller :game="game"></game-controller>
+    <game-controller :game="game" ref="gameController"></game-controller>
     <room-items-list
       v-if="game && game.room"
       :roomItems="Array.from(game.room.roomObjects)"

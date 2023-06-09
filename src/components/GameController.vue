@@ -5,7 +5,7 @@
   >
     <div class="grid grid-cols-4 gap-1 mb-2">
       <button
-        @click="selectedItem.roomX -= 0.5"
+        @click="moveFurnitureItem(-1, 0)"
         class="w-full py-2 mt-2 font-semibold text-white bg-black rounded text-xs"
       >
         <!-- <i class="fa fa-angle-double-down"></i> -->
@@ -15,7 +15,7 @@
         />
       </button>
       <button
-        @click="selectedItem.roomY -= 0.5"
+        @click="moveFurnitureItem(0, -1)"
         class="w-full py-2 mt-2 font-semibold text-white bg-black rounded text-xs"
       >
         <font-awesome-icon
@@ -37,7 +37,7 @@
         Up
       </button>
       <button
-        @click="selectedItem.roomY += 0.5"
+        @click="moveFurnitureItem(0, 1)"
         class="w-full py-2 mt-2 font-semibold text-white bg-black rounded text-xs"
       >
         <font-awesome-icon
@@ -46,7 +46,7 @@
         />
       </button>
       <button
-        @click="selectedItem.roomX += 0.5"
+        @click="moveFurnitureItem(1, 0)"
         class="w-full py-2 mt-2 font-semibold text-white bg-black rounded text-xs"
       >
         <font-awesome-icon
@@ -154,6 +154,13 @@ export default {
 
       //Emit
       EventBus.$emit("furni-removed", this.selectedItem);
+    },
+    moveFurnitureItem(moveX, moveY) {
+      // Make sure there is a selected furniture item
+      if (this.selectedItem) {
+        // Access the moveFurnitureItem method from the game object using $refs
+        this.game.moveFurnitureItem(this.selectedItem, moveX, moveY);
+      }
     },
     clearRoomItems() {
       //Confirm
