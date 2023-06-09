@@ -1,123 +1,31 @@
 <!-- src/components/GameRoom.vue -->
 <template>
-  <div ref="container" class="max-w-lg mx-auto">
+  <div ref="container" class="max-w-sm mx-auto">
     <!-- <h2>Room {{ roomId }}</h2> -->
     <div
       ref="canvasContainer"
       id="canvasContainer"
+      class="relative w-full bg-black bg-opacity-5 rounded-md mx-auto"
       @keydown="handleKeydown"
       tabindex="0"
     >
-      <canvas ref="canvas" class="mx-auto outline-0"></canvas>
-      <div
-        v-if="selectedItem"
-        class="max-w-sm mx-auto bg-white bg-opacity-50 rounded-md shadow-md p-4 text-white mt-4"
-      >
-        <h3 class="text-xs uppercase font-mono mb-3">Selected Item</h3>
-        <div class="grid grid-cols-3 gap-1 mb-3">
-          <button
-            @click="game.unselectFurniture(selectedItem)"
-            class="w-full py-2 mt-2 font-semibold text-white bg-black rounded text-xs"
-          >
-            Unselect
-          </button>
-          <button
-            @click="updateItem(selectedItem)"
-            type="button"
-            class="w-full py-2 mt-2 font-semibold text-white bg-black rounded text-xs"
-          >
-            Save
-          </button>
-          <button
-            @click="clearRoomItems"
-            class="w-full py-2 mt-2 font-semibold text-white bg-black rounded text-xs"
-          >
-            Clear Room
-          </button>
-        </div>
-
-        <div class="text-xs mb-4">
-          <p>Type: {{ selectedItem.type }}</p>
-          <p>
-            Position: ({{ selectedItem.roomX.toFixed(2) }},
-            {{ selectedItem.roomY.toFixed(2) }})
-          </p>
-          <p>Position Z: {{ selectedItem.roomZ.toFixed(2) }}</p>
-          <p>Direction: {{ selectedItem.direction }}</p>
-          <!-- <p>Animation: {{ selectedItem.animation }}</p> -->
-        </div>
-
-        <div class="space-y-4">
-          <div class="flex items-center">
-            <label class="w-1/3">Position Z</label>
-            <button
-              @click="selectedItem.roomZ -= 0.2"
-              class="bg-black text-white rounded p-4 text-xs"
-            >
-              Down
-            </button>
-            <button
-              @click="selectedItem.roomZ += 0.2"
-              class="bg-black text-white rounded p-4 ml-2 text-xs"
-            >
-              Up
-            </button>
-          </div>
-
-          <div class="flex items-center">
-            <label class="w-1/3">Position X</label>
-            <button
-              @click="selectedItem.roomX -= 0.2"
-              class="bg-black text-white rounded p-4 text-xs"
-            >
-              -
-            </button>
-            <button
-              @click="selectedItem.roomX += 0.2"
-              class="bg-black text-white rounded p-4 ml-2 text-xs"
-            >
-              +
-            </button>
-          </div>
-
-          <div class="flex items-center">
-            <label class="w-1/3">Position Y</label>
-            <button
-              @click="selectedItem.roomY -= 0.2"
-              class="bg-black text-white rounded p-4 text-xs"
-            >
-              -
-            </button>
-            <button
-              @click="selectedItem.roomY += 0.2"
-              class="bg-black text-white rounded p-4 ml-2 text-xs"
-            >
-              +
-            </button>
-          </div>
-
-          <div class="flex items-center">
-            <label class="w-1/3">Direction</label>
-            <button
-              @click="selectedItem.direction = (selectedItem.direction + 2) % 8"
-              class="w-full py-2 bg-black text-white rounded text-xs"
-            >
-              Change Direction
-            </button>
-          </div>
-
-          <!-- <div>
-            <label for="animation">Animation</label>
-            <input
-              id="animation"
-              v-model="selectedItem.animation"
-              placeholder="Animation"
-              class="w-full p-2 border border-gray-300 rounded text-xs"
-            />
-          </div> -->
-        </div>
+      <div class="mx-auto">
+        <canvas ref="canvas" class="mx-auto"></canvas>
       </div>
     </div>
+
+    <game-controller :game="game"></game-controller>
+    <room-items-list
+      v-if="game && game.room"
+      :roomItems="Array.from(game.room.roomObjects)"
+    ></room-items-list>
+
+    <button
+      @click="clearRoomItems"
+      class="p-2 mt-2 font-semibold text-white bg-black rounded text-xs hover:bg-gray-800"
+    >
+      Clear Room
+    </button>
 
     <!-- src/components/GameRoom.vue -->
   </div>
@@ -127,9 +35,15 @@
 import Game from "@/game";
 import { FloorFurniture } from "@tetreum/shroom";
 import { EventBus } from "@/eventBus"; // Import the EventBus
+import RoomItemsList from "@/components/RoomItemList.vue"; // Import RoomItemsList
+import GameController from "@/components/GameController.vue";
 
 export default {
   name: "GameRoom",
+  components: {
+    RoomItemsList,
+    GameController,
+  },
   props: ["roomId"],
   data() {
     return {
@@ -172,15 +86,13 @@ export default {
     addItemByClassName(classname) {
       const newItem = new FloorFurniture({
         type: classname,
-        roomX: 4,
-        roomY: 4,
+        roomX: 1,
+        roomY: 1,
         roomZ: 0,
         direction: 2,
         animation: 1,
       });
       this.game.addItem(newItem);
-      //Emits the item-selected event
-      EventBus.$emit("item-selected", newItem);
     },
     addItem() {
       const newItem = new FloorFurniture({ ...this.form });
@@ -190,11 +102,7 @@ export default {
       // unselectFurniture
       // this.game.unselectFurniture();
     },
-    updateItem() {
-      // Call the game updateItem method
-      this.game.updateItem(this.selectedItem);
-      this.saveRoomToLocalStorage();
-    },
+
     handleKeydown(event) {
       if (!this.selectedItem) return;
 
@@ -239,6 +147,22 @@ export default {
     this.$root.$on("add-to-room", (classname) => {
       console.log("add-to-room", classname);
       this.addItemByClassName(classname);
+      this.saveRoomToLocalStorage();
+    });
+
+    EventBus.$on("select-item", (item) => {
+      this.game.onFurnitureItemClick(item);
+    });
+
+    EventBus.$on("furni-added", (item) => {
+      console.log("👋Added", item);
+      //   this.selectedItem = item;
+      //   this.game.onFurnitureItemClick(item);
+      //   this.saveRoomToLocalStorage();
+    });
+
+    EventBus.$on("update-item", () => {
+      this.game.updateItem(this.selectedItem);
       this.saveRoomToLocalStorage();
     });
   },

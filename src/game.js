@@ -26,10 +26,11 @@ export default class Game {
       resolution: window.devicePixelRatio,
       autoDensity: true,
       width: 273,
-      height: 260,
+      height: 375,
       transparent: true,
     });
-
+    // eslint-disable-next-line no-undef
+    globalThis.__PIXI_APP__ = this.application;
     PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
   }
 
@@ -75,6 +76,7 @@ export default class Game {
     this.renderItem(roomData, room);
     room.wallColor = "#dbbe6e";
     room.floorColor = "#eeeeee";
+    room.y = 100;
     return room; // Update this line
   }
 
@@ -134,6 +136,7 @@ export default class Game {
       this.onFurnitureItemClick(furnitureItem);
     };
     this.room.addRoomObject(furnitureItem);
+    EventBus.$emit("furni-added", furnitureItem);
   }
 
   floorFurnitureToJSON(floorFurniture) {
