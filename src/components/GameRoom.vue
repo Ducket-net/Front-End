@@ -20,39 +20,149 @@
       :roomItems="Array.from(game.room.roomObjects)"
     ></room-items-list>
 
-    <button @click="open()">Open</button>
-
-    <color-picker v-if="game && game.room" v-model="bgColor" />,
-
     <!-- src/components/GameRoom.vue -->
 
-    <vue-bottom-sheet ref="myBottomSheet">
-      <h1>Lorem Ipsum</h1>
-      <h2>What is Lorem Ipsum?</h2>
-      <div class="grid grid-cols-1">
-        <div class="color-picker-container">
-          <div class="color-picker-container">
-            <label class="text-white font-bold text-sm" for="bgColor"
-              >Background Color</label
-            >
-            <color-picker v-if="game && game.room" v-model="bgColor" />,
-          </div>
-          <label class="text-white font-bold text-sm" for="wallColor"
-            >Wall Color</label
-          >
-          <color-picker v-if="game && game.room" v-model="wallColor" />
+    <!-- roomSettingsOpen -->
+    <transition name="fade">
+      <div v-if="roomSettingsOpen">
+        <!-- BG Color -->
+        <div
+          @click="showBgColorPicker = !showBgColorPicker"
+          class="absolute left-0 top-0 bg-black text-white overflow-auto rounded-xl bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer rounded-t-none rounded-bl-none"
+        >
+          <font-awesome-icon
+            class="text-white overflow-auto rounded-lg"
+            icon="cube"
+          />
+          Background
         </div>
+        <div
+          class="absolute bottom-12 right-4 left-4 bg-white overflow-auto rounded-lg z-10"
+          v-if="showBgColorPicker"
+        >
+          <Swatches v-model="bgColor" />
+          <button
+            @click="showBgColorPicker = false"
+            class="w-full py-2 mt-2 font-semibold text-white bg-black rounded text-xs rounded-t-none"
+          >
+            <font-awesome-icon :icon="['fas', 'close']" />
+            Close Background Picker
+          </button>
+        </div>
+        <!-- BG Color -->
 
-        <div class="color-picker-container">
-          <label class="text-white font-bold text-sm" for="floorColor"
-            >Floor Color</label
-          >
-          <color-picker v-if="game && game.room" v-model="floorColor" />
+        <!-- Wall Color -->
+        <div
+          @click="showWallColorPicker = !showWallColorPicker"
+          class="absolute top-48 transform left-1/2 translate-x-24 -translate-y-0 bg-black text-white overflow-auto rounded-full bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer"
+        >
+          <font-awesome-icon
+            class="text-white overflow-auto rounded-lg"
+            icon="cube"
+          />
+          Wall
         </div>
+        <div
+          class="absolute bottom-12 right-4 left-4 bg-white overflow-auto rounded-lg z-10"
+          v-if="showWallColorPicker"
+        >
+          <Swatches v-model="wallColor" />
+          <button
+            @click="showWallColorPicker = false"
+            class="w-full py-2 mt-2 font-semibold text-white bg-black rounded text-xs rounded-t-none"
+          >
+            <font-awesome-icon :icon="['fas', 'close']" />
+            Close Wall Picker
+          </button>
+        </div>
+        <!-- Wall Color -->
+
+        <!-- Floor Color -->
+        <div
+          @click="showFloorColorPicker = !showFloorColorPicker"
+          class="absolute top-64 transform left-1/2 -translate-x-1/2 translate-y-16 bg-black text-white overflow-auto rounded-full bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer"
+        >
+          <font-awesome-icon
+            class="text-white overflow-auto rounded-lg"
+            icon="cube"
+          />
+          Floor
+        </div>
+        <div
+          class="absolute bottom-12 right-4 left-4 bg-white overflow-auto rounded-lg z-10"
+          v-if="showFloorColorPicker"
+        >
+          <Swatches v-model="floorColor" />
+          <button
+            @click="showFloorColorPicker = false"
+            class="w-full py-2 mt-2 font-semibold text-white bg-black rounded text-xs rounded-t-none"
+          >
+            <font-awesome-icon :icon="['fas', 'close']" />
+            Close Floor Picker
+          </button>
+        </div>
+        <!-- Floor Color -->
+
+        <button
+          @click="roomSettingsOpen = false"
+          class="absolute right-0 top-0 bg-black text-white overflow-auto rounded-xl bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer rounded-t-none rounded-br-none"
+        >
+          <font-awesome-icon :icon="['fas', 'close']" /> Close Settings
+        </button>
+
+        <button
+          @click="clearLocalStorage"
+          class="absolute top-80 text-white overflow-auto rounded-xl bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer rounded-t-none rounded-br-none"
+        >
+          <font-awesome-icon :icon="['fas', 'trash']" /> Reset All
+        </button>
+
+        <button
+          @click="toggleWall"
+          class="absolute top-24 text-white overflow-auto rounded-xl bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer rounded-t-none rounded-br-none"
+        >
+          Toggle Wall
+        </button>
+
+        <button
+          @click="toggleFloor"
+          class="absolute top-12 text-white overflow-auto rounded-xl bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer rounded-t-none rounded-br-none"
+        >
+          Toggle Floor (& Wall)
+        </button>
       </div>
-    </vue-bottom-sheet>
+    </transition>
   </div>
 </template>
+
+<style scoped>
+.vc-swatches {
+  box-shadow: none !important;
+  width: 100%;
+  background-color: transparent;
+  padding: 0 !important;
+  height: 300px;
+}
+.vc-swatches-box {
+  padding: 0px !important;
+  margin: 0px !important;
+}
+
+/* Fade Transition */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.fade-enter-to {
+  opacity: 1;
+}
+</style>
 
 <script>
 import Game from "@/game";
@@ -60,18 +170,15 @@ import { FloorFurniture } from "@tetreum/shroom";
 import { EventBus } from "@/eventBus"; // Import the EventBus
 import RoomItemsList from "@/components/RoomItemList.vue"; // Import RoomItemsList
 import GameController from "@/components/GameController.vue";
-// import { Chrome } from "vue-color";
-import { Photoshop } from "vue-color";
 
-import VueBottomSheet from "@webzlodimir/vue-bottom-sheet";
+import { Swatches } from "vue-color";
 
 export default {
   name: "GameRoom",
   components: {
     RoomItemsList,
     GameController,
-    ColorPicker: Chrome,
-    VueBottomSheet,
+    Swatches,
   },
   props: ["roomId"],
   data() {
@@ -80,12 +187,15 @@ export default {
       bgColor: {
         hex: "#4D5562",
       },
+      showBgColorPicker: false,
       wallColor: {
         hex: null,
       },
+      showWallColorPicker: false,
       floorColor: {
         hex: null,
       },
+      showFloorColorPicker: false,
       roomSettingsOpen: false,
       selectedItemType: "",
       selectedItem: null,
@@ -130,8 +240,30 @@ export default {
     this.floorColor = {
       hex: this.game.room.floorColor,
     };
+
+    if (localStorage.getItem("hideWalls")) {
+      this.game.room.hideWalls = localStorage.getItem("hideWalls") === "true";
+    }
+
+    if (localStorage.getItem("hideFloor")) {
+      this.game.room.hideFloor = localStorage.getItem("hideFloor") === "true";
+    }
   },
   methods: {
+    toggleWall() {
+      this.game.room.hideWalls = !this.game.room.hideWalls;
+      localStorage.setItem("hideWalls", this.game.room.hideWalls);
+    },
+    toggleFloor() {
+      this.game.room.hideFloor = !this.game.room.hideFloor;
+      localStorage.setItem("hideFloor", this.game.room.hideFloor);
+    },
+    clearLocalStorage() {
+      //Confirm
+      if (!confirm("Are you sure you want to reset all?")) return;
+      localStorage.clear();
+      location.reload();
+    },
     open() {
       this.$refs.myBottomSheet.open();
     },
@@ -231,6 +363,7 @@ export default {
     EventBus.$on("item-selected", (item) => {
       this.selectedItem = item;
       this.selectedItemType = item.type;
+      this.saveRoomToLocalStorage();
     });
 
     // Listen for the 'item-unselected' event and clear selectedItemType

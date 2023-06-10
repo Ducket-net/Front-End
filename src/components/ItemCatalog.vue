@@ -1,7 +1,7 @@
 <template>
   <div
     ref="catalog"
-    class="max-h-52 overflow-y-scroll no-scrollbar bg-black bg-opacity-50 shadow-md p-4 text-white"
+    class="overflow-hidden bg-black bg-opacity-50 shadow-md p-4 text-white"
   >
     <!-- Minimize -->
     <div class="flex">

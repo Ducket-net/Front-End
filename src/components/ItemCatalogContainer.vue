@@ -5,7 +5,7 @@
     </div>
     <button
       @click="addSearch"
-      class="text-black px-4 py-2 mx-auto block w-full bg-black bg-opacity-10 hover:bg-opacity-20"
+      class="px-4 py-2 mx-auto block w-full bg-black bg-opacity-10 hover:bg-opacity-20 text-white rounded-md"
     >
       <font-awesome-icon :icon="['fas', 'plus']" /> Add
     </button>
