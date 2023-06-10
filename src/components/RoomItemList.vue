@@ -22,6 +22,12 @@
     >
       <font-awesome-icon :icon="['fas', 'plus']" />
     </button>
+    <button
+      @click="emitSettings()"
+      class="rounded-md w-[40px] h-[40px] bg-gray-200 flex-shrink-0 flex items-center justify-center p-1"
+    >
+      <font-awesome-icon :icon="['fas', 'gear']" />
+    </button>
   </div>
 </template>
 
@@ -43,6 +49,9 @@ export default {
     };
   },
   methods: {
+    emitSettings() {
+      EventBus.$emit("item-settings");
+    },
     selectItem(item) {
       EventBus.$emit("select-item", item);
     },

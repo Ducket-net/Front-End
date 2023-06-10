@@ -20,7 +20,37 @@
       :roomItems="Array.from(game.room.roomObjects)"
     ></room-items-list>
 
+    <button @click="open()">Open</button>
+
+    <color-picker v-if="game && game.room" v-model="bgColor" />,
+
     <!-- src/components/GameRoom.vue -->
+
+    <vue-bottom-sheet ref="myBottomSheet">
+      <h1>Lorem Ipsum</h1>
+      <h2>What is Lorem Ipsum?</h2>
+      <div class="grid grid-cols-1">
+        <div class="color-picker-container">
+          <div class="color-picker-container">
+            <label class="text-white font-bold text-sm" for="bgColor"
+              >Background Color</label
+            >
+            <color-picker v-if="game && game.room" v-model="bgColor" />,
+          </div>
+          <label class="text-white font-bold text-sm" for="wallColor"
+            >Wall Color</label
+          >
+          <color-picker v-if="game && game.room" v-model="wallColor" />
+        </div>
+
+        <div class="color-picker-container">
+          <label class="text-white font-bold text-sm" for="floorColor"
+            >Floor Color</label
+          >
+          <color-picker v-if="game && game.room" v-model="floorColor" />
+        </div>
+      </div>
+    </vue-bottom-sheet>
   </div>
 </template>
 
@@ -30,12 +60,18 @@ import { FloorFurniture } from "@tetreum/shroom";
 import { EventBus } from "@/eventBus"; // Import the EventBus
 import RoomItemsList from "@/components/RoomItemList.vue"; // Import RoomItemsList
 import GameController from "@/components/GameController.vue";
+// import { Chrome } from "vue-color";
+import { Photoshop } from "vue-color";
+
+import VueBottomSheet from "@webzlodimir/vue-bottom-sheet";
 
 export default {
   name: "GameRoom",
   components: {
     RoomItemsList,
     GameController,
+    ColorPicker: Chrome,
+    VueBottomSheet,
   },
   props: ["roomId"],
   data() {
@@ -224,6 +260,10 @@ export default {
     EventBus.$on("update-item", () => {
       this.game.updateItem(this.selectedItem);
       this.saveRoomToLocalStorage();
+    });
+
+    EventBus.$on("item-settings", () => {
+      this.roomSettingsOpen = !this.roomSettingsOpen;
     });
   },
 };

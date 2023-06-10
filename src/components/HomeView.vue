@@ -3,20 +3,17 @@
   <div>
     <GameRoom room-id="home" />
     <ItemCatalogContainer />
-    <SettingsController />
   </div>
 </template>
 
 <script>
 import GameRoom from "./GameRoom.vue";
 import ItemCatalogContainer from "./ItemCatalogContainer.vue";
-import SettingsController from "./SettingsController.vue";
 
 export default {
   components: {
     GameRoom,
     ItemCatalogContainer,
-    SettingsController,
   },
   data() {
     return {
