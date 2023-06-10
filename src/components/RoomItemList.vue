@@ -1,11 +1,14 @@
 <!-- src/components/RoomItemsList.vue -->
 
 <template>
-  <div class="rounded p-1 grid grid-cols-8" v-if="localRoomItems.length > 0">
+  <div
+    class="grid grid-cols-10 bg-black p-1 gap-1"
+    v-if="localRoomItems.length > 0"
+  >
     <div
       v-for="item in localRoomItems"
       :key="item.id"
-      class="rounded-md w-[40px] h-[40px] bg-gray-200 flex-shrink-0 flex items-center justify-center p-1 mb-1"
+      class="rounded-md w-[40px] h-[40px] bg-gray-200 flex-shrink-0 flex items-center justify-center p-1"
       :class="{ 'bg-blue-200': selectedItem === item }"
       @click="selectItem(item)"
     >
@@ -14,6 +17,11 @@
         :src="getIconUrl(item.type)"
       />
     </div>
+    <button
+      class="rounded-md w-[40px] h-[40px] bg-gray-200 flex-shrink-0 flex items-center justify-center p-1"
+    >
+      <font-awesome-icon :icon="['fas', 'plus']" />
+    </button>
   </div>
 </template>
 

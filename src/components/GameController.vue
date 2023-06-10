@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="selectedItem"
-    class="max-w-sm mx-auto rounded-md shadow-md p-1 text-white"
-  >
+  <div v-if="selectedItem" class="mx-auto rounded-md text-white">
     <div class="grid grid-cols-4 gap-1 mb-2">
       <button
         @click="moveFurnitureItem(-1, 0)"

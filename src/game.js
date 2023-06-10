@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // src/game.js
 import * as PIXI from "pixi.js";
 import {
@@ -7,8 +8,8 @@ import {
   FloorFurniture,
   loadRoomTexture,
 } from "@tetreum/shroom";
-import { EventBus } from "./eventBus"; // Import the EventBus
-import { gsap } from "gsap"; // Import GSAP
+import { EventBus } from "./eventBus";
+import { gsap } from "gsap";
 
 export default class Game {
   constructor(view, roomData) {
@@ -16,10 +17,8 @@ export default class Game {
     this.shroom = this.createShroom();
     this.room = this.createRoom(roomData);
 
-    //Optional: Create an avatar
     if (roomData.avatar) {
       this.avatar = this.createAvatar(roomData.avatar);
-
       this.room.addRoomObject(this.avatar);
     }
 
@@ -44,40 +43,34 @@ export default class Game {
   createShroom() {
     return Shroom.create({
       application: this.application,
-      // resourcePath: "/resources",
       resourcePath: "https://ducket-net.github.io/resources",
     });
   }
 
   onFurnitureItemClick(item) {
-    // If there was a previously selected item, reset
     if (this.selectedFurnitureItem) {
+      this.removeFloatingDot(this.selectedFurnitureItem);
       EventBus.$emit("item-unselected", this.selectedFurnitureItem);
-      // this.removeOutline(this.selectedFurnitureItem);
     }
 
-    // If the clicked item is the same as the previously selected item, reset the selectedFurnitureItem
     if (this.selectedFurnitureItem === item) {
+      this.removeFloatingDot(this.selectedFurnitureItem);
       EventBus.$emit("item-unselected", this.selectedFurnitureItem);
-      // this.removeOutline(this.selectedFurnitureItem);
       this.selectedFurnitureItem = null;
     } else {
-      // Set the new selected item and update
+      this.addFloatingDot(item);
       EventBus.$emit("item-selected", item);
       this.selectedFurnitureItem = item;
-      // this.addOutline(item);
     }
   }
 
   createRoom(roomData) {
     const room = Room.create(this.shroom, {
-      tilemap: `
-        xxxxx
+      tilemap: `xxxxx
         x0000
         x0000
         x0000
-        x0000
-      `,
+        x0000`,
     });
 
     this.renderItem(roomData, room);
@@ -85,9 +78,8 @@ export default class Game {
     room.floorColor = roomData.floorColor || "#cccccc";
     room.floorTexture = loadRoomTexture("tile.png");
     room.y = 100;
-    //50% width
     room.x = 59;
-    return room; // Update this line
+    return room;
   }
 
   createAvatar(avatarData) {
@@ -98,59 +90,53 @@ export default class Game {
 
   renderItem(roomData, room) {
     roomData.items.forEach((item) => {
-      const furnitureItem = new FloorFurniture(item);
-      furnitureItem.onClick = (event) => {
-        console.log("Clicked on furniture item", event);
-        this.animateTap(furnitureItem); // Call the animateTap function
-
-        this.onFurnitureItemClick(furnitureItem);
-      };
+      const furnitureItem = this.createAndSetFurnitureItem(item);
       room.addRoomObject(furnitureItem);
     });
   }
 
   unselectFurniture() {
-    // If there is a selected furniture item, update and reset the selection
     if (this.selectedFurnitureItem) {
-      EventBus.$emit("item-unselected", this.selectedFurnitureItem);
-      this.selectedFurnitureItem.highlight = 0;
-      this.selectedFurnitureItem = null;
+      this.onFurnitureItemClick(this.selectedFurnitureItem);
     }
   }
 
   updateItem(itemData) {
     if (this.selectedFurnitureItem) {
-      // Remove the current selected item from the room
       this.room.removeRoomObject(this.selectedFurnitureItem);
-
-      // Create a new furniture item with updated properties
-      const updatedItem = new FloorFurniture(itemData);
-
+      const updatedItem = this.createAndSetFurnitureItem(itemData);
       updatedItem.highlight = 1;
 
-      updatedItem.onClick = (event) => {
-        console.log("Clicked on furniture item", event);
-        this.onFurnitureItemClick(updatedItem);
-      };
-
-      // Add the new item to the room
       this.room.addRoomObject(updatedItem);
-
-      // Update the selected item
       this.selectedFurnitureItem = updatedItem;
-      this.onFurnitureItemClick(updatedItem); // This line is optional, to keep the new item selected
+      this.onFurnitureItemClick(updatedItem);
     }
   }
+
   addItem(itemData) {
-    const furnitureItem = new FloorFurniture(itemData);
-    furnitureItem.onClick = (event) => {
-      console.log("Clicked on furniture item", event);
-      this.onFurnitureItemClick(furnitureItem);
-    };
+    const furnitureItem = this.createAndSetFurnitureItem(itemData);
     this.room.addRoomObject(furnitureItem);
-    this.animateDropFurnitureItem(furnitureItem); // Call the animation function
+    this.animateDropFurnitureItem(furnitureItem);
 
     EventBus.$emit("furni-added", furnitureItem);
+  }
+
+  createAndSetFurnitureItem(itemData) {
+    const furnitureItem = new FloorFurniture(itemData);
+    furnitureItem.onClick = (event) => {
+      this.animateTap(furnitureItem);
+      this.onFurnitureItemClick(furnitureItem);
+    };
+    furnitureItem.onDoubleClick = (event) => {
+      console.log("double click");
+    };
+
+    furnitureItem.onDragStart = (event) => {
+      console.log("drag start");
+      this.onFurnitureItemClick(furnitureItem);
+      this.animateTap(furnitureItem);
+    };
+    return furnitureItem;
   }
 
   animateDropFurnitureItem(furnitureItem) {
@@ -232,7 +218,7 @@ export default class Game {
     animateMove();
   }
 
-  floorFurnitureToJSON(floorFurniture) {
+  floorFurnitureItemToJSON(floorFurniture) {
     return {
       type: floorFurniture.type,
       roomX: floorFurniture.roomX,
@@ -252,12 +238,21 @@ export default class Game {
     };
 
     this.room.roomObjects.forEach((object) => {
-      // Check if the object is an instance of FloorFurniture before pushing to items
       if (object instanceof FloorFurniture) {
-        roomData.items.push(this.floorFurnitureToJSON(object));
+        roomData.items.push(this.floorFurnitureItemToJSON(object));
       }
     });
 
     return roomData;
+  }
+
+  addFloatingDot(furnitureItem) {
+    if (!furnitureItem.floatingDot) {
+      furnitureItem.alpha = 0.7;
+    }
+  }
+
+  removeFloatingDot(furnitureItem) {
+    furnitureItem.alpha = 1;
   }
 }

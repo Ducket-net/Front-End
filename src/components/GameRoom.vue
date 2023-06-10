@@ -1,11 +1,10 @@
 <!-- src/components/GameRoom.vue -->
 <template>
-  <div ref="container" class="max-w-sm mx-auto">
-    <!-- <h2>Room {{ roomId }}</h2> -->
+  <div ref="container" class="mx-auto">
     <div
       ref="canvasContainer"
       id="canvasContainer"
-      class="relative w-full rounded-md mx-auto"
+      class="relative"
       :style="{ backgroundColor: bgColor.hex }"
       @keydown="handleKeydown"
       tabindex="0"
@@ -21,34 +20,6 @@
       :roomItems="Array.from(game.room.roomObjects)"
     ></room-items-list>
 
-    <button
-      @click="roomSettingsOpen = !roomSettingsOpen"
-      class="block text-white text-xs mt-2 py-2"
-    >
-      <font-awesome-icon :icon="['fas', 'gear']" /> Room Settings
-    </button>
-
-    <div class="grid grid-cols-1" v-if="roomSettingsOpen">
-      <div class="color-picker-container">
-        <div class="color-picker-container">
-          <label class="text-white font-bold text-sm" for="bgColor"
-            >Background Color</label
-          >
-          <color-picker v-if="game && game.room" v-model="bgColor" />
-        </div>
-        <label class="text-white font-bold text-sm" for="wallColor"
-          >Wall Color</label
-        >
-        <color-picker v-if="game && game.room" v-model="wallColor" />
-      </div>
-
-      <div class="color-picker-container">
-        <label class="text-white font-bold text-sm" for="floorColor"
-          >Floor Color</label
-        >
-        <color-picker v-if="game && game.room" v-model="floorColor" />
-      </div>
-    </div>
     <!-- src/components/GameRoom.vue -->
   </div>
 </template>
@@ -59,14 +30,12 @@ import { FloorFurniture } from "@tetreum/shroom";
 import { EventBus } from "@/eventBus"; // Import the EventBus
 import RoomItemsList from "@/components/RoomItemList.vue"; // Import RoomItemsList
 import GameController from "@/components/GameController.vue";
-import { Chrome } from "vue-color";
 
 export default {
   name: "GameRoom",
   components: {
     RoomItemsList,
     GameController,
-    ColorPicker: Chrome,
   },
   props: ["roomId"],
   data() {
@@ -127,6 +96,12 @@ export default {
     };
   },
   methods: {
+    open() {
+      this.$refs.myBottomSheet.open();
+    },
+    close() {
+      this.$refs.myBottomSheet.close();
+    },
     // eslint-disable-next-line no-unused-vars
     handleWallColorChange(hexColor) {
       // Call the fromHex function or handle the color change here

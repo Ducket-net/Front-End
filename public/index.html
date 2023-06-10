@@ -6,15 +6,23 @@
   <meta meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Your App Name">
   <title>
     <%= htmlWebpackPlugin.options.title %>
   </title>
 </head>
 
 <style>
-  body {
-    touch-action: manipulation;
-    background: url('/bg_empty.gif') center center fixed;
+  body,
+  html {
+    overflow: hidden;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: rgb(219, 219, 219);
   }
 
   /* Hide scrollbar for Chrome, Safari and Opera */

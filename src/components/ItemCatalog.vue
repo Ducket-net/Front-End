@@ -1,7 +1,7 @@
 <template>
   <div
     ref="catalog"
-    class="max-h-52 overflow-y-scroll no-scrollbar mt-4 bg-white rounded-md bg-opacity-50 shadow-md p-4 text-white"
+    class="max-h-52 overflow-y-scroll no-scrollbar bg-black bg-opacity-50 shadow-md p-4 text-white"
   >
     <!-- Minimize -->
     <div class="flex">
@@ -26,20 +26,20 @@
       placeholder="Search items..."
       class="p-2 w-full bg-gray-100 rounded text-black"
     />
-    <div class="grid grid-cols-1 gap-1 p-0.5 mt-2">
+    <div class="grid grid-cols-9 gap-1 p-0.5 mt-2">
       <div
         v-for="item in filteredItems"
         :key="item.id"
-        class="flex min-h-[42px] items-center px-2 bg-slate-500 rounded cursor-pointer hover:bg-black"
+        class="flex min-h-[42px] items-center px-2 bg-white rounded cursor-pointer hover:bg-black"
         @click.stop="addToRoom(item.classname)"
       >
-        <img :src="item.image_url" class="max-w-[30px]" />
-        <div class="ml-1">
-          <h4 class="text-xs font-semibold">{{ item.name }}</h4>
-          <!-- <p class="text-xs">
+        <img :src="item.image_url" class="max-w-[30px] flex-initial mx-auto" />
+        <!-- <div class="ml-1"> -->
+        <!-- <h4 class="text-xs font-semibold">{{ item.name }}</h4> -->
+        <!-- <p class="text-xs">
             {{ item.classname }} | {{ item.category }} | {{ item.furniline }}
           </p> -->
-        </div>
+        <!-- </div> -->
       </div>
     </div>
   </div>
