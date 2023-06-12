@@ -2,7 +2,7 @@
   <div v-if="selectedItem" class="mx-auto rounded-md text-white">
     <div class="grid grid-cols-4 gap-1 mb-2">
       <button
-        @click="moveFurnitureItem(-1, 0)"
+        @click="moveFurnitureItem(-increment, 0)"
         class="w-full py-2 mt-2 font-semibold text-white bg-black rounded text-xs"
       >
         <!-- <i class="fa fa-angle-double-down"></i> -->
@@ -12,7 +12,7 @@
         />
       </button>
       <button
-        @click="moveFurnitureItem(0, -1)"
+        @click="moveFurnitureItem(0, -increment)"
         class="w-full py-2 mt-2 font-semibold text-white bg-black rounded text-xs"
       >
         <font-awesome-icon
@@ -27,14 +27,14 @@
         <font-awesome-icon :icon="['fas', 'star']" /> De-Select
       </button>
       <button
-        @click="selectedItem.roomZ += 0.5"
+        @click="selectedItem.roomZ += increment"
         class="w-full py-2 mt-2 font-semibold text-white bg-black rounded text-xs"
       >
         <font-awesome-icon :icon="['fas', 'arrow-up']" />
         Up
       </button>
       <button
-        @click="moveFurnitureItem(0, 1)"
+        @click="moveFurnitureItem(0, increment)"
         class="w-full py-2 mt-2 font-semibold text-white bg-black rounded text-xs"
       >
         <font-awesome-icon
@@ -43,7 +43,7 @@
         />
       </button>
       <button
-        @click="moveFurnitureItem(1, 0)"
+        @click="moveFurnitureItem(increment, 0)"
         class="w-full py-2 mt-2 font-semibold text-white bg-black rounded text-xs"
       >
         <font-awesome-icon
@@ -60,12 +60,22 @@
       </button>
 
       <button
-        @click="selectedItem.roomZ -= 0.5"
+        @click="selectedItem.roomZ -= increment"
         class="w-full py-2 mt-2 font-semibold text-white bg-black rounded text-xs"
       >
         <font-awesome-icon :icon="['fas', 'arrow-down']" />
         Down
       </button>
+      <label
+        class="w-full py-2 mt-2 font-semibold text-white bg-black rounded text-xs"
+      >
+        <font-awesome-icon :icon="['fas', 'arrows-alt-h']" /> Increment
+      </label>
+      <input
+        type="number"
+        v-model.number="increment"
+        class="w-auto py-2 mt-2 font-semibold text-white bg-black rounded text-xs"
+      />
     </div>
 
     <button
@@ -114,6 +124,7 @@ export default {
   props: ["game"],
   data() {
     return {
+      increment: 1,
       selectedItem: null,
     };
   },

@@ -185,7 +185,7 @@ export default {
     return {
       game: null,
       bgColor: {
-        hex: "#4D5562",
+        hex: "",
       },
       showBgColorPicker: false,
       wallColor: {
