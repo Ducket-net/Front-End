@@ -40,13 +40,13 @@
           Background
         </div>
         <div
-          class="absolute bottom-12 right-4 left-4 bg-white overflow-auto rounded-lg z-10"
+          class="absolute right-4 left-4 bg-white overflow-auto rounded-lg z-10"
           v-if="showBgColorPicker"
         >
           <Swatches v-model="bgColor" />
           <button
             @click="showBgColorPicker = false"
-            class="w-full py-2 mt-2 font-semibold text-white bg-black rounded text-xs rounded-t-none"
+            class="w-full py-2 h-[42px] mt-2 font-semibold text-white bg-black rounded text-xs rounded-t-none"
           >
             <font-awesome-icon :icon="['fas', 'close']" />
             Close Background Picker
@@ -66,13 +66,13 @@
           Wall
         </div>
         <div
-          class="absolute bottom-12 right-4 left-4 bg-white overflow-auto rounded-lg z-10"
+          class="absolute right-4 left-4 bg-white overflow-auto rounded-lg z-10"
           v-if="showWallColorPicker"
         >
           <Swatches v-model="wallColor" />
           <button
             @click="showWallColorPicker = false"
-            class="w-full py-2 mt-2 font-semibold text-white bg-black rounded text-xs rounded-t-none"
+            class="w-full py-2 h-[42px] mt-2 font-semibold text-white bg-black rounded text-xs rounded-t-none"
           >
             <font-awesome-icon :icon="['fas', 'close']" />
             Close Wall Picker
@@ -92,13 +92,13 @@
           Floor
         </div>
         <div
-          class="absolute bottom-12 right-4 left-4 bg-white overflow-auto rounded-lg z-10"
+          class="absolute right-4 left-4 bg-white overflow-auto rounded-lg z-10"
           v-if="showFloorColorPicker"
         >
           <Swatches v-model="floorColor" />
           <button
             @click="showFloorColorPicker = false"
-            class="w-full py-2 mt-2 font-semibold text-white bg-black rounded text-xs rounded-t-none"
+            class="w-full h-[42px] py-2 mt-2 font-semibold text-white bg-black rounded text-xs rounded-t-none"
           >
             <font-awesome-icon :icon="['fas', 'close']" />
             Close Floor Picker
