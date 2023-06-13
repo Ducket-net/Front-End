@@ -80,7 +80,7 @@ export default {
     return {
       roomId: "home",
       hideHeader: false,
-      showSplashScreen: false,
+      showSplashScreen: true,
     };
   },
   computed: {
@@ -101,7 +101,9 @@ export default {
         window.matchMedia("(display-mode: standalone)").matches ||
         window.navigator.standalone === true
       ) {
-        this.showSplashScreen = true;
+        return true;
+      } else {
+        return false;
       }
     },
   },
@@ -109,7 +111,11 @@ export default {
   mounted() {
     this.checkIfPwa();
 
-    this.initApp();
+    if (this.checkIfPwa()) {
+      this.initApp();
+    } else {
+      this.showSplashScreen = false;
+    }
   },
   created() {
     this.$root.$on("hide-header", (pos) => {
