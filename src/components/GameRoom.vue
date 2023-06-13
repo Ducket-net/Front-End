@@ -10,7 +10,7 @@
       tabindex="0"
     >
       <div class="mx-auto">
-        <canvas ref="canvas" class="w-full min-h-[400px]"></canvas>
+        <canvas ref="canvas" id="canvas" class="w-full min-h-[400px]"></canvas>
       </div>
     </div>
 

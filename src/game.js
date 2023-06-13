@@ -73,12 +73,17 @@ export default class Game {
         x0000`,
     });
 
+    //Set width to max 400px, or if less, make centered
+
+    const containerElement = window.document.getElementById("canvasContainer");
+    const containerWidth = containerElement.clientWidth;
+    console.log(containerWidth);
     this.renderItem(roomData, room);
     room.wallColor = roomData.wallColor || "#DE6E2B";
     room.floorColor = roomData.floorColor || "#cccccc";
     room.floorTexture = loadRoomTexture("tile.png");
     room.y = 100;
-    room.x = window.innerWidth / 2 - room.width / 2;
+    room.x = containerWidth / 2 - room.width / 2;
     return room;
   }
 
