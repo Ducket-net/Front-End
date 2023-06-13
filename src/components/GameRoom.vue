@@ -24,11 +24,14 @@
 
     <!-- roomSettingsOpen -->
     <transition name="fade">
-      <div v-if="roomSettingsOpen">
+      <div
+        v-if="roomSettingsOpen"
+        class="max-w-md mx-auto pt-[42px] absolute top-0 left-0 right-0"
+      >
         <!-- BG Color -->
         <div
           @click="showBgColorPicker = !showBgColorPicker"
-          class="absolute left-0 top-0 bg-black text-white overflow-auto rounded-xl bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer rounded-t-none rounded-bl-none"
+          class="absolute left-0 top-[42px] bg-black text-white overflow-auto rounded-xl bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer rounded-tl-none rounded-bl-none"
         >
           <font-awesome-icon
             class="text-white overflow-auto rounded-lg"
@@ -105,28 +108,28 @@
 
         <button
           @click="roomSettingsOpen = false"
-          class="absolute right-0 top-0 bg-black text-white overflow-auto rounded-xl bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer rounded-t-none rounded-br-none"
+          class="absolute right-0 top-[42px] bg-black text-white overflow-auto rounded-xl bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer rounded-tr-none rounded-br-none"
         >
           <font-awesome-icon :icon="['fas', 'close']" /> Close Settings
         </button>
 
         <button
           @click="clearLocalStorage"
-          class="absolute top-80 text-white overflow-auto rounded-xl bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer rounded-t-none rounded-br-none"
+          class="absolute top-80 text-white overflow-auto bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer rounded-t-none rounded-br-none"
         >
           <font-awesome-icon :icon="['fas', 'trash']" /> Reset All
         </button>
 
         <button
           @click="toggleWall"
-          class="absolute top-24 text-white overflow-auto rounded-xl bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer rounded-t-none rounded-br-none"
+          class="absolute top-32 text-white overflow-auto l bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer rounded-t-none rounded-br-none"
         >
           Toggle Wall
         </button>
 
         <button
           @click="toggleFloor"
-          class="absolute top-12 text-white overflow-auto rounded-xl bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer rounded-t-none rounded-br-none"
+          class="absolute top-24 text-white overflow-auto bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer rounded-t-none rounded-br-none"
         >
           Toggle Floor (& Wall)
         </button>
@@ -161,6 +164,11 @@
 
 .fade-enter-to {
   opacity: 1;
+}
+
+#canvasContainer {
+  background-image: url("../../public/6432-grid_2.png"),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.2));
 }
 </style>
 
@@ -318,6 +326,8 @@ export default {
     addItem() {
       const newItem = new FloorFurniture({ ...this.form });
       this.game.addItem(newItem);
+      EventBus.$emit("furni-added", newItem);
+
       this.saveRoomToLocalStorage();
 
       // unselectFurniture

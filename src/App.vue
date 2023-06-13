@@ -23,7 +23,7 @@
             'bg-black': !hideHeader,
             'bg-transparent': hideHeader,
           }"
-          class="h-[42px] flex items-center justify-between z-10 fixed top-0 left-0 w-full"
+          class="h-[42px] flex items-center justify-between z-50 fixed top-0 left-0 w-full"
         >
           <a
             href="/"

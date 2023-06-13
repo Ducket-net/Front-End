@@ -40,7 +40,7 @@
 .game-room-container {
   /* position: sticky; */
   top: 0; /* Stick the GameRoom component to the top of the viewport */
-  z-index: 1000; /* Set a high z-index to ensure it's above the scrolling content */
+  z-index: 9; /* Set a high z-index to ensure it's above the scrolling content */
   touch-action: none;
 }
 

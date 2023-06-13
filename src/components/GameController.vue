@@ -66,16 +66,43 @@
         <font-awesome-icon :icon="['fas', 'arrow-down']" />
         Down
       </button>
+
       <label
-        class="w-full py-2 mt-2 font-semibold text-white bg-black rounded text-xs"
+        class="w-full py-2 mt-2 font-semibold bg-black text-white rounded text-xs"
       >
         <font-awesome-icon :icon="['fas', 'arrows-alt-h']" /> Increment
       </label>
       <input
         type="number"
         v-model.number="increment"
-        class="w-auto py-2 mt-2 font-semibold text-white bg-black rounded text-xs"
+        class="w-auto py-2 mt-2 font-semibold bg-black text-white rounded text-xs"
       />
+      <div class="w-full py-2 mt-2 bg-black flex space-x-1">
+        <button
+          @click="increment = 0.1"
+          class="w-full font-semibold text-white rounded text-xs"
+        >
+          .1
+        </button>
+        <button
+          @click="increment = 0.5"
+          class="w-full font-semibold text-white rounded text-xs"
+        >
+          .5
+        </button>
+        <button
+          @click="increment = 1.0"
+          class="w-full font-semibold text-white rounded text-xs"
+        >
+          1
+        </button>
+        <button
+          @click="increment = 2.0"
+          class="w-full font-semibold text-white rounded text-xs"
+        >
+          2
+        </button>
+      </div>
     </div>
 
     <button
@@ -137,6 +164,12 @@ export default {
       console.log("item unselected", item);
       this.selectedItem = null;
       this.saveRoomToLocalStorage();
+    });
+
+    EventBus.$on("furni-added", () => {
+      setTimeout(() => {
+        this.saveRoomToLocalStorage();
+      }, 1500);
     });
   },
   methods: {
