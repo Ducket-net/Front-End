@@ -243,6 +243,10 @@ export default {
 
     if (localStorage.getItem("hideWalls")) {
       this.game.room.hideWalls = localStorage.getItem("hideWalls") === "true";
+      if (this.game.room.hideWalls) {
+        this.game.room.y = 224;
+        this.game.room.x = this.game.room.x + 8;
+      }
     }
 
     if (localStorage.getItem("hideFloor")) {
