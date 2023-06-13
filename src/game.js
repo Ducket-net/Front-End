@@ -31,7 +31,7 @@ export default class Game {
       antialias: false,
       resolution: window.devicePixelRatio,
       autoDensity: true,
-      width: 384,
+      width: window.innerWidth,
       height: 400,
       transparent: true,
     });
@@ -78,7 +78,7 @@ export default class Game {
     room.floorColor = roomData.floorColor || "#cccccc";
     room.floorTexture = loadRoomTexture("tile.png");
     room.y = 100;
-    room.x = 59;
+    room.x = window.innerWidth / 2 - room.width / 2;
     return room;
   }
 

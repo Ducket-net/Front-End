@@ -4,9 +4,11 @@
     <div class="game-room-container">
       <GameRoom room-id="home" />
     </div>
-    <div class="item-catalog-container">
+    <div class="item-catalog-container no-scrollbar" @scroll.passive="onScroll">
       <ItemCatalogContainer />
-      <footer class="mx-auto text-white my-12 text-center max-w-sm text-xs">
+      <footer
+        class="mt-36 mx-auto text-white my-12 text-center max-w-sm text-xs"
+      >
         <div class="block py-2">
           <a
             href="https://twitter.com/wes_wim"
@@ -39,11 +41,13 @@
   /* position: sticky; */
   top: 0; /* Stick the GameRoom component to the top of the viewport */
   z-index: 1000; /* Set a high z-index to ensure it's above the scrolling content */
+  touch-action: none;
 }
 
 .item-catalog-container {
   flex-grow: 1; /* Allow the catalog container to fill the remaining space */
   overflow-y: auto; /* Allow vertical scroll */
+  -webkit-overflow-scrolling: touch; /* Enable smooth scrolling on iOS */
 }
 </style>
 
@@ -64,6 +68,13 @@ export default {
     };
   },
   methods: {
+    onScroll(event) {
+      const { target } = event;
+      // Check if the user scrolls down
+      if (target.scrollTop > 0) {
+        this.$root.$emit("hide-header", target.scrollTop);
+      }
+    },
     scrollToTop() {
       window.scrollTo({
         top: 0,

@@ -4,8 +4,8 @@
   "floorColor": "#eeeeee",
   "items": [
     {
-      "roomX": 2.5,
-      "roomY": 2.5,
+      "roomX": 2,
+      "roomY": 2,
       "roomZ": 0,
       "direction": 2,
       "type": "chair_plasto*7"

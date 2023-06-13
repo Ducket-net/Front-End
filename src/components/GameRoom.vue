@@ -10,7 +10,7 @@
       tabindex="0"
     >
       <div class="mx-auto">
-        <canvas ref="canvas" class="mx-auto"></canvas>
+        <canvas ref="canvas" class="w-full"></canvas>
       </div>
     </div>
 
@@ -252,6 +252,15 @@ export default {
   methods: {
     toggleWall() {
       this.game.room.hideWalls = !this.game.room.hideWalls;
+
+      if (this.game.room.hideWalls) {
+        this.game.room.y = 224;
+        this.game.room.x = this.game.room.x + 8;
+      } else {
+        this.game.room.y = 100;
+        this.game.room.x = this.game.room.x - 8;
+      }
+
       localStorage.setItem("hideWalls", this.game.room.hideWalls);
     },
     toggleFloor() {
