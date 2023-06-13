@@ -1,28 +1,54 @@
 <!-- src/App.vue -->
 <template>
   <div id="app" class="h-full w-full mx-auto md:max-w-sm md:p-1 md:rounded-lg">
-    <header
-      :class="{
-        'bg-black': !hideHeader,
-        'bg-transparent': hideHeader,
-      }"
-      class="h-[42px] flex items-center justify-between z-10 fixed top-0 left-0 w-full"
-    >
-      <a
-        href="/"
-        class="ml-4 flex-shrink text-white text-[14px] no-underline leading-4 flex items-center space-x-1"
-      >
-        <img src="/logo.png" class="h-[19px] w-[19px] font-lato" />
-        <span>Ducket</span>
-      </a>
-      <span class="text-right text-xs text-white mr-4">Account</span>
-    </header>
+    <transition name="fade">
+      <div class="splash-screen" v-if="showSplashScreen">
+        <!-- Splash Screen Image -->
 
-    <router-view></router-view>
+        <div class="splash-screen-image">
+          <img
+            src="/splashscreens/apple-splash-1290-2796.png"
+            class="fixed -top-12 bottom-0 left-0 right-0"
+          />
+        </div>
+      </div>
+    </transition>
+    <transition name="fade">
+      <div v-if="!showSplashScreen">
+        <header
+          :class="{
+            'bg-black': !hideHeader,
+            'bg-transparent': hideHeader,
+          }"
+          class="h-[42px] flex items-center justify-between z-10 fixed top-0 left-0 w-full"
+        >
+          <a
+            href="/"
+            class="ml-4 flex-shrink text-white text-[14px] no-underline leading-4 flex items-center space-x-1"
+          >
+            <img src="/logo.png" class="h-[19px] w-[19px] font-lato" />
+            <span>Ducket</span>
+          </a>
+          <span class="text-right text-xs text-white mr-4">Account</span>
+        </header>
+
+        <router-view></router-view>
+      </div>
+    </transition>
   </div>
 </template>
 
 <style scoped>
+/* Add the fade transition styles */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 1s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
 .isometric-tile::before,
 .isometric-tile::after {
   content: "";
@@ -51,12 +77,26 @@ export default {
     return {
       roomId: "home",
       hideHeader: false,
+      showSplashScreen: true,
     };
   },
   computed: {
     catalogItems() {
       return this.$store.state.catalog || [];
     },
+  },
+  methods: {
+    initApp() {
+      // Data fetching or processing can go here, for example
+
+      setTimeout(() => {
+        this.showSplashScreen = false;
+      }, 2000); // You can adjust the delay as needed
+    },
+  },
+
+  mounted() {
+    this.initApp();
   },
   created() {
     this.$root.$on("hide-header", (pos) => {

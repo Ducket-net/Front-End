@@ -7,11 +7,14 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="icon" href="<%= BASE_URL %>favicon.ico">
   <link rel="manifest" href="/manifest.json">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
   <meta name="apple-mobile-web-app-title" content="Suites">
+  <meta name="theme-color" content="#000000">
+
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&amp;display=swap" rel="stylesheet">
   <title>
-    &lt;%= htmlWebpackPlugin.options.title %&gt;
+    <%= htmlWebpackPlugin.options.title %>
   </title>
   <style>
     body,
@@ -21,6 +24,7 @@
       opacity: 1;
       position: relative;
       overflow: hidden;
+      background-color: #1D252C;
     }
 
     body {
