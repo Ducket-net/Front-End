@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "pwa": "npx pwa-asset-generator ./public/splash.html ./public/splashscreens -i ./public/index.html -m ./public/manifest.json --portrait-only -t png"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
