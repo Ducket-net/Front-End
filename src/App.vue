@@ -1,6 +1,6 @@
 <!-- src/App.vue -->
 <template>
-  <div id="app" class="h-full w-full mx-auto md:max-w-sm md:p-1 md:rounded-lg">
+  <div id="app" class="h-full w-full mx-auto md:p-1 md:rounded-lg">
     <transition name="fade">
       <div class="splash-screen" v-if="showSplashScreen">
         <!-- Splash Screen Image -->
@@ -77,7 +77,7 @@ export default {
     return {
       roomId: "home",
       hideHeader: false,
-      showSplashScreen: true,
+      showSplashScreen: false,
     };
   },
   computed: {
@@ -93,9 +93,19 @@ export default {
         this.showSplashScreen = false;
       }, 2000); // You can adjust the delay as needed
     },
+    checkIfPwa() {
+      if (
+        window.matchMedia("(display-mode: standalone)").matches ||
+        window.navigator.standalone === true
+      ) {
+        this.showSplashScreen = true;
+      }
+    },
   },
 
   mounted() {
+    this.checkIfPwa();
+
     this.initApp();
   },
   created() {
