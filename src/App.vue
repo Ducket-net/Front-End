@@ -5,7 +5,7 @@
     class="h-full w-full mx-auto md:p-1 md:rounded-lg max-w-md overflow-hidden"
   >
     <transition name="fade">
-      <div class="splash-screen" v-if="showSplashScreen">
+      <div class="splash-screen" v-if="showSplashScreen && checkIfPwa()">
         <!-- Splash Screen Image -->
 
         <div class="splash-screen-image">
