@@ -33,7 +33,7 @@
       </button>
       <button
         @click="selectedItem.direction = (selectedItem.direction + 2) % 8"
-        class="w-full font-semibold text-white bg-black rounded active:bg-gray-800 controller-button text-xs row-span-2 active:bg-gray-800 controller-button"
+        class="w-full font-semibold text-white bg-black rounded controller-button text-xs row-span-2 active:bg-gray-800 controller-button"
       >
         <font-awesome-icon :icon="['fas', 'arrow-rotate-left']" /> Rotate
       </button>
@@ -59,7 +59,7 @@
       </button>
 
       <button
-        @touchstart="selectedItem.roomZ -= increment"
+        @click="selectedItem.roomZ -= increment"
         class="w-full py-2 font-semibold text-white bg-black rounded active:bg-gray-800 controller-button text-xs"
       >
         <font-awesome-icon :icon="['fas', 'arrow-down']" />
@@ -70,7 +70,7 @@
     <!-- Advanced Settings -->
 
     <button
-      @touchstart="isContentVisible = !isContentVisible || false"
+      @click="isContentVisible = !isContentVisible || false"
       class="text-xs text-white p-2 w-full h-12"
     >
       Advanced Settings
@@ -86,25 +86,25 @@
       </label>
       <div class="w-full flex space-x-1">
         <button
-          @touchstart="increment = 0.1"
+          @click="increment = 0.1"
           class="h-[42px] rounded-md bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button"
         >
           1 Pixel
         </button>
         <button
-          @touchstart="increment = 0.5"
+          @click="increment = 0.5"
           class="h-[42px] rounded-md bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button"
         >
           .5 Block
         </button>
         <button
-          @touchstart="increment = 1.0"
+          @click="increment = 1.0"
           class="h-[42px] rounded-md bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button"
         >
           1 Block
         </button>
         <button
-          @touchstart="increment = 2.0"
+          @click="increment = 2.0"
           class="h-[42px] rounded-md bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button"
         >
           2 Block
@@ -167,6 +167,8 @@ export default {
       increment: 1,
       selectedItem: null,
       isContentVisible: false,
+      touchLocked: false,
+      actionInProgress: false,
     };
   },
   created() {
@@ -188,11 +190,12 @@ export default {
   },
   methods: {
     handleClick(action, ...args) {
-      if (this.touchLocked) return;
+      if (this.touchLockedClick) return;
       this[action](...args);
     },
     handleTouchStart(action, ...args) {
       this.touchLocked = true;
+
       setTimeout(() => (this.touchLocked = false), 500); // Set a delay to unlock.
       this[action](...args);
     },
@@ -220,11 +223,18 @@ export default {
       //Emit
     },
     moveFurnitureItem(moveX, moveY) {
+      if (this.actionInProgress) return;
+      this.actionInProgress = true;
+
       // Make sure there is a selected furniture item
       if (this.selectedItem) {
         // Access the moveFurnitureItem method from the game object using $refs
         this.game.moveFurnitureItem(this.selectedItem, moveX, moveY);
       }
+
+      window.setTimeout(() => {
+        this.actionInProgress = false;
+      }, 200);
     },
     clearRoomItems() {
       //Confirm
