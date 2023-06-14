@@ -419,10 +419,8 @@ export default {
       this.game.addItem(newItem);
       EventBus.$emit("furni-added", newItem);
 
-      this.saveRoomToLocalStorage();
-
       // unselectFurniture
-      // this.game.unselectFurniture();
+      this.game.unselectFurniture();
     },
 
     handleKeydown(event) {

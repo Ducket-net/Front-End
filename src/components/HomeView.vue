@@ -7,18 +7,18 @@
 
     <div class="item-catalog-container no-scrollbar" @scroll.passive="onScroll">
       <ItemCatalogContainer />
-      <div class="grid grid-rows-3 text-white gap-2 py-2">
-        <div class="bg-black p-3 rounded-lg">
+      <div class="grid grid-rows-3 text-black gap-2 py-2 p-1">
+        <div class="bg-white border-1 border border-black p-3 rounded-xl">
           <h2 class="font-bold text-sm">Manage Room</h2>
-          <p class="text-sm text-gray-300">
+          <p class="text-sm text-gray-700">
             Clicking on the <font-awesome-icon :icon="['fas', 'gear']" /> allows
             you to manage your rooms walls, floors, colors and other settings!
           </p>
         </div>
 
-        <div class="bg-black p-3 rounded-lg">
+        <div class="bg-white border-1 border border-black p-3 rounded-xl">
           <h2 class="text-bold">Install the App</h2>
-          <p class="text-sm text-gray-300">
+          <p class="text-sm text-gray-700">
             Click the share icon
             <font-awesome-icon :icon="['fas', 'arrow-up-from-bracket']" /> and
             then Add to Home Screen which will allow you to use it like a native
@@ -26,18 +26,18 @@
           </p>
         </div>
 
-        <div class="bg-black p-3 rounded-lg">
+        <div class="bg-white border-1 border border-black p-3 rounded-xl">
           <h2 class="text-bold">Report Bugs & Issues</h2>
-          <p class="text-sm text-gray-300">
+          <p class="text-sm text-gray-700">
             If you find any bugs, report them to
             <a
               href="https://twitter.com/wes_wim"
               target="_blank"
-              class="underline text-white"
+              class="underline text-black"
               >Wesley</a
             >
             on Twitter! You can also start by
-            <a href="" class="underline text-white"
+            <a href="" class="underline text-black"
               >reloading <font-awesome-icon :icon="['fas', 'sync-alt']"
             /></a>
             or pressing settings and clicking Reset.
@@ -45,7 +45,7 @@
         </div>
       </div>
       <footer
-        class="mt-36 mx-auto text-white my-12 text-center max-w-sm text-xs"
+        class="mt-10 mx-auto text-white my-12 text-center max-w-sm text-xs"
       >
         <div class="block py-2">
           <a
@@ -59,10 +59,12 @@
             >Reload <font-awesome-icon :icon="['fas', 'sync-alt']" />
           </a>
         </div>
-        Ducket is not affiliated with, endorsed, sponsored, or specifically
-        approved by Sulake Corporation Oy or its Affiliates. Ducket may use the
-        trademarks and other intellectual property of Habbo, which is permitted
-        under Habbo Fan Site Policy.
+        <p class="text-gray-500">
+          Ducket is not affiliated with, endorsed, sponsored, or specifically
+          approved by Sulake Corporation Oy or its Affiliates. Ducket may use
+          the trademarks and other intellectual property of Habbo, which is
+          permitted under Habbo Fan Site Policy.
+        </p>
       </footer>
     </div>
   </div>
