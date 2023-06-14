@@ -418,9 +418,6 @@ export default {
       const newItem = new FloorFurniture({ ...this.form });
       this.game.addItem(newItem);
       EventBus.$emit("furni-added", newItem);
-
-      // unselectFurniture
-      this.game.unselectFurniture();
     },
 
     handleKeydown(event) {
