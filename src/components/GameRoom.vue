@@ -155,30 +155,30 @@
             Background
           </button>
 
-          <div class="grid col-span-3 grid-cols-4">
+          <div class="grid col-span-3 grid-cols-4 mt-64">
             <button
               @click="moveRoom('up')"
               class="text-white overflow-auto l bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer"
             >
-              Canvas Up
+              RoomUp
             </button>
             <button
               @click="moveRoom('down')"
               class="text-white overflow-auto l bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer"
             >
-              Canvas Down
+              RoomDown
             </button>
             <button
               @click="moveRoom('left')"
               class="text-white overflow-auto l bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer"
             >
-              Canvas Left
+              RoomLeft
             </button>
             <button
               @click="moveRoom('right')"
               class="text-white overflow-auto l bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer"
             >
-              Move Canvas Right
+              RoomRight
             </button>
           </div>
         </div>

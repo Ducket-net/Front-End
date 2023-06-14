@@ -7,17 +7,26 @@
 
     <div class="item-catalog-container no-scrollbar" @scroll.passive="onScroll">
       <ItemCatalogContainer />
-      <div class="grid grid-rows-3 text-black gap-2 py-2 p-1">
-        <div class="bg-white border-1 border border-black p-3 rounded-xl">
-          <h2 class="font-bold text-sm">Manage Room</h2>
+      <div class="grid text-black gap-4 py-4 p-4 items-baseline">
+        <div
+          class="bg-white border-1 border border-black p-4 rounded-xl"
+          @click="emitSettings()"
+        >
+          <h2 class="font-bold text-sm">
+            <font-awesome-icon :icon="['fas', 'gear']" />
+            Manage Room
+          </h2>
           <p class="text-sm text-gray-700">
             Clicking on the <font-awesome-icon :icon="['fas', 'gear']" /> allows
             you to manage your rooms walls, floors, colors and other settings!
           </p>
         </div>
 
-        <div class="bg-white border-1 border border-black p-3 rounded-xl">
-          <h2 class="text-bold">Install the App</h2>
+        <div class="bg-white border-1 border border-black p-4 rounded-xl">
+          <h2 class="font-bold text-sm">
+            <font-awesome-icon :icon="['fas', 'arrow-up-from-bracket']" />
+            Install the App
+          </h2>
           <p class="text-sm text-gray-700">
             Click the share icon
             <font-awesome-icon :icon="['fas', 'arrow-up-from-bracket']" /> and
@@ -26,15 +35,17 @@
           </p>
         </div>
 
-        <div class="bg-white border-1 border border-black p-3 rounded-xl">
-          <h2 class="text-bold">Report Bugs & Issues</h2>
+        <div class="bg-white border-1 border border-black p-4 rounded-xl">
+          <h2 class="font-bold text-sm">
+            <font-awesome-icon :icon="['fas', 'bug']" /> Report Bugs & Issues
+          </h2>
           <p class="text-sm text-gray-700">
             If you find any bugs, report them to
             <a
               href="https://twitter.com/wes_wim"
               target="_blank"
               class="underline text-black"
-              >Wesley</a
+              >Wes</a
             >
             on Twitter! You can also start by
             <a href="" class="underline text-black"
@@ -94,6 +105,7 @@
 <script>
 import GameRoom from "./GameRoom.vue";
 import ItemCatalogContainer from "./ItemCatalogContainer.vue";
+import { EventBus } from "@/eventBus";
 
 export default {
   components: {
@@ -108,6 +120,9 @@ export default {
     };
   },
   methods: {
+    emitSettings() {
+      EventBus.$emit("item-settings");
+    },
     onScroll(event) {
       const { target } = event;
       // Check if the user scrolls down
