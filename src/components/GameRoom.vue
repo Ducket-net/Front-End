@@ -473,7 +473,6 @@ export default {
       this.selectedItem = item;
       this.selectedItemType = item.type;
       this.open();
-      this.saveRoomToLocalStorage();
     });
 
     // Listen for the 'item-unselected' event and clear selectedItemType

@@ -212,7 +212,6 @@ export default {
     },
     updateItem() {
       EventBus.$emit("update-item", this.selectedItem);
-      this.saveRoomToLocalStorage();
     },
     removeRoomItem() {
       EventBus.$emit("furni-removed", this.selectedItem);
