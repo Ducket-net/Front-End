@@ -37,18 +37,9 @@
         class="max-w-md mx-auto pt-[42px] absolute top-0 left-0 right-0"
       >
         <!-- BG Color -->
+
         <div
-          @click="showBgColorPicker = !showBgColorPicker"
-          class="absolute left-0 top-[42px] bg-black text-white overflow-auto rounded-xl bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer rounded-tl-none rounded-bl-none"
-        >
-          <font-awesome-icon
-            class="text-white overflow-auto rounded-lg"
-            icon="cube"
-          />
-          Background
-        </div>
-        <div
-          class="absolute right-4 left-4 bg-white overflow-auto rounded-lg z-10"
+          class="absolute top-80 right-4 left-4 bg-white overflow-auto rounded-lg z-10"
           v-if="showBgColorPicker"
         >
           <Swatches v-model="bgColor" />
@@ -65,7 +56,7 @@
         <!-- Wall Color -->
         <div
           @click="showWallColorPicker = !showWallColorPicker"
-          class="absolute top-48 transform left-1/2 translate-x-24 -translate-y-0 bg-black text-white overflow-auto rounded-full bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer"
+          class="rounded-full absolute top-48 transform left-1/2 translate-x-24 -translate-y-0 bg-black text-white overflow-auto bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer"
         >
           <font-awesome-icon
             class="text-white overflow-auto rounded-lg"
@@ -74,7 +65,7 @@
           Wall
         </div>
         <div
-          class="absolute right-4 left-4 bg-white overflow-auto rounded-lg z-10"
+          class="absolute top-80 right-4 left-4 bg-white overflow-auto rounded-lg z-10"
           v-if="showWallColorPicker"
         >
           <Swatches v-model="wallColor" />
@@ -100,7 +91,7 @@
           Floor
         </div>
         <div
-          class="absolute right-4 left-4 bg-white overflow-auto rounded-lg z-10"
+          class="absolute top-80 right-4 left-4 bg-white overflow-auto rounded-lg z-10"
           v-if="showFloorColorPicker"
         >
           <Swatches v-model="floorColor" />
@@ -114,33 +105,83 @@
         </div>
         <!-- Floor Color -->
 
-        <button
-          @click="roomSettingsOpen = false"
-          class="absolute right-0 top-[42px] bg-black text-white overflow-auto rounded-xl bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer rounded-tr-none rounded-br-none"
-        >
-          <font-awesome-icon :icon="['fas', 'close']" /> Close Settings
-        </button>
+        <div class="grid grid-cols-3 grid-rows-2 text-left">
+          <button
+            @click="roomSettingsOpen = false"
+            class="text-white overflow-auto bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer"
+          >
+            <font-awesome-icon :icon="['fas', 'close']" /> Close Settings
+          </button>
 
-        <button
-          @click="clearLocalStorage"
-          class="absolute top-80 text-white overflow-auto bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer rounded-t-none rounded-br-none"
-        >
-          <font-awesome-icon :icon="['fas', 'trash']" /> Reset All
-        </button>
+          <button
+            @click="showBgColorPicker = !showBgColorPicker"
+            class="text-white overflow-auto bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer"
+          >
+            <!-- <font-awesome-icon
+              class="text-white overflow-auto rounded-lg"
+              icon="cube"
+            /> -->
+            <!-- Background -->
+          </button>
+          <button
+            @click="clearLocalStorage"
+            class="top-80 text-red-500 overflow-auto bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer"
+          >
+            <font-awesome-icon :icon="['fas', 'trash']" /> Reset All
+          </button>
 
-        <button
-          @click="toggleWall"
-          class="absolute top-32 text-white overflow-auto l bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer rounded-t-none rounded-br-none"
-        >
-          Toggle Wall
-        </button>
+          <button
+            @click="toggleWall"
+            class="top-32 text-white overflow-auto l bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer"
+          >
+            Toggle Wall
+          </button>
 
-        <button
-          @click="toggleFloor"
-          class="absolute top-24 text-white overflow-auto bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer rounded-t-none rounded-br-none"
-        >
-          Toggle Floor (& Wall)
-        </button>
+          <button
+            @click="toggleFloor"
+            class="left-0 top-[55px] text-white overflow-auto bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer"
+          >
+            Toggle Floor & Wall
+          </button>
+
+          <button
+            @click="showBgColorPicker = !showBgColorPicker"
+            class="text-white overflow-auto bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer"
+          >
+            <font-awesome-icon
+              class="text-white overflow-auto rounded-lg"
+              icon="cube"
+            />
+            Background
+          </button>
+
+          <div class="grid col-span-3 grid-cols-4">
+            <button
+              @click="moveRoom('up')"
+              class="text-white overflow-auto l bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer"
+            >
+              Canvas Up
+            </button>
+            <button
+              @click="moveRoom('down')"
+              class="text-white overflow-auto l bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer"
+            >
+              Canvas Down
+            </button>
+            <button
+              @click="moveRoom('left')"
+              class="text-white overflow-auto l bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer"
+            >
+              Canvas Left
+            </button>
+            <button
+              @click="moveRoom('right')"
+              class="text-white overflow-auto l bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer"
+            >
+              Move Canvas Right
+            </button>
+          </div>
+        </div>
       </div>
     </transition>
   </div>
@@ -252,6 +293,14 @@ export default {
       this.game.room.wallColor = localStorage.getItem("wallColor");
     }
 
+    if (localStorage.getItem("roomX")) {
+      this.game.room.x = localStorage.getItem("roomX");
+    }
+
+    if (localStorage.getItem("roomY")) {
+      this.game.room.y = localStorage.getItem("roomY");
+    }
+
     //Load Saved Floor Color
     if (localStorage.getItem("floorColor")) {
       this.game.room.floorColor = localStorage.getItem("floorColor");
@@ -284,6 +333,25 @@ export default {
     }
   },
   methods: {
+    moveRoom(dir) {
+      switch (dir) {
+        case "up":
+          this.game.room.y -= 10;
+          break;
+        case "down":
+          this.game.room.y += 10;
+          break;
+        case "left":
+          this.game.room.x -= 10;
+          break;
+        case "right":
+          this.game.room.x += 10;
+          break;
+      }
+      localStorage.setItem("roomX", this.game.room.x);
+      localStorage.setItem("roomY", this.game.room.y);
+    },
+
     toggleWall() {
       this.game.room.hideWalls = !this.game.room.hideWalls;
 
@@ -299,6 +367,7 @@ export default {
     },
     toggleFloor() {
       this.game.room.hideFloor = !this.game.room.hideFloor;
+      this.toggleWall();
       localStorage.setItem("hideFloor", this.game.room.hideFloor);
     },
     clearLocalStorage() {
@@ -337,8 +406,8 @@ export default {
     addItemByClassName(classname) {
       const newItem = new FloorFurniture({
         type: classname,
-        roomX: 1,
-        roomY: 1,
+        roomX: 2,
+        roomY: 2,
         roomZ: 0,
         direction: 2,
         animation: 1,

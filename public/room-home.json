@@ -1,14 +1,14 @@
 {
   "id": "room-1",
-  "wallColor": "#DE6E2B",
-  "floorColor": "#eeeeee",
+  "wallColor": "#B5B7C4",
+  "floorColor": "#97976A",
   "items": [
     {
       "roomX": 2,
       "roomY": 2,
       "roomZ": 0,
       "direction": 2,
-      "type": "chair_plasto*7"
+      "type": "duck"
     }
   ]
 }

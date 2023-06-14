@@ -105,6 +105,8 @@
         >
           2
         </button>
+
+        <!-- Move Room -->
       </div>
     </div>
 

@@ -7,6 +7,7 @@ import {
   Shroom,
   FloorFurniture,
   loadRoomTexture,
+  RoomCamera,
 } from "@tetreum/shroom";
 import { EventBus } from "./eventBus";
 import { gsap } from "gsap";
@@ -84,6 +85,7 @@ export default class Game {
     room.floorTexture = loadRoomTexture("tile.png");
     room.y = 100;
     room.x = containerWidth / 2 - room.width / 2;
+
     return room;
   }
 
