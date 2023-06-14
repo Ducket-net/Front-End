@@ -34,6 +34,7 @@ export default new Vuex.Store({
         let roomData;
 
         // Check if room data exists in local storage
+
         if (localStorage.getItem("savedRoom")) {
           roomData = JSON.parse(localStorage.getItem("savedRoom"));
         } else {

@@ -133,7 +133,7 @@
               | Z:{{ selectedItem.roomZ.toFixed(2) }} | R{{
                 selectedItem.direction
               }}
-              | I{{ increment }}
+              | I{{ increment }} | A{{ selectedItem.animation }}
             </p>
           </div>
         </div>
