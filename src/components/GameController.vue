@@ -1,9 +1,9 @@
 <template>
   <div v-if="selectedItem" class="mx-auto rounded-md text-white">
-    <div class="grid grid-cols-4 grid-rows-[50px,50px] gap-[1px]">
+    <div class="grid grid-cols-4 grid-rows-[50px,50px] gap-1">
       <button
         @click="moveFurnitureItem(-increment, 0)"
-        class="w-full font-semibold text-white bg-black rounded active:bg-gray-800 text-xs"
+        class="w-full font-semibold text-white bg-black rounded active:bg-gray-800 controller-button text-xs"
       >
         <!-- <i class="fa fa-angle-double-down"></i> -->
         <font-awesome-icon
@@ -14,7 +14,7 @@
 
       <button
         @click="moveFurnitureItem(0, -increment)"
-        class="w-full font-semibold text-white bg-black rounded active:bg-gray-800 text-xs"
+        class="w-full font-semibold text-white bg-black rounded active:bg-gray-800 controller-button text-xs"
       >
         <font-awesome-icon
           :icon="['fas', 'arrow-right']"
@@ -24,20 +24,20 @@
 
       <button
         @click="selectedItem.roomZ += increment"
-        class="w-full font-semibold text-white bg-black rounded active:bg-gray-800 text-xs"
+        class="w-full font-semibold text-white bg-black rounded active:bg-gray-800 controller-button text-xs"
       >
         <font-awesome-icon :icon="['fas', 'arrow-up']" />
         Up
       </button>
       <button
         @click="selectedItem.direction = (selectedItem.direction + 2) % 8"
-        class="w-full font-semibold text-white bg-black rounded active:bg-gray-800 text-xs row-span-2 active:bg-gray-800"
+        class="w-full font-semibold text-white bg-black rounded active:bg-gray-800 controller-button text-xs row-span-2 active:bg-gray-800 controller-button"
       >
         <font-awesome-icon :icon="['fas', 'arrow-rotate-left']" /> Rotate
       </button>
       <button
         @click="moveFurnitureItem(0, increment)"
-        class="w-full font-semibold text-white bg-black rounded active:bg-gray-800 text-xs"
+        class="w-full font-semibold text-white bg-black rounded active:bg-gray-800 controller-button text-xs"
       >
         <font-awesome-icon
           :icon="['fas', 'arrow-right']"
@@ -46,7 +46,7 @@
       </button>
       <button
         @click="moveFurnitureItem(increment, 0)"
-        class="w-full font-semibold text-white bg-black rounded active:bg-gray-800 text-xs"
+        class="w-full font-semibold text-white bg-black rounded active:bg-gray-800 controller-button text-xs"
       >
         <font-awesome-icon
           :icon="['fas', 'arrow-right']"
@@ -56,7 +56,7 @@
 
       <button
         @click="selectedItem.roomZ -= increment"
-        class="w-full py-2 font-semibold text-white bg-black rounded active:bg-gray-800 text-xs"
+        class="w-full py-2 font-semibold text-white bg-black rounded active:bg-gray-800 controller-button text-xs"
       >
         <font-awesome-icon :icon="['fas', 'arrow-down']" />
         Down
@@ -64,7 +64,7 @@
     </div>
 
     <!-- Advanced Settings -->
-    <!-- <div v-if=""></div> -->
+
     <button
       @click="isContentVisible = !isContentVisible || false"
       class="text-xs text-white p-2 w-full h-12"
@@ -83,25 +83,25 @@
       <div class="w-full flex space-x-1">
         <button
           @click="increment = 0.1"
-          class="h-[42px] rounded-md bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800"
+          class="h-[42px] rounded-md bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button"
         >
           .1
         </button>
         <button
           @click="increment = 0.5"
-          class="h-[42px] rounded-md bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800"
+          class="h-[42px] rounded-md bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button"
         >
           .5
         </button>
         <button
           @click="increment = 1.0"
-          class="h-[42px] rounded-md bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800"
+          class="h-[42px] rounded-md bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button"
         >
           1
         </button>
         <button
           @click="increment = 2.0"
-          class="h-[42px] rounded-md bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800"
+          class="h-[42px] rounded-md bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button"
         >
           2
         </button>

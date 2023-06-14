@@ -267,6 +267,9 @@ export default {
   }
 }
 
+.controller-button {
+}
+
 .fx-card-animation {
   background: linear-gradient(180deg, #495864 0%, #161c21 85.42%) !important;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2),
