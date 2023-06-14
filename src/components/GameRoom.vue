@@ -14,13 +14,21 @@
       </div>
     </div>
 
-    <game-controller :game="game" ref="gameController"></game-controller>
     <room-items-list
       v-if="game && game.room"
       :roomItems="Array.from(game.room.roomObjects)"
     ></room-items-list>
 
     <!-- src/components/GameRoom.vue -->
+
+    <vue-bottom-sheet
+      ref="myBottomSheet"
+      :overlay="false"
+      :click-to-close="true"
+      :background-clickable="true"
+    >
+      <game-controller :game="game" ref="gameController"></game-controller>
+    </vue-bottom-sheet>
 
     <!-- roomSettingsOpen -->
     <transition name="fade">
@@ -170,10 +178,23 @@
   background-image: url("../../public/6432-grid_2.png"),
     linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.2));
 }
+
+@keyframes slide-up {
+  0% {
+    transform: translateY(100%);
+  }
+  75% {
+    transform: translateY(-10%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
+}
 </style>
 
 <script>
 import Game from "@/game";
+import VueBottomSheet from "@webzlodimir/vue-bottom-sheet";
 import { FloorFurniture } from "@tetreum/shroom";
 import { EventBus } from "@/eventBus"; // Import the EventBus
 import RoomItemsList from "@/components/RoomItemList.vue"; // Import RoomItemsList
@@ -187,6 +208,7 @@ export default {
     RoomItemsList,
     GameController,
     Swatches,
+    VueBottomSheet,
   },
   props: ["roomId"],
   data() {
@@ -386,12 +408,14 @@ export default {
     EventBus.$on("item-selected", (item) => {
       this.selectedItem = item;
       this.selectedItemType = item.type;
+      this.open();
       this.saveRoomToLocalStorage();
     });
 
     // Listen for the 'item-unselected' event and clear selectedItemType
     EventBus.$on("item-unselected", (item) => {
       console.log("item-unselected", item);
+      this.close();
       this.selectedItem = null;
       this.selectedItemType = "";
     });

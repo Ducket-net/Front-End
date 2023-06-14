@@ -1,9 +1,9 @@
 <template>
   <div v-if="selectedItem" class="mx-auto rounded-md text-white">
-    <div class="grid grid-cols-4 gap-1 mb-2">
+    <div class="grid grid-cols-4 grid-rows-[50px,50px] gap-[1px]">
       <button
         @click="moveFurnitureItem(-increment, 0)"
-        class="w-full py-2 mt-2 font-semibold text-white bg-black rounded text-xs"
+        class="w-full font-semibold text-white bg-black rounded active:bg-gray-800 text-xs"
       >
         <!-- <i class="fa fa-angle-double-down"></i> -->
         <font-awesome-icon
@@ -11,31 +11,33 @@
           :style="{ transform: 'rotate(225deg)' }"
         />
       </button>
+
       <button
         @click="moveFurnitureItem(0, -increment)"
-        class="w-full py-2 mt-2 font-semibold text-white bg-black rounded text-xs"
+        class="w-full font-semibold text-white bg-black rounded active:bg-gray-800 text-xs"
       >
         <font-awesome-icon
           :icon="['fas', 'arrow-right']"
           :style="{ transform: 'rotate(315deg)' }"
         />
       </button>
-      <button
-        @click="game.unselectFurniture(selectedItem)"
-        class="w-full py-2 mt-2 font-semibold text-white bg-black rounded text-xs"
-      >
-        <font-awesome-icon :icon="['fas', 'star']" /> De-Select
-      </button>
+
       <button
         @click="selectedItem.roomZ += increment"
-        class="w-full py-2 mt-2 font-semibold text-white bg-black rounded text-xs"
+        class="w-full font-semibold text-white bg-black rounded active:bg-gray-800 text-xs"
       >
         <font-awesome-icon :icon="['fas', 'arrow-up']" />
         Up
       </button>
       <button
+        @click="selectedItem.direction = (selectedItem.direction + 2) % 8"
+        class="w-full font-semibold text-white bg-black rounded active:bg-gray-800 text-xs row-span-2 active:bg-gray-800"
+      >
+        <font-awesome-icon :icon="['fas', 'arrow-rotate-left']" /> Rotate
+      </button>
+      <button
         @click="moveFurnitureItem(0, increment)"
-        class="w-full py-2 mt-2 font-semibold text-white bg-black rounded text-xs"
+        class="w-full font-semibold text-white bg-black rounded active:bg-gray-800 text-xs"
       >
         <font-awesome-icon
           :icon="['fas', 'arrow-right']"
@@ -44,7 +46,7 @@
       </button>
       <button
         @click="moveFurnitureItem(increment, 0)"
-        class="w-full py-2 mt-2 font-semibold text-white bg-black rounded text-xs"
+        class="w-full font-semibold text-white bg-black rounded active:bg-gray-800 text-xs"
       >
         <font-awesome-icon
           :icon="['fas', 'arrow-right']"
@@ -53,52 +55,53 @@
       </button>
 
       <button
-        @click="selectedItem.direction = (selectedItem.direction + 2) % 8"
-        class="w-full py-2 mt-2 font-semibold text-white bg-black rounded text-xs"
-      >
-        <font-awesome-icon :icon="['fas', 'arrow-rotate-left']" /> Rotate
-      </button>
-
-      <button
         @click="selectedItem.roomZ -= increment"
-        class="w-full py-2 mt-2 font-semibold text-white bg-black rounded text-xs"
+        class="w-full py-2 font-semibold text-white bg-black rounded active:bg-gray-800 text-xs"
       >
         <font-awesome-icon :icon="['fas', 'arrow-down']" />
         Down
       </button>
+    </div>
 
+    <!-- Advanced Settings -->
+    <!-- <div v-if=""></div> -->
+    <button
+      @click="isContentVisible = !isContentVisible || false"
+      class="text-xs text-white p-2 w-full h-12"
+    >
+      Advanced Settings
+    </button>
+    <div
+      :class="{ hidden: !isContentVisible }"
+      class="rounded text-xs text-white w-full mb-2"
+    >
       <label
-        class="w-full py-2 mt-2 font-semibold bg-black text-white rounded text-xs"
+        class="flex-grow font-semibold text-white rounded text-xs mb-1 mt-0 block"
       >
         <font-awesome-icon :icon="['fas', 'arrows-alt-h']" /> Increment
       </label>
-      <input
-        type="number"
-        v-model.number="increment"
-        class="w-auto py-2 mt-2 font-semibold bg-black text-white rounded text-xs"
-      />
-      <div class="w-full py-2 mt-2 bg-black flex space-x-1">
+      <div class="w-full flex space-x-1">
         <button
           @click="increment = 0.1"
-          class="w-full font-semibold text-white rounded text-xs"
+          class="h-[42px] rounded-md bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800"
         >
           .1
         </button>
         <button
           @click="increment = 0.5"
-          class="w-full font-semibold text-white rounded text-xs"
+          class="h-[42px] rounded-md bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800"
         >
           .5
         </button>
         <button
           @click="increment = 1.0"
-          class="w-full font-semibold text-white rounded text-xs"
+          class="h-[42px] rounded-md bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800"
         >
           1
         </button>
         <button
           @click="increment = 2.0"
-          class="w-full font-semibold text-white rounded text-xs"
+          class="h-[42px] rounded-md bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800"
         >
           2
         </button>
@@ -107,24 +110,28 @@
 
     <button
       @click="game.unselectFurniture(selectedItem)"
-      class="w-full py-3 mb-2 font-semibold bg-green-700 text-white rounded text-xs"
+      class="w-full py-3 mb-2 font-semibold bg-green-700 text-white rounded text-xs h-12"
     >
       <font-awesome-icon :icon="['fas', 'star']" /> Save (Unselect)
     </button>
 
     <div class="text-xs mb-4">
       <div class="grid grid-cols-[auto,1fr] gap-3">
-        <div class="grid grid-cols-[50px,auto]">
+        <div class="grid grid-cols-[auto,auto]">
           <img
             :src="getIconUrl(selectedItem.type)"
-            class="max-w-full max-h-full object-contain"
+            class="max-w-full max-h-full object-contain w-[20px] h-[40px] mr-1"
           />
           <div>
             <p>{{ selectedItem.type }}</p>
             <p>
-              {{ selectedItem.roomX.toFixed(2) }} |
-              {{ selectedItem.roomY.toFixed(2) }} | Z:
-              {{ selectedItem.roomZ.toFixed(2) }} | {{ selectedItem.direction }}
+              X{{ selectedItem.roomX.toFixed(2) }} | Y{{
+                selectedItem.roomY.toFixed(2)
+              }}
+              | Z:{{ selectedItem.roomZ.toFixed(2) }} | R{{
+                selectedItem.direction
+              }}
+              | I{{ increment }}
             </p>
           </div>
         </div>
@@ -153,6 +160,7 @@ export default {
     return {
       increment: 1,
       selectedItem: null,
+      isContentVisible: false,
     };
   },
   created() {

@@ -32,7 +32,7 @@ export default class Game {
       resolution: window.devicePixelRatio,
       autoDensity: true,
       width: window.innerWidth,
-      height: 400,
+      height: 500,
       transparent: true,
     });
     // eslint-disable-next-line no-undef

@@ -2,14 +2,23 @@
 
 <template>
   <div
-    class="grid grid-cols-10 bg-black p-1 gap-1"
+    class="relative -mt-[64px] h-[64px] grid auto-cols-max grid-flow-col bg-black bg-opacity-25 p-2 gap-2 overflow-hidden overflow-x-scroll no-scrollbar"
     v-if="localRoomItems.length > 0"
   >
+    <button
+      @click="emitSettings()"
+      class="rounded-lg w-[50px] h-[50px] bg-gray-200 border border-black bottom-1 flex-shrink-0 flex items-center justify-center p-1"
+    >
+      <font-awesome-icon :icon="['fas', 'plus']" />
+    </button>
     <div
       v-for="item in localRoomItems"
       :key="item.id"
-      class="rounded-md w-[40px] h-[40px] bg-gray-200 flex-shrink-0 flex items-center justify-center p-1"
-      :class="{ 'bg-blue-200': selectedItem === item }"
+      class="rounded-lg w-[50px] h-[50px] border border-black bottom-1 bg-gray-200 flex-shrink-0 flex items-center justify-center"
+      :class="{
+        'bg-blue-100 shadow-inner border-2 border-blue-500':
+          selectedItem === item,
+      }"
       @click="selectItem(item)"
     >
       <img
@@ -17,14 +26,10 @@
         :src="getIconUrl(item.type)"
       />
     </div>
-    <!-- <button
-      class="rounded-md w-[40px] h-[40px] bg-gray-200 flex-shrink-0 flex items-center justify-center p-1"
-    >
-      <font-awesome-icon :icon="['fas', 'plus']" />
-    </button> -->
+
     <button
       @click="emitSettings()"
-      class="rounded-md w-[40px] h-[40px] bg-gray-200 flex-shrink-0 flex items-center justify-center p-1"
+      class="rounded-lg w-[50px] h-[50px] border border-black bottom-1 bg-gray-200 flex-shrink-0 flex items-center justify-center p-1"
     >
       <font-awesome-icon :icon="['fas', 'gear']" />
     </button>
@@ -69,6 +74,7 @@ export default {
   created() {
     EventBus.$on("item-selected", (item) => {
       this.selectedItem = item;
+      console.log(item);
     });
 
     EventBus.$on("furni-added", (item) => {
