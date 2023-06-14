@@ -1,10 +1,10 @@
 <template>
-  <div v-if="selectedItem" class="mx-auto rounded-md text-white">
+  <div v-if="selectedItem" class="mx-auto rounded-lg text-white">
     <div class="grid grid-cols-4 grid-rows-[50px,50px] gap-1">
       <button
         @click.prevent="handleClick('moveFurnitureItem', -increment, 0)"
         @touchstart="handleTouchStart('moveFurnitureItem', -increment, 0)"
-        class="w-full font-semibold text-white bg-black rounded active:bg-gray-800 controller-button text-xs"
+        class="w-full font-semibold text-white bg-black rounded-lg active:bg-gray-800 controller-button border border-black text-xs"
       >
         <!-- <i class="fa fa-angle-double-down"></i> -->
         <font-awesome-icon
@@ -16,7 +16,7 @@
       <button
         @click.prevent="handleClick('moveFurnitureItem', 0, -increment)"
         @touchstart="handleTouchStart('moveFurnitureItem', 0, -increment)"
-        class="w-full font-semibold text-white bg-black rounded active:bg-gray-800 controller-button text-xs"
+        class="w-full font-semibold text-white bg-black rounded-lg active:bg-gray-800 controller-button border border-black text-xs"
       >
         <font-awesome-icon
           :icon="['fas', 'arrow-right']"
@@ -26,21 +26,21 @@
 
       <button
         @click="selectedItem.roomZ += increment"
-        class="w-full font-semibold text-white bg-black rounded active:bg-gray-800 controller-button text-xs"
+        class="w-full font-semibold text-white bg-black rounded-lg active:bg-gray-800 controller-button border border-black text-xs"
       >
         <font-awesome-icon :icon="['fas', 'arrow-up']" />
         Up
       </button>
       <button
         @click="selectedItem.direction = (selectedItem.direction + 2) % 8"
-        class="w-full font-semibold text-white bg-black rounded controller-button text-xs row-span-2 active:bg-gray-800 controller-button"
+        class="w-full font-semibold text-white bg-black rounded-lg controller-button border border-black text-xs row-span-2 active:bg-gray-800 controller-button border border-black"
       >
         <font-awesome-icon :icon="['fas', 'arrow-rotate-left']" /> Rotate
       </button>
       <button
         @click.prevent="handleClick('moveFurnitureItem', 0, increment)"
         @touchstart="handleTouchStart('moveFurnitureItem', 0, increment)"
-        class="w-full font-semibold text-white bg-black rounded active:bg-gray-800 controller-button text-xs"
+        class="w-full font-semibold text-white bg-black rounded-lg active:bg-gray-800 controller-button border border-black text-xs"
       >
         <font-awesome-icon
           :icon="['fas', 'arrow-right']"
@@ -50,7 +50,7 @@
       <button
         @click.prevent="handleClick('moveFurnitureItem', increment, 0)"
         @touchstart="handleTouchStart('moveFurnitureItem', increment, 0)"
-        class="w-full font-semibold text-white bg-black rounded active:bg-gray-800 controller-button text-xs"
+        class="w-full font-semibold text-white bg-black rounded-lg active:bg-gray-800 controller-button border border-black text-xs"
       >
         <font-awesome-icon
           :icon="['fas', 'arrow-right']"
@@ -60,68 +60,14 @@
 
       <button
         @click="selectedItem.roomZ -= increment"
-        class="w-full py-2 font-semibold text-white bg-black rounded active:bg-gray-800 controller-button text-xs"
+        class="w-full py-2 font-semibold text-white bg-black rounded-lg active:bg-gray-800 controller-button border border-black text-xs"
       >
         <font-awesome-icon :icon="['fas', 'arrow-down']" />
         Down
       </button>
     </div>
 
-    <!-- Advanced Settings -->
-
-    <button
-      @click="isContentVisible = !isContentVisible || false"
-      class="text-xs text-white p-2 w-full h-12"
-    >
-      Advanced Settings
-    </button>
-    <div
-      :class="{ hidden: !isContentVisible }"
-      class="rounded text-xs text-white w-full mb-2"
-    >
-      <label
-        class="flex-grow font-semibold text-white rounded text-xs mb-1 mt-0 block"
-      >
-        <font-awesome-icon :icon="['fas', 'arrows-alt-h']" /> Increment
-      </label>
-      <div class="w-full flex space-x-1">
-        <button
-          @click="increment = 0.1"
-          class="h-[42px] rounded-md bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button"
-        >
-          1 Pixel
-        </button>
-        <button
-          @click="increment = 0.5"
-          class="h-[42px] rounded-md bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button"
-        >
-          .5 Block
-        </button>
-        <button
-          @click="increment = 1.0"
-          class="h-[42px] rounded-md bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button"
-        >
-          1 Block
-        </button>
-        <button
-          @click="increment = 2.0"
-          class="h-[42px] rounded-md bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button"
-        >
-          2 Block
-        </button>
-
-        <!-- Move Room -->
-      </div>
-    </div>
-
-    <button
-      @click="game.unselectFurniture(selectedItem)"
-      class="w-full py-3 mb-2 font-semibold bg-green-700 text-white rounded text-xs h-12"
-    >
-      <font-awesome-icon :icon="['fas', 'star']" /> Save (Unselect)
-    </button>
-
-    <div class="text-xs mb-4">
+    <div class="text-xs mt-1 bg-black bg-opacity-20 rounded-lg p-3">
       <div class="grid grid-cols-[auto,1fr] gap-3">
         <div class="grid grid-cols-[auto,auto]">
           <img
@@ -142,16 +88,70 @@
           </div>
         </div>
         <!-- <p>Animation: {{ selectedItem.animation }}</p> -->
-        <div>
+        <div class="flex-grow flex justify-end">
           <button
             @touchstart="removeRoomItem"
-            class="p-2 mt-2 mr-2 font-semibold text-white bg-black rounded text-xs hover:bg-gray-800"
+            class="p-2 px-4 font-semibold text-black bg-white border-1 border border-black rounded text-xs hover:bg-gray-800"
           >
-            <font-awesome-icon :icon="['fas', 'trash']" /> Furni
+            <font-awesome-icon :icon="['fas', 'trash']" />
           </button>
         </div>
       </div>
     </div>
+
+    <!-- Advanced Settings -->
+
+    <button
+      @click="isContentVisible = !isContentVisible || false"
+      class="text-xs text-white p-2 w-full h-12"
+    >
+      Advanced Settings
+    </button>
+    <div
+      :class="{ hidden: !isContentVisible }"
+      class="rounded-lg text-xs text-white w-full mb-2"
+    >
+      <label
+        class="flex-grow font-semibold text-white rounded-lg text-xs mb-1 mt-0 block"
+      >
+        <font-awesome-icon :icon="['fas', 'arrows-alt-h']" /> Increment
+      </label>
+      <div class="w-full flex space-x-1">
+        <button
+          @click="increment = 0.1"
+          class="h-[42px] rounded-lg bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button border border-black"
+        >
+          1 Pixel
+        </button>
+        <button
+          @click="increment = 0.5"
+          class="h-[42px] rounded-lg bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button border border-black"
+        >
+          .5 Block
+        </button>
+        <button
+          @click="increment = 1.0"
+          class="h-[42px] rounded-lg bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button border border-black"
+        >
+          1 Block
+        </button>
+        <button
+          @click="increment = 2.0"
+          class="h-[42px] rounded-lg bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button border border-black"
+        >
+          2 Block
+        </button>
+
+        <!-- Move Room -->
+      </div>
+    </div>
+
+    <button
+      @click="game.unselectFurniture(selectedItem)"
+      class="w-full py-3 mb-8 font-semibold bg-green-600 save-button text-white rounded-lg border border-1 border-b-2 border-black text-xs h-12"
+    >
+      <font-awesome-icon :icon="['fas', 'star']" /> Save
+    </button>
   </div>
 </template>
 
