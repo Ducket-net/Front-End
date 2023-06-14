@@ -5,34 +5,45 @@
       <GameRoom room-id="home" />
     </div>
 
-    <div class="grid grid-rows-3 text-white gap-2 py-2">
-      <div class="bg-black p-3 rounded-lg">
-        <h2 class="font-bold text-sm">Manage Room</h2>
-        <p class="text-sm text-gray-300">
-          Clicking on the <font-awesome-icon :icon="['fas', 'gear']" /> allows
-          you to manage your rooms walls, floors, colors and other settings!
-        </p>
-      </div>
-
-      <div class="bg-black p-3 rounded-lg">
-        <h2 class="text-bold">Manage Room</h2>
-        <p class="text-sm text-gray-300">
-          Clicking on the <font-awesome-icon :icon="['fas', 'gear']" /> allows
-          you to manage your rooms walls, floors, colors and other settings!
-        </p>
-      </div>
-
-      <div class="bg-black p-3 rounded-lg">
-        <h2 class="text-bold">Manage Room</h2>
-        <p class="text-sm text-gray-300">
-          Clicking on the <font-awesome-icon :icon="['fas', 'gear']" /> allows
-          you to manage your rooms walls, floors, colors and other settings!
-        </p>
-      </div>
-    </div>
-
     <div class="item-catalog-container no-scrollbar" @scroll.passive="onScroll">
       <ItemCatalogContainer />
+      <div class="grid grid-rows-3 text-white gap-2 py-2">
+        <div class="bg-black p-3 rounded-lg">
+          <h2 class="font-bold text-sm">Manage Room</h2>
+          <p class="text-sm text-gray-300">
+            Clicking on the <font-awesome-icon :icon="['fas', 'gear']" /> allows
+            you to manage your rooms walls, floors, colors and other settings!
+          </p>
+        </div>
+
+        <div class="bg-black p-3 rounded-lg">
+          <h2 class="text-bold">Install the App</h2>
+          <p class="text-sm text-gray-300">
+            Click the share icon
+            <font-awesome-icon :icon="['fas', 'arrow-up-from-bracket']" /> and
+            then Add to Home Screen which will allow you to use it like a native
+            app!
+          </p>
+        </div>
+
+        <div class="bg-black p-3 rounded-lg">
+          <h2 class="text-bold">Report Bugs & Issues</h2>
+          <p class="text-sm text-gray-300">
+            If you find any bugs, report them to
+            <a
+              href="https://twitter.com/wes_wim"
+              target="_blank"
+              class="underline text-white"
+              >Wesley</a
+            >
+            on Twitter! You can also start by
+            <a href="" class="underline text-white"
+              >reloading <font-awesome-icon :icon="['fas', 'sync-alt']"
+            /></a>
+            or pressing settings and clicking Reset.
+          </p>
+        </div>
+      </div>
       <footer
         class="mt-36 mx-auto text-white my-12 text-center max-w-sm text-xs"
       >

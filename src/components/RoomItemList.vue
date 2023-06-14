@@ -6,7 +6,7 @@
     v-if="localRoomItems.length > 0"
   >
     <button
-      @click="emitSettings()"
+      @click="emitCatalog()"
       class="rounded-lg w-[50px] h-[50px] bg-gray-200 border border-black bottom-1 flex-shrink-0 flex items-center justify-center p-1"
     >
       <font-awesome-icon :icon="['fas', 'plus']" />
@@ -56,6 +56,9 @@ export default {
   methods: {
     emitSettings() {
       EventBus.$emit("item-settings");
+    },
+    emitCatalog() {
+      EventBus.$emit("item-catalog");
     },
     selectItem(item) {
       EventBus.$emit("select-item", item);

@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="" v-if="itemCatalogOpen">
     <div v-for="(search, index) in searches" :key="index">
       <ItemCatalog :index="index" :search="search" />
     </div>
@@ -14,6 +14,7 @@
 
 <script>
 import ItemCatalog from "./ItemCatalog.vue";
+import { EventBus } from "@/eventBus";
 
 export default {
   name: "ItemCatalogContainer",
@@ -23,9 +24,14 @@ export default {
   data() {
     return {
       searches: [{}],
+      itemCatalogOpen: false,
     };
   },
   created() {
+    EventBus.$on("item-catalog", () => {
+      this.itemCatalogOpen = !this.itemCatalogOpen;
+    });
+
     if (localStorage.getItem("searches")) {
       this.searches = JSON.parse(localStorage.getItem("searches"));
     }
