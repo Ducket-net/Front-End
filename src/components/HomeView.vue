@@ -4,6 +4,33 @@
     <div class="game-room-container">
       <GameRoom room-id="home" />
     </div>
+
+    <div class="grid grid-rows-3 text-white gap-2 py-2">
+      <div class="bg-black p-3 rounded-lg">
+        <h2 class="font-bold text-sm">Manage Room</h2>
+        <p class="text-sm text-gray-300">
+          Clicking on the <font-awesome-icon :icon="['fas', 'gear']" /> allows
+          you to manage your rooms walls, floors, colors and other settings!
+        </p>
+      </div>
+
+      <div class="bg-black p-3 rounded-lg">
+        <h2 class="text-bold">Manage Room</h2>
+        <p class="text-sm text-gray-300">
+          Clicking on the <font-awesome-icon :icon="['fas', 'gear']" /> allows
+          you to manage your rooms walls, floors, colors and other settings!
+        </p>
+      </div>
+
+      <div class="bg-black p-3 rounded-lg">
+        <h2 class="text-bold">Manage Room</h2>
+        <p class="text-sm text-gray-300">
+          Clicking on the <font-awesome-icon :icon="['fas', 'gear']" /> allows
+          you to manage your rooms walls, floors, colors and other settings!
+        </p>
+      </div>
+    </div>
+
     <div class="item-catalog-container no-scrollbar" @scroll.passive="onScroll">
       <ItemCatalogContainer />
       <footer

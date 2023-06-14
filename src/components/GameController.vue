@@ -199,12 +199,12 @@ export default {
       this.saveRoomToLocalStorage();
     },
     removeRoomItem() {
+      EventBus.$emit("furni-removed", this.selectedItem);
       this.game.room.removeRoomObject(this.selectedItem);
       this.saveRoomToLocalStorage();
       this.selectedItem = null;
 
       //Emit
-      EventBus.$emit("furni-removed", this.selectedItem);
     },
     moveFurnitureItem(moveX, moveY) {
       // Make sure there is a selected furniture item
