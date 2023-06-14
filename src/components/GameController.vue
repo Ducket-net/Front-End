@@ -90,7 +90,7 @@
         <!-- <p>Animation: {{ selectedItem.animation }}</p> -->
         <div class="flex-grow flex justify-end">
           <button
-            @touchstart="removeRoomItem"
+            @click="removeRoomItem"
             class="p-2 px-4 font-semibold text-black bg-white border-1 border border-black rounded text-xs hover:bg-gray-800"
           >
             <font-awesome-icon :icon="['fas', 'trash']" />
