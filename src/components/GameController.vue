@@ -2,7 +2,8 @@
   <div v-if="selectedItem" class="mx-auto rounded-md text-white">
     <div class="grid grid-cols-4 grid-rows-[50px,50px] gap-1">
       <button
-        @click="moveFurnitureItem(-increment, 0)"
+        @click.prevent="handleClick('moveFurnitureItem', -increment, 0)"
+        @touchstart="handleTouchStart('moveFurnitureItem', -increment, 0)"
         class="w-full font-semibold text-white bg-black rounded active:bg-gray-800 controller-button text-xs"
       >
         <!-- <i class="fa fa-angle-double-down"></i> -->
@@ -13,7 +14,8 @@
       </button>
 
       <button
-        @click="moveFurnitureItem(0, -increment)"
+        @click.prevent="handleClick('moveFurnitureItem', 0, -increment)"
+        @touchstart="handleTouchStart('moveFurnitureItem', 0, -increment)"
         class="w-full font-semibold text-white bg-black rounded active:bg-gray-800 controller-button text-xs"
       >
         <font-awesome-icon
@@ -36,7 +38,8 @@
         <font-awesome-icon :icon="['fas', 'arrow-rotate-left']" /> Rotate
       </button>
       <button
-        @click="moveFurnitureItem(0, increment)"
+        @click.prevent="handleClick('moveFurnitureItem', 0, increment)"
+        @touchstart="handleTouchStart('moveFurnitureItem', 0, increment)"
         class="w-full font-semibold text-white bg-black rounded active:bg-gray-800 controller-button text-xs"
       >
         <font-awesome-icon
@@ -45,7 +48,8 @@
         />
       </button>
       <button
-        @click="moveFurnitureItem(increment, 0)"
+        @click.prevent="handleClick('moveFurnitureItem', increment, 0)"
+        @touchstart="handleTouchStart('moveFurnitureItem', increment, 0)"
         class="w-full font-semibold text-white bg-black rounded active:bg-gray-800 controller-button text-xs"
       >
         <font-awesome-icon
@@ -55,7 +59,7 @@
       </button>
 
       <button
-        @click="selectedItem.roomZ -= increment"
+        @touchstart="selectedItem.roomZ -= increment"
         class="w-full py-2 font-semibold text-white bg-black rounded active:bg-gray-800 controller-button text-xs"
       >
         <font-awesome-icon :icon="['fas', 'arrow-down']" />
@@ -66,7 +70,7 @@
     <!-- Advanced Settings -->
 
     <button
-      @click="isContentVisible = !isContentVisible || false"
+      @touchstart="isContentVisible = !isContentVisible || false"
       class="text-xs text-white p-2 w-full h-12"
     >
       Advanced Settings
@@ -82,28 +86,28 @@
       </label>
       <div class="w-full flex space-x-1">
         <button
-          @click="increment = 0.1"
+          @touchstart="increment = 0.1"
           class="h-[42px] rounded-md bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button"
         >
-          .1
+          1 Pixel
         </button>
         <button
-          @click="increment = 0.5"
+          @touchstart="increment = 0.5"
           class="h-[42px] rounded-md bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button"
         >
-          .5
+          .5 Block
         </button>
         <button
-          @click="increment = 1.0"
+          @touchstart="increment = 1.0"
           class="h-[42px] rounded-md bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button"
         >
-          1
+          1 Block
         </button>
         <button
-          @click="increment = 2.0"
+          @touchstart="increment = 2.0"
           class="h-[42px] rounded-md bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button"
         >
-          2
+          2 Block
         </button>
 
         <!-- Move Room -->
@@ -140,7 +144,7 @@
         <!-- <p>Animation: {{ selectedItem.animation }}</p> -->
         <div>
           <button
-            @click="removeRoomItem"
+            @touchstart="removeRoomItem"
             class="p-2 mt-2 mr-2 font-semibold text-white bg-black rounded text-xs hover:bg-gray-800"
           >
             <font-awesome-icon :icon="['fas', 'trash']" /> Furni
@@ -183,6 +187,15 @@ export default {
     });
   },
   methods: {
+    handleClick(action, ...args) {
+      if (this.touchLocked) return;
+      this[action](...args);
+    },
+    handleTouchStart(action, ...args) {
+      this.touchLocked = true;
+      setTimeout(() => (this.touchLocked = false), 500); // Set a delay to unlock.
+      this[action](...args);
+    },
     saveRoomToLocalStorage() {
       const roomData = this.game.getSerializedRoom();
       localStorage.setItem("savedRoom", JSON.stringify(roomData));

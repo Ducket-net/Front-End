@@ -3,7 +3,6 @@
 <template>
   <div
     class="relative -mt-[64px] h-[64px] grid auto-cols-max grid-flow-col bg-black bg-opacity-25 p-2 gap-2 overflow-hidden overflow-x-scroll no-scrollbar"
-    v-if="localRoomItems.length > 0"
   >
     <button
       @click="emitCatalog()"
