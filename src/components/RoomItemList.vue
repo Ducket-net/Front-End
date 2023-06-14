@@ -6,14 +6,14 @@
   >
     <button
       @click="emitCatalog()"
-      class="rounded-lg w-[50px] h-[50px] bg-gray-200 border border-black bottom-1 flex-shrink-0 flex items-center justify-center p-1"
+      class="rounded-lg w-[50px] h-[50px] furni-box bg-gray-200 border border-black bottom-1 flex-shrink-0 flex items-center justify-center p-1"
     >
       <font-awesome-icon :icon="['fas', 'plus']" />
     </button>
     <div
       v-for="item in localRoomItems"
       :key="item.id"
-      class="rounded-lg w-[50px] h-[50px] border border-black bottom-1 bg-gray-200 flex-shrink-0 flex items-center justify-center"
+      class="rounded-lg w-[50px] furni-box h-[50px] border border-black bottom-1 bg-gray-200 flex-shrink-0 flex items-center justify-center"
       :class="{
         'bg-blue-100 shadow-inner border-2 border-blue-500':
           selectedItem === item,
@@ -28,7 +28,7 @@
 
     <button
       @click="emitSettings()"
-      class="rounded-lg w-[50px] h-[50px] border border-black bottom-1 bg-gray-200 flex-shrink-0 flex items-center justify-center p-1"
+      class="rounded-lg w-[50px] furni-box h-[50px] border border-black bottom-1 bg-gray-200 flex-shrink-0 flex items-center justify-center p-1"
     >
       <font-awesome-icon :icon="['fas', 'gear']" />
     </button>
