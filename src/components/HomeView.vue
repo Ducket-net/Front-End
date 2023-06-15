@@ -5,7 +5,10 @@
       <GameRoom room-id="home" />
     </div>
 
-    <div class="item-catalog-container no-scrollbar" @scroll.passive="onScroll">
+    <div
+      class="item-catalog-container no-scrollbar bg-[#1A1F25]"
+      @scroll.passive="onScroll"
+    >
       <ItemCatalogContainer />
       <div class="grid text-black gap-4 py-4 p-4 items-baseline">
         <div

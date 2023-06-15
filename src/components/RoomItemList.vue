@@ -80,7 +80,9 @@ export default {
     });
 
     EventBus.$on("furni-added", (item) => {
-      this.localRoomItems.push(item);
+      // this.localRoomItems.push(item);
+      //Add item tos tart of array
+      this.localRoomItems.unshift(item);
     });
 
     EventBus.$on("furni-removed", (item) => {

@@ -10,6 +10,7 @@
 
         <div class="splash-screen-image">
           <!-- Replace the hardcoded image path with the computed property 'splashScreenImage' -->
+
           <img
             :src="splashScreenImage"
             class="fixed -top-12 bottom-0 left-0 right-0"
@@ -24,16 +25,17 @@
             'bg-black': !hideHeader,
             'bg-transparent': hideHeader,
           }"
-          class="h-[42px] flex items-center justify-between z-50 fixed top-0 left-0 w-full"
+          class="h-[42px] flex items-center justify-between z-50 fixed top-0 left-0 w-full bg-opacity-25"
         >
           <a
             href="/"
             class="ml-4 flex-shrink text-white text-[14px] no-underline leading-4 flex items-center space-x-1"
           >
             <img src="/logo.png" class="h-[19px] w-[19px] font-lato" />
-            <span>Ducket</span>
+            <span>Ducket Alpha</span>
           </a>
-          <span class="text-right text-xs text-white mr-4">Account</span>
+
+          <new-room></new-room>
         </header>
 
         <router-view></router-view>
@@ -65,7 +67,7 @@
 .isometric-tile::before {
   bottom: 50%;
   border-width: 0 32px 16px 32px;
-  border-color: transparent transparent rgba(255, 255, 255, 0.1) transparent;
+  border-color: transparent transparent rgba(255, 0, 0, 0.1) transparent;
 }
 
 .isometric-tile::after {
@@ -76,7 +78,11 @@
 </style>
 
 <script>
+import NewRoom from "@/components/NewRoom.vue";
 export default {
+  components: {
+    NewRoom,
+  },
   data() {
     return {
       roomId: "home",
@@ -230,6 +236,9 @@ export default {
 
       setTimeout(() => {
         this.showSplashScreen = false;
+        if (localStorage.getItem("bgColor")) {
+          document.body.style.backgroundColor = localStorage.getItem("bgColor");
+        }
       }, 1200); // You can adjust the delay as needed
     },
     checkIfPwa() {
@@ -246,6 +255,13 @@ export default {
 
   mounted() {
     this.checkIfPwa();
+
+    // if local development
+    if (window.location.hostname == "10.10.0.97") {
+      this.showSplashScreen = false;
+      this.initApp();
+      return;
+    }
 
     if (this.checkIfPwa()) {
       this.preloadImage(this.splashScreenImage).then(() => {

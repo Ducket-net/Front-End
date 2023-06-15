@@ -469,6 +469,7 @@ export default {
   },
   created() {
     // Listen for the 'item-selected' event and update selectedItemType
+
     EventBus.$on("item-selected", (item) => {
       this.selectedItem = item;
       this.selectedItemType = item.type;
