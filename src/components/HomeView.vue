@@ -10,7 +10,7 @@
       @scroll.passive="onScroll"
     >
       <ItemCatalogContainer />
-      <div class="grid text-black gap-4 py-4 p-4 items-baseline">
+      <div class="grid text-black gap-4 py-4 p-4 grid-cols-2 mt-10">
         <div
           class="bg-white border-1 border border-black p-4 rounded-xl"
           @click="emitSettings()"
@@ -20,8 +20,7 @@
             Manage Room
           </h2>
           <p class="text-sm text-gray-700">
-            Clicking on the <font-awesome-icon :icon="['fas', 'gear']" /> allows
-            you to manage your rooms walls, floors, colors and other settings!
+            Edit the background, floors, positions and more.
           </p>
         </div>
 
@@ -33,8 +32,7 @@
           <p class="text-sm text-gray-700">
             Click the share icon
             <font-awesome-icon :icon="['fas', 'arrow-up-from-bracket']" /> and
-            then Add to Home Screen which will allow you to use it like a native
-            app!
+            then Add to Home Screen.
           </p>
         </div>
 
@@ -50,11 +48,7 @@
               class="underline text-black"
               >Wes</a
             >
-            on Twitter! You can also start by
-            <a href="" class="underline text-black"
-              >reloading <font-awesome-icon :icon="['fas', 'sync-alt']"
-            /></a>
-            or pressing settings and clicking Reset.
+            on Twitter!
           </p>
         </div>
       </div>

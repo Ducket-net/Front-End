@@ -75,6 +75,8 @@
 
 <script>
 import VueBottomSheet from "@webzlodimir/vue-bottom-sheet";
+import axios from "axios";
+
 export default {
   name: "NewRoom",
   components: {
@@ -95,11 +97,35 @@ export default {
         savedRooms.push({ name: name, data: currentRoom });
         localStorage.setItem("rooms", JSON.stringify(savedRooms));
 
+        //Save to https://api.jsonbin.io/v3
+        const url = "https://api.jsonbin.io/v3/b";
+
+        const headers = {
+          "Content-Type": "application/json",
+          "X-Master-Key":
+            "$2b$10$5IRGtaCpxp8WwyEO9yuZmOCGr0w9yZMv1aBV5LyvAutcGU8yyXAzC",
+          "X-Collection-Id": "648a9486b89b1e2299af4bc1",
+          "X-Bin-Name": name,
+        };
+        const data = {
+          name: name,
+          data: currentRoom,
+        };
+
+        axios
+          .post(url, data, { headers: headers })
+          .then(() => {
+            localStorage.removeItem("savedRoom");
+            location.reload();
+          })
+          .catch(() => {
+            localStorage.removeItem("savedRoom");
+            location.reload();
+          });
+
         // Clear the 'savedRoom' from the local storage and reload the page
-        localStorage.removeItem("savedRoom");
-        location.reload();
       } else {
-        alert("Please update your room before saving.");
+        this.closeBottomSheet();
       }
     },
     selectRoom(room) {
