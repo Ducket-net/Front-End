@@ -24,7 +24,7 @@
     <vue-bottom-sheet
       ref="myBottomSheet"
       :overlay="false"
-      :click-to-close="true"
+      :click-to-close="false"
       :background-clickable="true"
     >
       <game-controller :game="game" ref="gameController"></game-controller>

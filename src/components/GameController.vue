@@ -32,7 +32,7 @@
         Up
       </button>
       <button
-        @click="selectedItem.direction = (selectedItem.direction + 2) % 8"
+        @click="rotateFurni"
         class="w-full font-semibold text-white bg-black rounded-lg controller-button border border-black text-xs row-span-2 active:bg-gray-800 controller-button border border-black"
       >
         <font-awesome-icon :icon="['fas', 'arrow-rotate-left']" /> Rotate
@@ -189,6 +189,21 @@ export default {
     });
   },
   methods: {
+    rotateFurni() {
+      this.selectedItem.validDirections.then((directions) => {
+        console.log(directions);
+        if (directions.length > 0) {
+          // Get the index of the current direction in the valid directions array
+          const currentIndex = directions.indexOf(this.selectedItem.direction);
+
+          // Check if we are at the last direction, if yes set it to first, else set it to the next direction
+          this.selectedItem.direction =
+            currentIndex < directions.length - 1
+              ? directions[currentIndex + 1]
+              : directions[0];
+        }
+      });
+    },
     handleClick(action, ...args) {
       if (this.touchLockedClick) return;
       this[action](...args);
