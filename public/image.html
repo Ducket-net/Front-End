@@ -3,50 +3,82 @@
 
 <head>
     <style>
-        canvas {
+        body {
+            background-color: black;
+            color: white;
+        }
+
+        .container {
             position: relative;
-            background-color: rgba(255, 255, 255, 0.5);
+        }
+
+        #backgroundCanvas {
+            position: absolute;
+            z-index: 0;
+            filter: brightness(500%);
+        }
+
+        #myCanvas {
+            position: absolute;
+            z-index: 1;
+            border: 1px solid black;
         }
     </style>
-    <script>
-        let jsonData;
-        let image;
-
-        async function main() {
-            // Fetch JSON and parse it
-            const response = await fetch("club_sofa.json");
-            jsonData = await response.json();
-
-            // Load the sprite sheet image
-            image = new Image();
-            image.src = "rare_dragonlamp.png";
-            image.onload = () => {
-                renderFullSprite();
-            };
-        }
-
-        function renderFullSprite() {
-            const canvas = document.getElementById('furnitureCanvas');
-            const context = canvas.getContext('2d');
-            const { frames } = jsonData.spritesheet;
-
-            // Draw all frames from the sprite sheet
-            for (const frameKey in frames) {
-                const frameData = frames[frameKey];
-                context.drawImage(
-                    image,
-                    frameData.frame.x, frameData.frame.y,
-                    frameData.frame.w, frameData.frame.h,
-                    frameData.spriteSourceSize.x, frameData.spriteSourceSize.y,
-                    frameData.frame.w, frameData.frame.h
-                );
-            }
-        }
-    </script>
 </head>
 
-<body onload="main()">
-    <canvas id="furnitureCanvas" width="200" height="200"></canvas>
+<body>
+    <video muted autoplay playsinline oncanplaythrough="this.currentTime=0" width="100" height="100"
+        poster="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQAAAAA3iMLMAAAAAXNSR0IArs4c6QAAAA5JREFUeNpj+P+fgRQEAP1OH+HeyHWXAAAAAElFTkSuQmCC"
+        src="data:video/mp4;base64,AAAAHGZ0eXBpc29tAAACAGlzb21pc28ybXA0MQAAAAhmcmVlAAAAvG1kYXQAAAAfTgEFGkdWStxcTEM/lO/FETzRQ6gD7gAA7gIAA3EYgAAAAEgoAa8iNjAkszOL+e58c//cEe//0TT//scp1n/381P/RWP/zOW4QtxorfVogeh8nQDbQAAAAwAQMCcWUTAAAAMAAAMAAAMA84AAAAAVAgHQAyu+KT35E7gAADFgAAADABLQAAAAEgIB4AiS76MTkNbgAAF3AAAPSAAAABICAeAEn8+hBOTXYAADUgAAHRAAAAPibW9vdgAAAGxtdmhkAAAAAAAAAAAAAAAAAAAD6AAAAKcAAQAAAQAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAw10cmFrAAAAXHRraGQAAAADAAAAAAAAAAAAAAABAAAAAAAAAKcAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAABAAAAAABAAAAAQAAAAAAAkZWR0cwAAABxlbHN0AAAAAAAAAAEAAACnAAAAAAABAAAAAAKFbWRpYQAAACBtZGhkAAAAAAAAAAAAAAAAAABdwAAAD6BVxAAAAAAAMWhkbHIAAAAAAAAAAHZpZGUAAAAAAAAAAAAAAABDb3JlIE1lZGlhIFZpZGVvAAAAAixtaW5mAAAAFHZtaGQAAAABAAAAAAAAAAAAAAAkZGluZgAAABxkcmVmAAAAAAAAAAEAAAAMdXJsIAAAAAEAAAHsc3RibAAAARxzdHNkAAAAAAAAAAEAAAEMaHZjMQAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAQABAASAAAAEgAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABj//wAAAHVodmNDAQIgAAAAsAAAAAAAPPAA/P36+gAACwOgAAEAGEABDAH//wIgAAADALAAAAMAAAMAPBXAkKEAAQAmQgEBAiAAAAMAsAAAAwAAAwA8oBQgQcCTDLYgV7kWVYC1CRAJAICiAAEACUQBwChkuNBTJAAAAApmaWVsAQAAAAATY29scm5jbHgACQAQAAkAAAAAEHBhc3AAAAABAAAAAQAAABRidHJ0AAAAAAAALPwAACz8AAAAKHN0dHMAAAAAAAAAAwAAAAIAAAPoAAAAAQAAAAEAAAABAAAD6AAAABRzdHNzAAAAAAAAAAEAAAABAAAAEHNkdHAAAAAAIBAQGAAAAChjdHRzAAAAAAAAAAMAAAABAAAAAAAAAAEAAAfQAAAAAgAAAAAAAAAcc3RzYwAAAAAAAAABAAAAAQAAAAQAAAABAAAAJHN0c3oAAAAAAAAAAAAAAAQAAABvAAAAGQAAABYAAAAWAAAAFHN0Y28AAAAAAAAAAQAAACwAAABhdWR0YQAAAFltZXRhAAAAAAAAACFoZGxyAAAAAAAAAABtZGlyYXBwbAAAAAAAAAAAAAAAACxpbHN0AAAAJKl0b28AAAAcZGF0YQAAAAEAAAAATGF2ZjYwLjMuMTAw"></video>
+    <h1>Image</h1>
+    <p>Image is a canvas element with a white pixel drawn on it.</p>
+    <div class="container" style="position:absolute; top:10px; left:10px; filter:brightness(180%)">
+        <img src="https://ducket.net/assets/furni/table_norja_med_icon.png" alt="Table">
+    </div>
+
+    <script>
+        // Get a reference to the canvas element
+        const canvas = document.getElementById('myCanvas');
+        const backgroundCanvas = document.getElementById('backgroundCanvas')
+
+        // Get the 2D context
+        const ctx = canvas.getContext('2d');
+        const backgroundCtx = backgroundCanvas.getContext('2d');
+
+        // Set the fillStyle to the brightest white for the background
+        backgroundCtx.fillStyle = 'rgb(255,255,255)';
+        backgroundCtx.fillRect(0, 0, 100, 100);
+
+        // Set the fillStyle to the white for the main canvas
+        ctx.fillStyle = 'transparent';
+
+        // Add image with adjusted brightness
+        const img = new Image();
+        img.onload = function () {
+            // Create offscreen canvas to manipulate image
+            const offscreenCanvas = document.createElement('canvas');
+            offscreenCanvas.width = img.width;
+            offscreenCanvas.height = img.height;
+
+            // Draw original image to offscreen canvas
+            const offscreenCtx = offscreenCanvas.getContext('2d');
+            offscreenCtx.drawImage(img, 0, 0);
+
+            // Apply brightness filter to offscreen canvas
+            offscreenCtx.filter = 'brightness(200%)';
+            offscreenCtx.drawImage(offscreenCanvas, 0, 0);
+
+            // Draw adjusted image from offscreen canvas to main canvas
+            ctx.drawImage(offscreenCanvas, 0, 0);
+        };
+        img.src = 'https://ducket.net/assets/furni/table_norja_med_icon.png';
+
+        // Draw a white pixel at x=10, y=10 on main canvas
+        const x = 10;
+        const y = 10;
+        const pixelSize = 100;
+        ctx.fillRect(x, y, pixelSize, pixelSize);
+    </script>
 </body>
 
 </html>
