@@ -12,13 +12,14 @@
           <div
             class="max-w-md h-[42px] mx-auto flex items-center justify-between"
           >
-            <a
-              href="/"
-              class="ml-4 flex-shrink text-white text-[14px] no-underline leading-4 flex items-center space-x-1"
-            >
-              <img src="/logo.png" class="h-[19px] w-[19px] font-lato" />
-              <span>Ducket Alpha</span>
-            </a>
+            <text-mask>
+              <a
+                href="/"
+                class="flex-shrink text-white text-[14px] no-underline leading-4 flex items-center space-x-1"
+                ><img src="/logo.png" class="h-[19px] w-[19px] font-lato" />
+                Ducket Alpha</a
+              >
+            </text-mask>
 
             <new-room></new-room>
           </div>
@@ -66,10 +67,12 @@
 <script>
 import NewRoom from "@/components/NewRoom.vue";
 import SplashScreen from "@/components/SplashScreen.vue"; // Add this line to import the SplashScreen component
+import TextMask from "@/components/ui/TextMask.vue";
 
 export default {
   components: {
     NewRoom,
+    TextMask,
     SplashScreen, // Add this line to register the SplashScreen component
   },
   computed: {

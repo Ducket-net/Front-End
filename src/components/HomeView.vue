@@ -8,20 +8,17 @@
     <div class="item-catalog-container no-scrollbar bg-[#1A1F25]">
       <ItemCatalogContainer />
       <div class="grid text-black gap-4 py-4 p-4 grid-cols-2 mt-10">
-        <div
-          class="bg-white border-1 border border-black p-4 rounded-xl"
-          @click="emitSettings()"
-        >
+        <SpecialCard @card-click="emitSettings">
           <h2 class="font-bold text-sm">
             <font-awesome-icon :icon="['fas', 'gear']" />
             Manage Room
           </h2>
           <p class="text-sm text-gray-700">
-            Edit the background, floors, positions and more.
+            Edit the background, floors, positions, and more.
           </p>
-        </div>
+        </SpecialCard>
 
-        <div class="bg-white border-1 border border-black p-4 rounded-xl">
+        <SpecialCard>
           <h2 class="font-bold text-sm">
             <font-awesome-icon :icon="['fas', 'arrow-up-from-bracket']" />
             Install the App
@@ -31,9 +28,9 @@
             <font-awesome-icon :icon="['fas', 'arrow-up-from-bracket']" /> and
             then Add to Home Screen.
           </p>
-        </div>
+        </SpecialCard>
 
-        <div class="bg-white border-1 border border-black p-4 rounded-xl">
+        <SpecialCard @card-click="emitSettings">
           <h2 class="font-bold text-sm">
             <font-awesome-icon :icon="['fas', 'bug']" /> Report Bugs & Issues
           </h2>
@@ -47,7 +44,7 @@
             >
             on Twitter!
           </p>
-        </div>
+        </SpecialCard>
       </div>
       <footer
         class="mt-10 mx-auto text-white my-12 text-center max-w-sm text-xs"
@@ -99,11 +96,13 @@
 <script>
 import GameRoom from "./GameRoom.vue";
 import ItemCatalogContainer from "./ItemCatalogContainer.vue";
+import SpecialCard from "./ui/SpecialCard.vue";
 import { EventBus } from "@/eventBus";
 
 export default {
   components: {
     GameRoom,
+    SpecialCard,
     ItemCatalogContainer,
   },
   data() {

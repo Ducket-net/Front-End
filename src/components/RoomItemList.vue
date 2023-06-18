@@ -1,15 +1,11 @@
-<!-- src/components/RoomItemsList.vue -->
-
 <template>
   <div
     class="relative -mt-[64px] h-[64px] grid auto-cols-max grid-flow-col bg-black bg-opacity-25 p-2 gap-2 overflow-hidden overflow-x-scroll no-scrollbar"
   >
-    <button
-      @click="emitCatalog()"
-      class="rounded-lg w-[50px] h-[50px] furni-box bg-gray-200 border border-black bottom-1 flex-shrink-0 flex items-center justify-center p-1"
-    >
-      <font-awesome-icon :icon="['fas', 'plus']" />
-    </button>
+    <special-button
+      @button-click="emitCatalog"
+      :icon="['fas', 'plus']"
+    ></special-button>
     <div
       v-for="item in localRoomItems"
       :key="item.id"
@@ -20,26 +16,30 @@
       }"
       @click="selectItem(item)"
     >
-      <img
-        class="max-w-full max-h-full object-contain"
-        :src="getIconUrl(item.type)"
-      />
+      <special-button>
+        <img
+          class="max-w-full max-h-full object-contain"
+          :src="getIconUrl(item.type)"
+        />
+      </special-button>
     </div>
 
-    <button
-      @click="emitSettings()"
-      class="rounded-lg w-[50px] furni-box h-[50px] border border-black bottom-1 bg-gray-200 flex-shrink-0 flex items-center justify-center p-1"
-    >
-      <font-awesome-icon :icon="['fas', 'gear']" />
-    </button>
+    <special-button
+      @button-click="emitSettings"
+      :icon="['fas', 'gear']"
+    ></special-button>
   </div>
 </template>
 
 <script>
 import { EventBus } from "@/eventBus";
+import SpecialButton from "@/components/ui/SpecialButton.vue";
 
 export default {
   name: "RoomItemsList",
+  components: {
+    SpecialButton,
+  },
   props: {
     roomItems: {
       type: Array,
