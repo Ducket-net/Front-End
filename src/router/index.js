@@ -3,6 +3,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../components/HomeView.vue";
 import GameRoom from "../components/GameRoom.vue";
+import CatalogPage from "../components/pages/CatalogPage.vue";
 
 Vue.use(VueRouter);
 
@@ -11,6 +12,11 @@ const routes = [
     path: "/",
     name: "Home",
     component: HomeView, // Set the home component for the root URL
+  },
+  {
+    path: "/catalog",
+    name: "Catalog",
+    component: CatalogPage, // Set the home component for the root URL
   },
   {
     path: "/room/:id", // Add the dynamic :id parameter

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        canvas {
+            position: relative;
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+    </style>
+    <script>
+        let jsonData;
+        let image;
+
+        async function main() {
+            // Fetch JSON and parse it
+            const response = await fetch("club_sofa.json");
+            jsonData = await response.json();
+
+            // Load the sprite sheet image
+            image = new Image();
+            image.src = "rare_dragonlamp.png";
+            image.onload = () => {
+                renderFullSprite();
+            };
+        }
+
+        function renderFullSprite() {
+            const canvas = document.getElementById('furnitureCanvas');
+            const context = canvas.getContext('2d');
+            const { frames } = jsonData.spritesheet;
+
+            // Draw all frames from the sprite sheet
+            for (const frameKey in frames) {
+                const frameData = frames[frameKey];
+                context.drawImage(
+                    image,
+                    frameData.frame.x, frameData.frame.y,
+                    frameData.frame.w, frameData.frame.h,
+                    frameData.spriteSourceSize.x, frameData.spriteSourceSize.y,
+                    frameData.frame.w, frameData.frame.h
+                );
+            }
+        }
+    </script>
+</head>
+
+<body onload="main()">
+    <canvas id="furnitureCanvas" width="200" height="200"></canvas>
+</body>
+
+</html>

@@ -11,6 +11,7 @@ import {
 } from "@tetreum/shroom";
 import { EventBus } from "./eventBus";
 import { gsap } from "gsap";
+import ExtendedFloorFurniture from "./renderer/ExtendedFloorFurniture.js";
 
 export default class Game {
   constructor(view, roomData) {

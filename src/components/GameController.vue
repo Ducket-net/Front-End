@@ -190,6 +190,7 @@ export default {
   },
   methods: {
     rotateFurni() {
+      console.log(this.selectedItem);
       this.selectedItem.validDirections.then((directions) => {
         console.log(directions);
         if (directions.length > 0) {

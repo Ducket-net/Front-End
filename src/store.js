@@ -2,19 +2,41 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
+import * as PIXI from "pixi.js";
+import { Shroom } from "@tetreum/shroom";
+//Env
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    roomId: "home",
+    hideHeader: false,
+    showSplashScreen: true,
     rooms: {},
     catalog: [],
     currentRoom: null,
     //Auth
     user: null,
     accessToken: null,
+    pixiInstance: null,
   },
   mutations: {
+    setPixiInstance(state, instance) {
+      state.pixiInstance = instance;
+    },
+    setShroom(state, shroom) {
+      state.shroom = shroom;
+    },
+    setRoomId(state, roomId) {
+      state.roomId = roomId;
+    },
+    setHideHeader(state, value) {
+      state.hideHeader = value;
+    },
+    setShowSplashScreen(state, value) {
+      state.showSplashScreen = value;
+    },
     setCurrentRoom(state, room) {
       state.currentRoom = room;
     },
@@ -28,7 +50,42 @@ export default new Vuex.Store({
       Vue.set(state.rooms, roomId, items);
     },
   },
+  getters: {
+    pixiInstance: (state) => state.pixiInstance,
+    shroom: (state) => state.shroom,
+  },
   actions: {
+    initPixiInstance({ commit }) {
+      if (!PIXI.utils.isWebGLSupported()) {
+        throw new Error("WebGL is not supported");
+      }
+
+      const pixiInstance = PIXI.autoDetectRenderer({
+        width: 0,
+        height: 0,
+        autoDensity: true,
+        resolution: window.devicePixelRatio,
+        forceCanvas: false, // forceCanvas should be set to false (default value)
+      });
+
+      // Disable automatic starting of the application ticker
+      const app = new PIXI.Application({
+        view: pixiInstance.view,
+        ticker: new PIXI.Ticker().stop(),
+      });
+
+      let shroom = Shroom.createShared({
+        application: this.app, // Replace 'this.application' with 'this.app'
+        resourcePath: "https://ducket-net.github.io/resources",
+      });
+
+      commit("setShroom", shroom);
+      // Set the PIXI instance in the store
+      commit("setPixiInstance", app);
+    },
+    updateShowSplashScreen({ commit }, value) {
+      commit("setShowSplashScreen", value);
+    },
     async fetchCurrentRoom({ commit }, roomId) {
       try {
         let roomData;
@@ -62,8 +119,9 @@ export default new Vuex.Store({
     },
     async fetchSearchResults({ commit }, searchQuery) {
       try {
+        const ducketUrl = process.env.DUCKET_URL;
         const response = await axios.get(
-          `https://ducket.net/api/marketSearch/basicSearch?search=${searchQuery}`
+          `${ducketUrl}/api/marketSearch/basicSearch?search=${searchQuery}`
         );
         commit("setCatalog", response.data);
       } catch (error) {

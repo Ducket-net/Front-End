@@ -51,6 +51,7 @@ import axios from "axios";
 
 export default {
   name: "ItemCatalog",
+  components: {},
   props: {
     index: {
       type: Number,
@@ -124,8 +125,9 @@ export default {
     },
     async fetchSearchResults(query) {
       try {
+        const ducketUrl = process.env.VUE_APP_DUCKET_URL;
         const response = await axios.get(
-          `https://ducket.net/api/marketSearch/basicSearch?search=${query}`
+          `${ducketUrl}/api/marketSearch/basicSearch?search=${query}`
         );
         // setState locally, instead of committing to Vuex
         this.searchResults = response.data;
