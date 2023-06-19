@@ -10,14 +10,15 @@
       <div v-if="!showSplashScreen">
         <header class="z-50 fixed top-0 left-0 w-full bg-opacity-25">
           <div
-            class="ml-4 max-w-md h-[42px] mx-auto flex items-center justify-between"
+            class="max-w-md h-[42px] mx-auto flex items-center justify-between"
           >
             <a
               href="/"
-              class="flex-shrink text-white text-[14px] no-underline leading-4 flex items-center space-x-1"
-              ><img src="/logo.png" class="h-[19px] w-[19px] font-lato mr-1" />
-              Ducket Alpha</a
+              class="ml-4 flex-shrink text-white text-[14px] no-underline leading-4 flex items-center space-x-1"
             >
+              <img src="/logo.png" class="h-[19px] w-[19px] font-lato" />
+              <span>Ducket Alpha</span>
+            </a>
 
             <new-room></new-room>
           </div>
@@ -69,7 +70,6 @@ import SplashScreen from "@/components/SplashScreen.vue"; // Add this line to im
 export default {
   components: {
     NewRoom,
-
     SplashScreen, // Add this line to register the SplashScreen component
   },
   computed: {
