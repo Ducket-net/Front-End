@@ -68,6 +68,15 @@
           permitted under Habbo Fan Site Policy.
         </p>
       </footer>
+      <button
+        class="w-full h-12 bg-[#1A1F25] text-white"
+        @click="itemCatalogOpen = !itemCatalogOpen"
+      >
+        <font-awesome-icon :icon="['fas', 'plus']" />
+      </button>
+      <div v-if="itemCatalogOpen">
+        <FurniCatalog :index="1" :search="search" />
+      </div>
     </div>
   </div>
 </template>
@@ -98,11 +107,13 @@ import GameRoom from "./GameRoom.vue";
 import ItemCatalogContainer from "./ItemCatalogContainer.vue";
 import SpecialCard from "./ui/SpecialCard.vue";
 import { EventBus } from "@/eventBus";
+import FurniCatalog from "./ui/FurniCatalog.vue";
 
 export default {
   components: {
     GameRoom,
     SpecialCard,
+    FurniCatalog,
     ItemCatalogContainer,
   },
   data() {
@@ -110,6 +121,7 @@ export default {
       home: "home",
       cake: "cake",
       roomSettingsOpen: false,
+      itemCatalogOpen: false,
     };
   },
   methods: {

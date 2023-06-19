@@ -1,8 +1,5 @@
 <template>
-  <div
-    ref="catalog"
-    class="overflow-hidden bg-black bg-opacity-50 shadow-md p-4 text-white"
-  >
+  <div ref="catalog" class="bg-black bg-opacity-50 shadow-md p-4 text-white">
     <div class="flex">
       <h3 class="flex-auto text-xs uppercase font-mono text-white mb-3">
         {{ searchQuery ? searchQuery : "Catalog" }}
@@ -16,17 +13,16 @@
       class="p-2 w-full bg-gray-100 rounded text-black"
     />
 
-    <div
-      class="p-0.5 mt-2 overflow-y-auto overflow-x-hidden max-h-[calc(100vh-200px)] no-scrollbar"
-    >
+    <div class="p-0.5 mt-2 overflow-y-auto overflow-x-hidden no-scrollbar">
       <div>
         <strong>Categories ({{ totalItemCount }})</strong>
+        <!-- LOOP OVER ALL CATEGORIES -->
         <div
           v-for="(subCategories, categoryName) in categorizedItems"
           :key="categoryName"
           class="text-xs mb-2"
         >
-          <div class="text-white bg-red-500 p-2 rounded-lg mb-1">
+          <div class="text-white bg-red-900 p-2 rounded-lg mb-1">
             {{ categoryName }} ({{
               Object.values(subCategories)
                 .map((itemGroups) =>
@@ -38,12 +34,14 @@
             }})
           </div>
           <!-- Building main categories and looping through sub-categories -->
+
+          <!-- LOOP OVER ALL SUB-CATEGORIES -->
           <div
             v-for="(itemGroups, subCategoryName) in subCategories"
             :key="subCategoryName"
             class="mb-2"
           >
-            <div class="text-xs font-bold bg-blue-300 p-2 rounded-lg">
+            <div class="text-xs font-bold bg-indigo-900 mb-1 p-2 rounded-lg">
               {{ subCategoryName }} ({{
                 Object.values(itemGroups)
                   .map((group) => group.items.length)
@@ -51,35 +49,58 @@
               }})
             </div>
             <!-- Display items in this sub-category -->
-            <div
-              class="grid grid-cols-4 items-baseline gap-1 overflow-hidden hover:overflow-y-auto hover:max-h-96"
-            >
+
+            <!-- LOOP OVER ALL FURNI GROUPS (Individual items or recoulors) -->
+            <div class="grid grid-cols-2 gap-1 grid-container">
               <div
-                v-for="(itemsWithColors, groupName) in itemGroups"
+                v-for="(furniGroup, groupName) in itemGroups"
                 :key="groupName"
+                class="text-xs bg-black rounded-lg py-4 px-2"
               >
+                <!-- Get The First Item -->
                 <div
-                  v-for="item in [itemsWithColors.items[0]]"
+                  v-for="item in [furniGroup.items[0]]"
                   :key="item.classname"
-                  class="text-xs ml-2 bg-gray-700 rounded-lg p-1"
                 >
                   <div
-                    class="text-xs capitalize font-bold"
+                    class="text-xs capitalize font-bold text-center"
                     v-if="item.name"
+                    :id="item.strippedClassname"
                     :class="item.name.includes('_') ? 'text-red-500' : ''"
                   >
-                    <img :src="imageSrc(item)" :alt="item.name" />
-                    <div v-if="itemsWithColors.colors.length">
+                    <img
+                      class="mx-auto"
+                      :src="`${item.image}`"
+                      :alt="item.name"
+                    />
+                    <div class="py-2">{{ item.name }}</div>
+                    <button
+                      @click="addToRoom(item.classname)"
+                      class="bg-white w-full text-center py-2 text-xs text-white my-2 leading-6 controller-button rounded-lg px-2"
+                    >
+                      Add to room
+                    </button>
+                  </div>
+                </div>
+                <!-- Loop over the items in this group -->
+                <div
+                  v-if="furniGroup.items.length > 1"
+                  class="gap-0.5 flex flex-wrap items-center justify-center"
+                >
+                  <div
+                    v-for="item in furniGroup.items"
+                    :key="item.classname"
+                    class="text-xs"
+                  >
+                    <div
+                      :style="{ backgroundColor: item.partcolors[0] }"
+                      class="h-[42px] flex-auto min-w-[44px] overflow-hidden rounded-xl border border-1 border-opacity-10 border-white active:brightness-125"
+                      @click="selectColor(item, item.partcolors[0])"
+                    >
                       <div
-                        v-for="(color, colorIndex) in getUniqueColors(
-                          itemsWithColors.colors
-                        )"
-                        :key="`${colorIndex}-${color}`"
-                        :style="{ backgroundColor: color }"
-                        class="w-3 h-3 inline-block mr-1 rounded-full"
+                        class="w-5/6 mx-auto bg-white bg-opacity-20 h-[3px] rounded-full mt-[0px] pointer-events-none"
                       ></div>
                     </div>
-                    {{ item.name }}
                   </div>
                 </div>
               </div>
@@ -102,6 +123,7 @@ export default {
       searchQuery: "",
       searchResults: [],
       catalog: [],
+      selectedColor: {},
     };
   },
   created() {
@@ -109,13 +131,7 @@ export default {
   },
   computed: {
     filteredCatalog() {
-      if (!this.searchQuery || this.searchQuery.length <= 2) {
-        return this.catalog;
-      }
-
-      return this.catalog.filter((item) =>
-        item.name.toLowerCase().includes(this.searchQuery.toLowerCase())
-      );
+      return this.catalog;
     },
     totalItemCount() {
       return this.catalog.length;
@@ -150,7 +166,7 @@ export default {
           categories[itemCategory][item.furniline] = {}; // Initialize empty object
         }
 
-        const groupKey = this.createGroupKey(item.name);
+        const groupKey = this.createGroupKey(item.classname);
 
         if (!categories[itemCategory][item.furniline][groupKey]) {
           categories[itemCategory][item.furniline][groupKey] = {
@@ -177,96 +193,65 @@ export default {
     searchQuery: {
       handler(query) {
         if (query.length > 2) {
-          this.filterCatalogItems(query);
+          this.triggerBrowserFind();
         }
       },
       immediate: false,
     },
   },
+  // https://ducket.net/assets/furni/couch_norja_5_icon.png
   methods: {
+    triggerBrowserFind() {
+      if (window.find && this.searchQuery.length > 2) {
+        window.find(this.searchQuery);
+      } else {
+        alert("Built-in Find is not supported in this browser");
+      }
+    },
+    addToRoom(classname) {
+      console.log("Add to room", classname);
+      this.$root.$emit("add-to-room", classname);
+    },
+    selectColor(item, color) {
+      this.selectedColor = { item, color };
+
+      console.log("Select color", item.classname);
+      console.log("Select color", item.strippedClassname);
+
+      //Update the image where id = item.classname img
+      const parentElement = document.getElementById(item.strippedClassname);
+      const image = parentElement.querySelector("img");
+      const addToRoomButton = parentElement.querySelector("button");
+      addToRoomButton.addEventListener("click", () => {
+        this.addToRoom(item.classname);
+      });
+      image.src = item.image;
+    },
     getUniqueColors(colors) {
       const uniqueColors = Array.from(new Set(colors));
       return uniqueColors;
     },
-    createGroupKey(name) {
-      if (!name) {
+    createGroupKey(classname) {
+      if (!classname) {
         return "";
       }
 
-      const colors = [
-        "rose gold",
-        "maroon",
-        "fire",
-        "bronze",
-        "elf",
-        "teal",
-        "black",
-        "white",
-        "pink",
-        "blue",
-        "red",
-        "duck blue",
-        "diamond",
-        "green",
-        "yellow",
-        "orange",
-        "purple",
-        "brown",
-        "sky",
-        "choco",
-        "fire",
-        "ocra",
-        "gold",
-        "silver",
-        "Fucsia",
-        "graphite",
-        "khaki",
-        "golden",
-        "spinel",
-        "jasper",
-        "turquoise",
-        "berry",
-        "aquamarine",
-        "cirtine",
-        "turquoise",
-        "pearl",
-        "peach",
-        "grassy",
-        "sandy",
-        "grey",
-        "copper",
-        "platinum",
-        "navy",
-        "knight",
-        "white",
-        "Rainbow",
-        "sea",
-        "emerald",
-        "ruby",
-        "sapphire",
-        "topaz",
-        "amethyst",
-        "jade",
-        "fucia",
-        "ochre",
-        "lime",
-        "granite",
-        "ocean",
-        "army",
-        "rural",
-        "urban",
-        "aqua",
-      ];
-      const colorRegExPattern = new RegExp(
-        "\\b(?:" + colors.join("|") + ")\\b",
-        "gi"
-      );
-      let key = name
-        .replace(colorRegExPattern, "")
-        .replace(/\s*,\s*/g, " ")
+      let key = classname
+        .replace(/\*\d+$/, "") // Remove *1, *2, etc., from the classname
         .trim();
 
       return key.toLowerCase();
+    },
+    replaceUnderscoreWithAsterisk(classname) {
+      const match = classname.match(/_(\d+)$/);
+      return match ? classname.replace(/_(\d+)$/, "*" + match[1]) : classname;
+    },
+    replaceAsteriskWithUnderscore(classname) {
+      const match = classname.match(/\*(\d+)$/);
+      return match ? classname.replace(/\*(\d+)$/, "_" + match[1]) : classname;
+    },
+    removeAsteriskFromClassName(classname) {
+      return classname.replace(/\*\d+$/, "");
     },
     getCategoryMapping() {
       return {
@@ -402,17 +387,63 @@ export default {
         ],
       };
     },
-    imageSrc(item) {
-      const cleanedClassname = item.classname.replace("*", "_");
-      return `https://ducket.net/assets/furni/${cleanedClassname}_icon.png`;
-    },
     async fetchAndParseXML() {
       try {
-        const response = await axios.get(
-          "https://ducket-net.github.io/resources/furnidata.xml"
-        );
-        const xmlData = response.data;
-        this.parseXMLAndCreateCatalogItems(xmlData);
+        const dbName = "furnidataDB";
+        const storeName = "furnidataStore";
+        const id = 1;
+        let xmlData;
+
+        const request = indexedDB.open(dbName);
+
+        request.onupgradeneeded = (event) => {
+          const db = event.target.result;
+          // eslint-disable-next-line no-unused-vars
+          const furnidataStore = db.createObjectStore(storeName, {
+            keyPath: "id",
+          });
+        };
+
+        request.onsuccess = async (event) => {
+          const db = event.target.result;
+
+          const transaction = db.transaction([storeName]);
+          const objectStore = transaction.objectStore(storeName);
+          const dataRequest = objectStore.get(id);
+
+          // eslint-disable-next-line no-unused-vars
+          dataRequest.onsuccess = async (event) => {
+            // Get data from IndexedDB if it exists
+            if (dataRequest.result !== undefined) {
+              xmlData = dataRequest.result.value;
+            } else {
+              // Fetch the data from the server if not present in IndexedDB
+              const response = await axios.get(
+                "https://ducket-net.github.io/resources/furnidata.xml"
+              );
+              xmlData = response.data;
+
+              // Store the fetched data in IndexedDB
+              const addRequest = db
+                .transaction([storeName], "readwrite")
+                .objectStore(storeName)
+                .add({ id, value: xmlData });
+
+              addRequest.onerror = (event) => {
+                console.error(
+                  "Error storing the data in IndexedDB:",
+                  event.target.error
+                );
+              };
+            }
+
+            this.parseXMLAndCreateCatalogItems(xmlData);
+          };
+        };
+
+        request.onerror = (event) => {
+          console.error("Error opening the IndexedDB:", event.target.error);
+        };
       } catch (error) {
         console.error("Unable to fetch XML data:", error);
       }
@@ -432,15 +463,27 @@ export default {
         if (furnitype.partcolors && furnitype.partcolors.color) {
           // If color is an array
           if (Array.isArray(furnitype.partcolors.color)) {
-            partcolors = furnitype.partcolors.color.map((color) => color._text);
+            // Remove white color
+            partcolors = furnitype.partcolors.color
+              .map((color) => color._text)
+              .filter((color) => color.toLowerCase() !== "#ffffff");
           }
           // If color is a single object
           else {
-            partcolors = [furnitype.partcolors.color._text];
+            // Check if the single object is not white color
+            if (furnitype.partcolors.color._text.toLowerCase() !== "#ffffff") {
+              partcolors = [furnitype.partcolors.color._text];
+            }
           }
         }
         return {
           partcolors,
+          strippedClassname: this.removeAsteriskFromClassName(
+            furnitype._attributes.classname
+          ),
+          image: `https://ducket.net/assets/furni/${this.replaceAsteriskWithUnderscore(
+            furnitype._attributes.classname
+          )}_icon.png`,
           classname: furnitype._attributes.classname,
           revision: furnitype.revision._text,
           name: furnitype.name._text,
@@ -496,9 +539,12 @@ export default {
         item.name.toLowerCase().includes(query.toLowerCase())
       );
     },
-    addToRoom(classname) {
-      console.log("Add to room", classname);
-    },
   },
 };
 </script>
+
+<style scoped>
+.grid-item {
+  height: 100%;
+}
+</style>
