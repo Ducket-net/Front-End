@@ -1,5 +1,8 @@
 <template>
-  <div v-if="selectedItem" class="mx-auto rounded-lg text-white">
+  <div
+    v-if="selectedItem"
+    class="mx-auto rounded-lg text-white pointer-events-none"
+  >
     <div class="grid grid-cols-4 grid-rows-[50px,50px] gap-1">
       <button
         @click.prevent="handleClick('moveFurnitureItem', -increment, 0)"
