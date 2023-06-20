@@ -50,17 +50,14 @@ export default class Game {
   }
 
   onFurnitureItemClick(item) {
-    if (this.selectedFurnitureItem) {
-      this.removeFloatingDot(this.selectedFurnitureItem);
+    if (this.selectedFurnitureItem && this.selectedFurnitureItem !== item) {
       EventBus.$emit("item-unselected", this.selectedFurnitureItem);
     }
 
     if (this.selectedFurnitureItem === item) {
-      this.removeFloatingDot(this.selectedFurnitureItem);
-      EventBus.$emit("item-unselected", this.selectedFurnitureItem);
+      EventBus.$emit("item-unselected", item);
       this.selectedFurnitureItem = null;
     } else {
-      this.addFloatingDot(item);
       EventBus.$emit("item-selected", item);
       this.selectedFurnitureItem = item;
     }
@@ -103,7 +100,7 @@ export default class Game {
     });
   }
 
-  unselectFurniture() {
+  unselectFurniture(item) {
     if (this.selectedFurnitureItem) {
       this.onFurnitureItemClick(this.selectedFurnitureItem);
     }
@@ -130,6 +127,7 @@ export default class Game {
   }
 
   createAndSetFurnitureItem(itemData) {
+    console.log(itemData);
     const furnitureItem = new FloorFurniture(itemData);
     furnitureItem.onClick = (event) => {
       this.animateTap(furnitureItem);

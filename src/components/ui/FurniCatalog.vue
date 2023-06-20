@@ -1,28 +1,24 @@
 <template>
-  <div ref="catalog" class="bg-black bg-opacity-50 shadow-md p-4 text-white">
-    <div class="flex">
-      <h3 class="flex-auto text-xs uppercase font-mono text-white mb-3">
-        {{ searchQuery ? searchQuery : "Catalog" }}
-      </h3>
-    </div>
-
-    <input
-      type="text"
-      v-model="searchQuery"
-      placeholder="Search items..."
-      class="p-2 w-full bg-gray-100 rounded text-black"
-    />
-
-    <div class="p-0.5 mt-2 overflow-y-auto overflow-x-hidden no-scrollbar">
-      <div>
-        <strong>Categories ({{ totalItemCount }})</strong>
+  <div v-if="showCatalog">
+    <vue-bottom-sheet
+      ref="catalogSheet"
+      :overlay="false"
+      :click-to-close="true"
+      :background-clickable="false"
+      :background-scrollable="true"
+      max-height="60%"
+      :swipe-able="false"
+    >
+      <div
+        class="overflow-x-scroll h-screen touch-pan-y no-scrollbar pb-10 mb-10"
+      >
         <!-- LOOP OVER ALL CATEGORIES -->
         <div
           v-for="(subCategories, categoryName) in categorizedItems"
           :key="categoryName"
           class="text-xs mb-2"
         >
-          <div class="text-white bg-red-900 p-2 rounded-lg mb-1">
+          <div class="text-white bg-black p-2 rounded-lg mb-1">
             {{ categoryName }} ({{
               Object.values(subCategories)
                 .map((itemGroups) =>
@@ -36,12 +32,14 @@
           <!-- Building main categories and looping through sub-categories -->
 
           <!-- LOOP OVER ALL SUB-CATEGORIES -->
-          <div
-            v-for="(itemGroups, subCategoryName) in subCategories"
-            :key="subCategoryName"
-            class="mb-2"
-          >
-            <div class="text-xs font-bold bg-indigo-900 mb-1 p-2 rounded-lg">
+          <template v-for="(itemGroups, subCategoryName) in subCategories">
+            <div
+              @click="
+                $event.currentTarget.nextSibling.classList.toggle('hidden')
+              "
+              :key="subCategoryName + '_title'"
+              class="mb-2 text-xs font-bold bg-slate-900 p-2 rounded-lg cursor-pointer"
+            >
               {{ subCategoryName }} ({{
                 Object.values(itemGroups)
                   .map((group) => group.items.length)
@@ -51,70 +49,90 @@
             <!-- Display items in this sub-category -->
 
             <!-- LOOP OVER ALL FURNI GROUPS (Individual items or recoulors) -->
-            <div class="grid grid-cols-2 gap-1 grid-container">
-              <div
-                v-for="(furniGroup, groupName) in itemGroups"
-                :key="groupName"
-                class="text-xs bg-black rounded-lg py-4 px-2"
-              >
-                <!-- Get The First Item -->
+            <div :key="subCategoryName" class="hidden mb-2">
+              <div class="grid grid-cols-2 gap-1 grid-container">
                 <div
-                  v-for="item in [furniGroup.items[0]]"
-                  :key="item.classname"
+                  v-for="(furniGroup, groupName) in itemGroups"
+                  :key="groupName"
+                  class="text-xs bg-black rounded-lg py-4 px-2"
                 >
+                  <!-- Get The First Item -->
                   <div
-                    class="text-xs capitalize font-bold text-center"
-                    v-if="item.name"
-                    :id="item.strippedClassname"
-                    :class="item.name.includes('_') ? 'text-red-500' : ''"
+                    v-for="item in [furniGroup.items[0]]"
+                    :key="item.classname"
                   >
-                    <img
+                    <div
+                      class="text-xs capitalize font-bold text-center"
+                      v-if="item.name"
+                      :id="item.strippedClassname"
+                      :class="item.name.includes('_') ? 'text-red-500' : ''"
+                    >
+                      <!-- <img
                       class="mx-auto"
                       :src="`${item.image}`"
                       :alt="item.name"
-                    />
-                    <div class="py-2">{{ item.name }}</div>
-                    <button
-                      @click="addToRoom(item.classname)"
-                      class="bg-white w-full text-center py-2 text-xs text-white my-2 leading-6 controller-button rounded-lg px-2"
-                    >
-                      Add to room
-                    </button>
+                    /> -->
+                      <furni-img
+                        :classname="item.classname"
+                        :alt="item.name"
+                        v-bind="{ ['data-classname']: item.classname }"
+                      ></furni-img>
+                      <div class="py-2">{{ item.name }}</div>
+                      <button
+                        :class="{ hidden: furniGroup.items.length > 1 }"
+                        v-if="furniGroup.items.length > 1"
+                        class="bg-white w-full text-center py-2 text-xs text-white my-2 leading-6 controller-button rounded-lg px-2"
+                      >
+                        Add to Room
+                      </button>
+                      <button
+                        v-if="furniGroup.items.length == 1"
+                        @click="addToRoom(item.classname)"
+                        class="bg-white w-full text-center py-2 text-xs text-white my-2 leading-6 controller-button rounded-lg px-2"
+                      >
+                        Add to Room
+                      </button>
+                    </div>
                   </div>
-                </div>
-                <!-- Loop over the items in this group -->
-                <div
-                  v-if="furniGroup.items.length > 1"
-                  class="gap-0.5 flex flex-wrap items-center justify-center"
-                >
+                  <!-- Loop over the items in this group -->
                   <div
-                    v-for="item in furniGroup.items"
-                    :key="item.classname"
-                    class="text-xs"
+                    v-if="furniGroup.items.length > 1"
+                    class="gap-0.5 flex flex-wrap items-center justify-center"
                   >
                     <div
-                      :style="{ backgroundColor: item.partcolors[0] }"
-                      class="h-[42px] flex-auto min-w-[44px] overflow-hidden rounded-xl border border-1 border-opacity-10 border-white active:brightness-125"
-                      @click="selectColor(item, item.partcolors[0])"
+                      v-for="item in furniGroup.items"
+                      :key="item.classname"
+                      class="text-xs"
                     >
-                      <div
-                        class="w-5/6 mx-auto bg-white bg-opacity-20 h-[3px] rounded-full mt-[0px] pointer-events-none"
-                      ></div>
+                      <button
+                        :style="{ backgroundColor: item.partcolors[0] }"
+                        class="h-[42px] flex-auto min-w-[44px] overflow-hidden rounded-xl border border-1 border-opacity-10 border-white active:brightness-125"
+                        @click="selectColor(item, item.partcolors[0], $event)"
+                      >
+                        <div
+                          class="w-5/6 mx-auto bg-white bg-opacity-20 h-[3px] rounded-full mt-[0px] pointer-events-none"
+                        ></div>
+                      </button>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          </template>
+        </div>
+        <div class="text-center text-white text-xs mt-96">
+          Total Items: {{ totalItemCount }}
         </div>
       </div>
-    </div>
+    </vue-bottom-sheet>
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import xml2js from "xml-js";
+import VueBottomSheet from "@webzlodimir/vue-bottom-sheet";
+import { EventBus } from "@/eventBus";
 
 export default {
   name: "FurniCatalog",
@@ -124,10 +142,20 @@ export default {
       searchResults: [],
       catalog: [],
       selectedColor: {},
+      showCatalog: false,
     };
+  },
+  components: {
+    VueBottomSheet,
   },
   created() {
     this.fetchAndParseXML();
+    EventBus.$on("item-catalog", () => {
+      this.showCatalog = true;
+      setTimeout(() => {
+        this.openCatalog();
+      }, 100);
+    });
   },
   computed: {
     filteredCatalog() {
@@ -139,11 +167,11 @@ export default {
     categorizedItems() {
       const categories = {
         Classic: {},
-        "Event-based": {},
-        Themed: {},
         Collections: {},
+        Themed: {},
         Gaming: {},
         Miscellaneous: {},
+        "Event-based": {},
         Uncategorized: {},
       };
 
@@ -155,6 +183,10 @@ export default {
         if (item.classname.includes("clothing_")) {
           return; // skip clothing items
         }
+
+        // if (item.furniline != "iced") {
+        //   return; // skip items with category
+        // }
 
         Object.keys(categoryMapping).forEach((category) => {
           if (categoryMapping[category].includes(item.furniline)) {
@@ -188,7 +220,6 @@ export default {
       return categories;
     },
   },
-
   watch: {
     searchQuery: {
       handler(query) {
@@ -201,6 +232,12 @@ export default {
   },
   // https://ducket.net/assets/furni/couch_norja_5_icon.png
   methods: {
+    openCatalog() {
+      this.$refs.catalogSheet.open();
+    },
+    closeCatalog() {
+      this.$refs.catalogSheet.close();
+    },
     triggerBrowserFind() {
       if (window.find && this.searchQuery.length > 2) {
         window.find(this.searchQuery);
@@ -212,20 +249,28 @@ export default {
       console.log("Add to room", classname);
       this.$root.$emit("add-to-room", classname);
     },
+    replaceAsteriskWithUnderscore(classname) {
+      const match = classname.match(/\*(\d+)$/);
+      return match ? classname.replace(/\*(\d+)$/, "_" + match[1]) : classname;
+    },
     selectColor(item, color) {
       this.selectedColor = { item, color };
 
-      console.log("Select color", item.classname);
-      console.log("Select color", item.strippedClassname);
-
       //Update the image where id = item.classname img
       const parentElement = document.getElementById(item.strippedClassname);
-      const image = parentElement.querySelector("img");
+
+      const furniImgComponent = parentElement.querySelector("img");
+      //Refactor this to use the FurniImg component
+      furniImgComponent.src = `https://ducket-net.github.io/resources/icons/${this.replaceAsteriskWithUnderscore(
+        item.classname
+      )}_icon.png`;
+
       const addToRoomButton = parentElement.querySelector("button");
+      //Add Class
+      addToRoomButton.classList.remove("hidden");
       addToRoomButton.addEventListener("click", () => {
         this.addToRoom(item.classname);
       });
-      image.src = item.image;
     },
     getUniqueColors(colors) {
       const uniqueColors = Array.from(new Set(colors));
@@ -246,10 +291,7 @@ export default {
       const match = classname.match(/_(\d+)$/);
       return match ? classname.replace(/_(\d+)$/, "*" + match[1]) : classname;
     },
-    replaceAsteriskWithUnderscore(classname) {
-      const match = classname.match(/\*(\d+)$/);
-      return match ? classname.replace(/\*(\d+)$/, "_" + match[1]) : classname;
-    },
+
     removeAsteriskFromClassName(classname) {
       return classname.replace(/\*\d+$/, "");
     },
@@ -363,13 +405,13 @@ export default {
           "greek",
         ],
         Collections: [
+          "rare",
           "collectibles",
           "classics",
           "trophies",
           "buildersclub",
           "buildersclub_alpha1",
           "nft",
-          "rare",
           "bonusrare",
           "credit_furni",
           "diamond",
@@ -481,9 +523,6 @@ export default {
           strippedClassname: this.removeAsteriskFromClassName(
             furnitype._attributes.classname
           ),
-          image: `https://ducket.net/assets/furni/${this.replaceAsteriskWithUnderscore(
-            furnitype._attributes.classname
-          )}_icon.png`,
           classname: furnitype._attributes.classname,
           revision: furnitype.revision._text,
           name: furnitype.name._text,

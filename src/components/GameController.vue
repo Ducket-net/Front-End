@@ -111,36 +111,100 @@
       :class="{ hidden: !isContentVisible }"
       class="rounded-lg text-xs text-white w-full mb-2"
     >
-      <label
-        class="flex-grow font-semibold text-white rounded-lg text-xs mb-1 mt-0 block"
-      >
-        <font-awesome-icon :icon="['fas', 'arrows-alt-h']" /> Increment
-      </label>
-      <div class="w-full flex space-x-1">
-        <button
-          @click="increment = 0.1"
-          class="h-[42px] rounded-lg bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button border border-black"
+      <div class="w-full grid grid-cols-4">
+        <label
+          class="col-span-2 font-semibold text-white rounded-lg text-xs mb-1 mt-0 block"
         >
-          1 Pixel
-        </button>
-        <button
-          @click="increment = 0.5"
-          class="h-[42px] rounded-lg bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button border border-black"
+          <font-awesome-icon :icon="['fas', 'arrows-alt-h']" /> Increment
+        </label>
+        <label
+          class="col-span-2 font-semibold text-white rounded-lg text-xs mb-1 mt-0 block"
         >
-          .5 Block
-        </button>
-        <button
-          @click="increment = 1.0"
-          class="h-[42px] rounded-lg bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button border border-black"
+          <font-awesome-icon :icon="['fas', 'gif']" /> Animation
+        </label>
+
+        <div
+          class="col-span-2 w-full grid auto-cols-max grid-flow-col p-2 gap-2 overflow-hidden overflow-x-scroll no-scrollbar"
         >
-          1 Block
-        </button>
-        <button
-          @click="increment = 2.0"
-          class="h-[42px] rounded-lg bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button border border-black"
+          <button
+            @click="increment = 0.1"
+            class="h-[42px] rounded-lg bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button border border-black"
+          >
+            1 Pixel
+          </button>
+          <button
+            @click="increment = 0.5"
+            class="h-[42px] rounded-lg bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button border border-black"
+          >
+            .5 Block
+          </button>
+          <button
+            @click="increment = 1.0"
+            class="h-[42px] rounded-lg bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button border border-black"
+          >
+            1 Block
+          </button>
+          <button
+            @click="increment = 2.0"
+            class="h-[42px] rounded-lg bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button border border-black"
+          >
+            2 Block
+          </button>
+        </div>
+
+        <!-- Animation -->
+        <div
+          class="col-span-2 w-full grid auto-cols-max grid-flow-col p-2 gap-2 overflow-hidden overflow-x-scroll no-scrollbar"
         >
-          2 Block
-        </button>
+          <button
+            @click="selectedItem.animation = 0"
+            class="h-[42px] rounded-lg bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button border border-black"
+          >
+            0
+          </button>
+          <button
+            @click="selectedItem.animation = 1"
+            class="h-[42px] rounded-lg bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button border border-black"
+          >
+            1
+          </button>
+          <button
+            @click="selectedItem.animation = 2"
+            class="h-[42px] rounded-lg bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button border border-black"
+          >
+            2
+          </button>
+          <button
+            @click="selectedItem.animation = 3"
+            class="h-[42px] rounded-lg bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button border border-black"
+          >
+            3
+          </button>
+          <button
+            @click="selectedItem.animation = 4"
+            class="h-[42px] rounded-lg bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button border border-black"
+          >
+            4
+          </button>
+          <button
+            @click="selectedItem.animation = 5"
+            class="h-[42px] rounded-lg bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button border border-black"
+          >
+            5
+          </button>
+          <button
+            @click="selectedItem.animation = 6"
+            class="h-[42px] rounded-lg bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button border border-black"
+          >
+            6
+          </button>
+          <button
+            @click="selectedItem.animation = 7"
+            class="h-[42px] rounded-lg bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button border border-black"
+          >
+            7
+          </button>
+        </div>
 
         <!-- Move Room -->
       </div>

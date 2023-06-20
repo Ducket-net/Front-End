@@ -4,6 +4,7 @@
     <div class="game-room-container">
       <GameRoom room-id="home" />
     </div>
+    <FurniCatalog :index="1" :search="search" />
 
     <div class="item-catalog-container no-scrollbar bg-[#1A1F25]">
       <ItemCatalogContainer />
@@ -47,7 +48,7 @@
         </SpecialCard>
       </div>
       <footer
-        class="mt-10 mx-auto text-white my-12 text-center max-w-sm text-xs"
+        class="mt-10 mx-auto text-white my-12 text-center max-w-sm text-xs pb-7"
       >
         <div class="block py-2">
           <a
@@ -68,15 +69,6 @@
           permitted under Habbo Fan Site Policy.
         </p>
       </footer>
-      <button
-        class="w-full h-12 bg-[#1A1F25] text-white"
-        @click="itemCatalogOpen = !itemCatalogOpen"
-      >
-        <font-awesome-icon :icon="['fas', 'plus']" />
-      </button>
-      <div v-if="itemCatalogOpen">
-        <FurniCatalog :index="1" :search="search" />
-      </div>
     </div>
   </div>
 </template>
