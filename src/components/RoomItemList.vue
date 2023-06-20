@@ -17,10 +17,7 @@
       @click="selectItem(item)"
     >
       <special-button>
-        <img
-          class="max-w-full max-h-full object-contain"
-          :src="getIconUrl(item.type)"
-        />
+        <furni-img :classname="item.type" />
       </special-button>
     </div>
 

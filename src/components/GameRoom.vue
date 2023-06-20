@@ -374,6 +374,8 @@ export default {
       //Confirm
       if (!confirm("Are you sure you want to reset all?")) return;
       localStorage.clear();
+      //Clear IndexedDB
+      indexedDB.deleteDatabase("furnidataDB");
       location.reload();
     },
     open() {

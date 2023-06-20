@@ -6,7 +6,7 @@
       :click-to-close="true"
       :background-clickable="false"
       :background-scrollable="true"
-      max-height="60%"
+      max-height="50%"
       :swipe-able="false"
     >
       <div
@@ -69,7 +69,7 @@
 
                     <div
                       v-if="item.name"
-                      class="grid grid-cols-[50px,auto] items-center"
+                      class="grid grid-cols-[50px,auto] pl-2 items-center"
                       :class="item.name.includes('_') ? 'text-red-100' : ''"
                     >
                       <furni-img

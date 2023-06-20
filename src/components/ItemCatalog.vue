@@ -33,7 +33,8 @@
         class="flex min-h-[42px] items-center px-2 bg-white rounded cursor-pointer hover:bg-black"
         @click.stop="addToRoom(item.classname)"
       >
-        <img :src="item.image_url" class="max-w-[30px] flex-initial mx-auto" />
+        <!-- <img :src="item.image_url" class="max-w-[30px] flex-initial mx-auto" /> -->
+        <furni-img :classname="item.classname" />
         <!-- <div class="ml-1"> -->
         <!-- <h4 class="text-xs font-semibold">{{ item.name }}</h4> -->
         <!-- <p class="text-xs">

@@ -70,10 +70,11 @@
     <div class="text-xs mt-1 bg-black bg-opacity-20 rounded-lg p-3">
       <div class="grid grid-cols-[auto,1fr] gap-3">
         <div class="grid grid-cols-[auto,auto]">
-          <img
-            :src="getIconUrl(selectedItem.type)"
-            class="max-w-full max-h-full object-contain w-[20px] h-[40px] mr-1"
-          />
+          <furni-img
+            :classname="selectedItem.type"
+            :classes="`max-w-full max-h-full object-contain w-[20px] h-[40px] mr-1`"
+          ></furni-img>
+
           <div>
             <p>{{ selectedItem.type }}</p>
             <p>
@@ -120,7 +121,7 @@
         <label
           class="col-span-2 font-semibold text-white rounded-lg text-xs mb-1 mt-0 block"
         >
-          <font-awesome-icon :icon="['fas', 'gif']" /> Animation
+          Animation
         </label>
 
         <div

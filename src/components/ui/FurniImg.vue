@@ -2,7 +2,7 @@
   <img
     :ref="src"
     id="classname"
-    class="ml-2"
+    :class="classes"
     :src="src"
     @error="onImageError"
   />
@@ -13,6 +13,10 @@ export default {
   name: "FurniImg",
   props: {
     classname: {
+      type: String,
+      default: "",
+    },
+    classes: {
       type: String,
       default: "",
     },
