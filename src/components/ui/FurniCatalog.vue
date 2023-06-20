@@ -1,14 +1,14 @@
 <template>
-  <div v-if="showCatalog">
-    <vue-bottom-sheet
-      ref="catalogSheet"
-      :overlay="false"
-      :click-to-close="true"
-      :background-clickable="false"
-      :background-scrollable="true"
-      max-height="50%"
-      :swipe-able="false"
-    >
+  <vue-bottom-sheet
+    ref="catalogSheet"
+    :overlay="false"
+    :click-to-close="true"
+    :background-clickable="false"
+    :background-scrollable="true"
+    max-height="50%"
+    :swipe-able="false"
+  >
+    <div v-if="showCatalog">
       <div
         class="overflow-x-scroll h-screen touch-pan-y no-scrollbar pb-10 mb-10"
       >
@@ -146,8 +146,8 @@
           Total Items: {{ totalItemCount }}
         </div>
       </div>
-    </vue-bottom-sheet>
-  </div>
+    </div>
+  </vue-bottom-sheet>
 </template>
 
 <script>
