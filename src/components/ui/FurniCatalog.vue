@@ -106,11 +106,11 @@
                     >
                       <button
                         :style="{ backgroundColor: item.partcolors[0] }"
-                        class="h-[42px] flex-auto min-w-[44px] overflow-hidden rounded-xl border border-1 border-opacity-10 border-white active:brightness-125"
+                        class="relative h-[42px] flex-auto min-w-[44px] overflow-hidden rounded-xl border border-1 border-opacity-10 border-white active:brightness-125"
                         @click="selectColor(item, item.partcolors[0], $event)"
                       >
                         <div
-                          class="w-5/6 mx-auto bg-white bg-opacity-20 h-[3px] rounded-full mt-[0px] pointer-events-none"
+                          class="w-5/6 mx-auto absolute top-0 bg-white bg-opacity-20 h-[3px] rounded-full mt-[0px] pointer-events-none"
                         ></div>
                       </button>
                     </div>
@@ -143,6 +143,7 @@ export default {
       catalog: [],
       selectedColor: {},
       showCatalog: false,
+      listeners: [],
     };
   },
   components: {
@@ -268,9 +269,25 @@ export default {
       const addToRoomButton = parentElement.querySelector("button");
       //Add Class
       addToRoomButton.classList.remove("hidden");
-      addToRoomButton.addEventListener("click", () => {
+
+      // Remove the old event listener if there is one
+      if (this.listeners[item.strippedClassname]) {
+        addToRoomButton.removeEventListener(
+          "click",
+          this.listeners[item.strippedClassname]
+        );
+      }
+
+      // Define the new event listener
+      const newListener = () => {
         this.addToRoom(item.classname);
-      });
+      };
+
+      // Add the new event listener
+      addToRoomButton.addEventListener("click", newListener);
+
+      // Store the new event listener for the given classname
+      this.listeners[item.strippedClassname] = newListener;
     },
     getUniqueColors(colors) {
       const uniqueColors = Array.from(new Set(colors));
