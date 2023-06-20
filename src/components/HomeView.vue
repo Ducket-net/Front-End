@@ -4,7 +4,7 @@
     <div class="game-room-container">
       <GameRoom room-id="home" />
     </div>
-    <FurniCatalog :index="1" :search="search" />
+    <FurniCatalog :index="1" />
 
     <div class="item-catalog-container no-scrollbar bg-[#1A1F25]">
       <ItemCatalogContainer />

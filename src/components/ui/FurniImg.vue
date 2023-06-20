@@ -1,8 +1,8 @@
 <template>
   <img
-    class="mx-auto"
     :ref="src"
     id="classname"
+    class="ml-2"
     :src="src"
     @error="onImageError"
   />

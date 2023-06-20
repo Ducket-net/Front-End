@@ -34,11 +34,9 @@
           <!-- LOOP OVER ALL SUB-CATEGORIES -->
           <template v-for="(itemGroups, subCategoryName) in subCategories">
             <div
-              @click="
-                $event.currentTarget.nextSibling.classList.toggle('hidden')
-              "
+              @click="toggleSubCategory(subCategoryName)"
               :key="subCategoryName + '_title'"
-              class="mb-2 text-xs font-bold bg-slate-900 p-2 rounded-lg cursor-pointer"
+              class="text-xs font-bold p-2 cursor-pointer capitalize active:text-blue-500"
             >
               {{ subCategoryName }} ({{
                 Object.values(itemGroups)
@@ -49,71 +47,95 @@
             <!-- Display items in this sub-category -->
 
             <!-- LOOP OVER ALL FURNI GROUPS (Individual items or recoulors) -->
-            <div :key="subCategoryName" class="hidden mb-2">
-              <div class="grid grid-cols-2 gap-1 grid-container">
+
+            <div :key="subCategoryName">
+              <div
+                v-if="categoryState[subCategoryName]"
+                class="grid grid-cols-1 gap-1 grid-container"
+              >
                 <div
                   v-for="(furniGroup, groupName) in itemGroups"
                   :key="groupName"
-                  class="text-xs bg-black rounded-lg py-4 px-2"
+                  class="text-xs bg-black rounded-lg p-0.5"
                 >
                   <!-- Get The First Item -->
                   <div
                     v-for="item in [furniGroup.items[0]]"
                     :key="item.classname"
+                    :id="item.strippedClassname"
+                    class="grid grid-cols-2 items-center"
                   >
+                    <!-- Added a wrapper for image and text -->
+
                     <div
-                      class="text-xs capitalize font-bold text-center"
                       v-if="item.name"
-                      :id="item.strippedClassname"
-                      :class="item.name.includes('_') ? 'text-red-500' : ''"
+                      class="grid grid-cols-[50px,auto] items-center"
+                      :class="item.name.includes('_') ? 'text-red-100' : ''"
                     >
-                      <!-- <img
-                      class="mx-auto"
-                      :src="`${item.image}`"
-                      :alt="item.name"
-                    /> -->
                       <furni-img
                         :classname="item.classname"
                         :alt="item.name"
                         v-bind="{ ['data-classname']: item.classname }"
                       ></furni-img>
-                      <div class="py-2">{{ item.name }}</div>
-                      <button
-                        :class="{ hidden: furniGroup.items.length > 1 }"
-                        v-if="furniGroup.items.length > 1"
-                        class="bg-white w-full text-center py-2 text-xs text-white my-2 leading-6 controller-button rounded-lg px-2"
-                      >
-                        Add to Room
-                      </button>
+                      <div class="text-xs capitalize font-bold">
+                        {{ item.name }}
+                      </div>
+                    </div>
+                    <!-- buttons -->
+                    <div class="buttons text-right">
                       <button
                         v-if="furniGroup.items.length == 1"
                         @click="addToRoom(item.classname)"
-                        class="bg-white w-full text-center py-2 text-xs text-white my-2 leading-6 controller-button rounded-lg px-2"
+                        class="bg-white text-center font-bold py-2 text-xs text-white leading-6 controller-button rounded-lg px-2"
                       >
-                        Add to Room
+                        Drop in Room
+                      </button>
+                      <button
+                        :class="{ hidden: furniGroup.items.length > 1 }"
+                        v-if="furniGroup.items.length > 1"
+                        class="controller-button bg-white font-bold text-center py-2 text-xs text-white leading-6 controller-button rounded-lg px-2"
+                      >
+                        Drop in Room
+                      </button>
+                      <button
+                        @click="openColors(groupName)"
+                        v-if="
+                          !showColors[groupName] && furniGroup.items.length > 1
+                        "
+                        class="bg-white font-bold text-center py-2 text-xs text-white leading-6 controller-button rounded-lg px-2"
+                      >
+                        Select Color
                       </button>
                     </div>
                   </div>
+
                   <!-- Loop over the items in this group -->
                   <div
                     v-if="furniGroup.items.length > 1"
-                    class="gap-0.5 flex flex-wrap items-center justify-center"
+                    class="col-span-2 gap-0.5 flex flex-wrap items-center justify-center"
                   >
-                    <div
-                      v-for="item in furniGroup.items"
-                      :key="item.classname"
-                      class="text-xs"
-                    >
-                      <button
-                        :style="{ backgroundColor: item.partcolors[0] }"
-                        class="relative h-[42px] flex-auto min-w-[44px] overflow-hidden rounded-xl border border-1 border-opacity-10 border-white active:brightness-125"
-                        @click="selectColor(item, item.partcolors[0], $event)"
-                      >
+                    <template v-if="showColors[groupName]">
+                      <div class="mt-2 items-center grid grid-cols-8 gap-1">
+                        <!-- Added a wrapper for colors -->
                         <div
-                          class="w-5/6 mx-auto absolute top-0 bg-white bg-opacity-20 h-[3px] rounded-full mt-[0px] pointer-events-none"
-                        ></div>
-                      </button>
-                    </div>
+                          v-for="item in furniGroup.items"
+                          :key="item.classname"
+                          class="text-xs"
+                        >
+                          <button
+                            :style="{ backgroundColor: item.partcolors[0] }"
+                            class="relative h-[42px] min-w-[44px] overflow-hidden rounded-xl border border-1 border-opacity-10 border-white active:brightness-125"
+                            @click="
+                              selectColor(item, item.partcolors[0], $event)
+                            "
+                          >
+                            <div
+                              class="w-5/6 mx-auto absolute top-0 bg-white bg-opacity-20 h-[3px] rounded-full mt-[0px] pointer-events-none"
+                            ></div>
+                          </button>
+                        </div>
+                      </div>
+                    </template>
                   </div>
                 </div>
               </div>
@@ -144,6 +166,8 @@ export default {
       selectedColor: {},
       showCatalog: false,
       listeners: [],
+      categoryState: {},
+      showColors: {},
     };
   },
   components: {
@@ -233,8 +257,35 @@ export default {
   },
   // https://ducket.net/assets/furni/couch_norja_5_icon.png
   methods: {
+    openColors(groupName) {
+      console.log("Show Colors", groupName);
+      this.showColors = {
+        ...this.showColors,
+        [groupName]: !this.showColors[groupName],
+      };
+    },
+    toggleSubCategory(subCategoryName) {
+      console.log("Toggle Sub Category", subCategoryName);
+
+      // Use Vue.set() to ensure reactivity
+      if (this.categoryState[subCategoryName] === undefined) {
+        this.$set(this.categoryState, subCategoryName, true);
+      } else {
+        this.$set(
+          this.categoryState,
+          subCategoryName,
+          !this.categoryState[subCategoryName]
+        );
+      }
+
+      console.log(this.categoryState);
+    },
     openCatalog() {
-      this.$refs.catalogSheet.open();
+      try {
+        this.$refs.catalogSheet.open();
+      } catch (error) {
+        console.error("Unable to open catalog:", error);
+      }
     },
     closeCatalog() {
       this.$refs.catalogSheet.close();
@@ -266,7 +317,7 @@ export default {
         item.classname
       )}_icon.png`;
 
-      const addToRoomButton = parentElement.querySelector("button");
+      const addToRoomButton = parentElement.querySelector(".controller-button");
       //Add Class
       addToRoomButton.classList.remove("hidden");
 
@@ -423,12 +474,12 @@ export default {
         ],
         Collections: [
           "rare",
+          "nft",
           "collectibles",
           "classics",
           "trophies",
           "buildersclub",
           "buildersclub_alpha1",
-          "nft",
           "bonusrare",
           "credit_furni",
           "diamond",
@@ -452,6 +503,7 @@ export default {
         const storeName = "furnidataStore";
         const id = 1;
         let xmlData;
+        const refreshTime = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
         const request = indexedDB.open(dbName);
 
@@ -472,23 +524,28 @@ export default {
 
           // eslint-disable-next-line no-unused-vars
           dataRequest.onsuccess = async (event) => {
-            // Get data from IndexedDB if it exists
-            if (dataRequest.result !== undefined) {
+            const now = Date.now();
+            const shouldFetch =
+              dataRequest.result === undefined ||
+              now - dataRequest.result.timestamp >= refreshTime;
+
+            if (!shouldFetch) {
               xmlData = dataRequest.result.value;
             } else {
-              // Fetch the data from the server if not present in IndexedDB
+              // Fetch the data from the server if not present in IndexedDB or older than 24 hours
               const response = await axios.get(
                 "https://ducket-net.github.io/resources/furnidata.xml"
               );
               xmlData = response.data;
 
               // Store the fetched data in IndexedDB
-              const addRequest = db
+              const updateData = { id, value: xmlData, timestamp: now };
+              const putRequest = db
                 .transaction([storeName], "readwrite")
                 .objectStore(storeName)
-                .add({ id, value: xmlData });
+                .put(updateData);
 
-              addRequest.onerror = (event) => {
+              putRequest.onerror = (event) => {
                 console.error(
                   "Error storing the data in IndexedDB:",
                   event.target.error
