@@ -104,7 +104,7 @@
 
     <button
       @click="isContentVisible = !isContentVisible || false"
-      class="text-xs text-white p-2 w-full h-12"
+      class="text-xs text-white p-2 w-full h-8"
     >
       Advanced Settings
     </button>
@@ -213,7 +213,7 @@
 
     <button
       @click="game.unselectFurniture(selectedItem)"
-      class="w-full py-3 mb-8 font-semibold bg-green-600 save-button text-white rounded-lg border border-1 border-b-2 border-black text-xs h-12"
+      class="w-full py-3 mb-2 font-semibold bg-green-600 save-button text-white rounded-lg border border-1 border-b-2 border-black text-xs h-12"
     >
       <font-awesome-icon :icon="['fas', 'star']" /> Save
     </button>

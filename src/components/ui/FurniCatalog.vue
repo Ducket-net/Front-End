@@ -1,7 +1,7 @@
 <template>
   <vue-bottom-sheet
     ref="catalogSheet"
-    :overlay="false"
+    :overlay="true"
     :click-to-close="true"
     :background-clickable="false"
     :background-scrollable="true"
