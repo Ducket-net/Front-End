@@ -70,10 +70,10 @@
     <div class="text-xs mt-1 bg-black bg-opacity-20 rounded-lg p-3">
       <div class="grid grid-cols-[auto,1fr] gap-3">
         <div class="grid grid-cols-[auto,auto]">
-          <furni-img
-            :classname="selectedItem.type"
-            :classes="`max-w-full max-h-full object-contain w-[20px] h-[40px] mr-1`"
-          ></furni-img>
+          <img
+            :src="getIconUrl(selectedItem.type)"
+            class="max-w-full max-h-full object-contain w-[20px] h-[40px] mr-1"
+          />
 
           <div>
             <p>{{ selectedItem.type }}</p>

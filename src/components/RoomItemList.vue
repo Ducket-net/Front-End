@@ -16,9 +16,10 @@
       }"
       @click="selectItem(item)"
     >
-      <special-button>
-        <furni-img :classname="item.type" />
-      </special-button>
+      <img
+        :src="getIconUrl(item.type)"
+        class="w-[40px] h-[40px] object-contain"
+      />
     </div>
 
     <special-button
@@ -68,7 +69,7 @@ export default {
     },
   },
   mounted() {
-    this.localRoomItems = [...this.roomItems];
+    this.localRoomItems = [...this.roomItems].reverse();
   },
   created() {
     EventBus.$on("item-selected", (item) => {
@@ -88,7 +89,18 @@ export default {
         1
       );
     });
+    EventBus.$on("item-selected", (item) => {
+      // Find the index of the selected item
+      const itemIndex = this.localRoomItems.findIndex((i) => i === item);
 
+      // If the item is found, remove it from its current position
+      if (itemIndex !== -1) {
+        this.localRoomItems.splice(itemIndex, 1);
+
+        // Add the item to the start of the array
+        this.localRoomItems.unshift(item);
+      }
+    });
     EventBus.$on("item-unselected", () => {
       this.selectedItem = null;
     });
