@@ -8,7 +8,15 @@
 
     <div class="item-catalog-container no-scrollbar bg-[#1A1F25]">
       <ItemCatalogContainer />
-      <div class="grid text-black gap-4 py-4 p-4 grid-cols-2 mt-10">
+      <div class="grid text-black gap-4 py-4 p-4 grid-cols-2 mt-4">
+        <SpecialCard @card-click="$router.push('/login')">
+          <h2 class="font-bold text-sm">
+            <font-awesome-icon :icon="['fas', 'gear']" />
+            Account
+          </h2>
+          <p v-if="isUserLoggedIn">Hello, {{ loggedInUser.name }}!</p>
+          <p v-else>Hello, guest!</p>
+        </SpecialCard>
         <SpecialCard @card-click="emitSettings">
           <h2 class="font-bold text-sm">
             <font-awesome-icon :icon="['fas', 'gear']" />

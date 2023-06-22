@@ -26,6 +26,7 @@
       :overlay="false"
       :click-to-close="false"
       :background-clickable="true"
+      @closed="game.unselectFurniture(selectedItem)"
     >
       <game-controller :game="game" ref="gameController"></game-controller>
     </vue-bottom-sheet>
@@ -127,7 +128,14 @@
             @click="clearLocalStorage"
             class="top-80 text-red-500 overflow-auto bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer"
           >
-            <font-awesome-icon :icon="['fas', 'trash']" /> Reset All
+            <font-awesome-icon :icon="['fas', 'trash']" /> Debug Reset
+          </button>
+
+          <button
+            @click="removeAllItems"
+            class="top-80 text-red-500 overflow-auto bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer"
+          >
+            <font-awesome-icon :icon="['fas', 'trash']" /> Remove All Items
           </button>
 
           <button
@@ -370,6 +378,12 @@ export default {
       this.toggleWall();
       localStorage.setItem("hideFloor", this.game.room.hideFloor);
     },
+    removeAllItems() {
+      if (!confirm("Are you sure you want to reset all?")) return;
+      this.game.room.roomObjects.forEach((item) => {
+        this.game.room.removeRoomObject(item);
+      });
+    },
     clearLocalStorage() {
       //Confirm
       if (!confirm("Are you sure you want to reset all?")) return;
@@ -415,6 +429,10 @@ export default {
         animation: 1,
       });
       this.game.addItem(newItem);
+    },
+    unselectItem() {
+      this.selectedItem = null;
+      this.selectedItemType = "";
     },
     addItem() {
       const newItem = new FloorFurniture({ ...this.form });
@@ -479,15 +497,12 @@ export default {
     });
 
     // Listen for the 'item-unselected' event and clear selectedItemType
-    EventBus.$on("item-unselected", (item) => {
-      console.log("item-unselected", item);
-      this.close();
-      this.selectedItem = null;
-      this.selectedItemType = "";
+    EventBus.$on("item-unselected", () => {
+      if (!this.selectedItem) return;
+      this.unselectItem();
     });
 
     this.$root.$on("add-to-room", (classname) => {
-      console.log("add-to-room", classname);
       this.addItemByClassName(classname);
       this.saveRoomToLocalStorage();
     });
@@ -496,8 +511,7 @@ export default {
       this.game.onFurnitureItemClick(item);
     });
 
-    EventBus.$on("furni-added", (item) => {
-      console.log("👋Added", item);
+    EventBus.$on("furni-added", () => {
       //   this.selectedItem = item;
       //   this.game.onFurnitureItemClick(item);
       //   this.saveRoomToLocalStorage();

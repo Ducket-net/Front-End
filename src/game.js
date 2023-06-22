@@ -12,6 +12,7 @@ import {
 import { EventBus } from "./eventBus";
 import { gsap } from "gsap";
 import ExtendedFloorFurniture from "./renderer/ExtendedFloorFurniture.js";
+import DebouncedOnClick from "./services/debounceAction.js";
 
 export default class Game {
   constructor(view, roomData) {
@@ -76,7 +77,6 @@ export default class Game {
 
     const containerElement = window.document.getElementById("canvasContainer");
     const containerWidth = containerElement.clientWidth;
-    console.log(containerWidth);
     this.renderItem(roomData, room);
     room.wallColor = roomData.wallColor || "#DE6E2B";
     room.floorColor = roomData.floorColor || "#cccccc";
@@ -127,7 +127,6 @@ export default class Game {
   }
 
   createAndSetFurnitureItem(itemData) {
-    console.log(itemData);
     const furnitureItem = new FloorFurniture(itemData);
     furnitureItem.onClick = (event) => {
       this.animateTap(furnitureItem);

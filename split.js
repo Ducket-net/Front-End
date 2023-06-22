@@ -65,8 +65,6 @@ async function loadAndSplitShroomFile(url) {
   //remove .shroom extension
   fileName = fileName.substring(0, fileName.length - 7);
 
-  console.log(`Saving JSON file: ${fileName}`);
-
   await fs.writeFile(fileName + ".json", jsonString, "utf-8");
   await fs.writeFile(fileName + ".png", pngBuffer);
 }

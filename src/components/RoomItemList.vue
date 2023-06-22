@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative -mt-[64px] h-[64px] grid auto-cols-max grid-flow-col bg-black bg-opacity-25 p-2 gap-2 overflow-hidden overflow-x-scroll no-scrollbar"
+    class="relative -mt-[64px] h-[64px] grid auto-cols-max grid-flow-col bg-black bg-opacity-25 p-2 gap-1 overflow-hidden overflow-x-scroll no-scrollbar"
   >
     <special-button
       @button-click="emitCatalog"
@@ -9,9 +9,9 @@
     <div
       v-for="item in localRoomItems"
       :key="item.id"
-      class="rounded-lg w-[50px] furni-box h-[50px] border border-black bottom-1 bg-gray-200 flex-shrink-0 flex items-center justify-center"
+      class="rounded-lg w-[44px] h-auto furni-box border border-black bottom-1 bg-gray-200 flex-shrink-0 flex items-center justify-center"
       :class="{
-        'bg-blue-100 shadow-inner border-2 border-blue-500':
+        'bg-blue-300 shadow-inner border-3 border-blue-500':
           selectedItem === item,
       }"
       @click="selectItem(item)"
@@ -74,7 +74,6 @@ export default {
   created() {
     EventBus.$on("item-selected", (item) => {
       this.selectedItem = item;
-      console.log(item);
     });
 
     EventBus.$on("furni-added", (item) => {

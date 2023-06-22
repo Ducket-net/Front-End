@@ -4,7 +4,8 @@ import Vuex from "vuex";
 import axios from "axios";
 import * as PIXI from "pixi.js";
 import { Shroom } from "@tetreum/shroom";
-//Env
+const storedAccessToken = localStorage.getItem("access_token");
+const storedUser = JSON.parse(localStorage.getItem("user"));
 
 Vue.use(Vuex);
 
@@ -17,8 +18,8 @@ export default new Vuex.Store({
     catalog: [],
     currentRoom: null,
     //Auth
-    user: null,
-    accessToken: null,
+    user: storedUser,
+    accessToken: storedAccessToken,
     pixiInstance: null,
   },
   mutations: {
@@ -49,12 +50,42 @@ export default new Vuex.Store({
     updateRoom(state, { roomId, items }) {
       Vue.set(state.rooms, roomId, items);
     },
+    setAccessTokenAndUser(state, { token, user }) {
+      state.accessToken = token;
+      state.user = user;
+    },
   },
   getters: {
     pixiInstance: (state) => state.pixiInstance,
     shroom: (state) => state.shroom,
+    loggedInUser: (state) => state.user,
+    isUserLoggedIn: (state) => !!state.accessToken,
   },
   actions: {
+    async authenticate({ commit }, accessToken) {
+      try {
+        const response = await axios.get(
+          `${process.env.VUE_APP_DUCKET_URL}/api/me`,
+          {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          }
+        );
+        const user = response.data;
+
+        // Save the access token and user data in the Vuex state
+        commit("setAccessTokenAndUser", { token: accessToken, user: user });
+
+        // Save the access token and user data in localStorage
+        localStorage.setItem("access_token", accessToken);
+        localStorage.setItem("user", JSON.stringify(user));
+
+        return true;
+      } catch (error) {
+        console.error("Error authenticating user:", error);
+        return false;
+      }
+    },
+
     initPixiInstance({ commit }) {
       if (!PIXI.utils.isWebGLSupported()) {
         throw new Error("WebGL is not supported");

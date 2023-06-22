@@ -73,6 +73,9 @@ export default {
     SplashScreen, // Add this line to register the SplashScreen component
   },
   computed: {
+    loggedInUser() {
+      return this.$store.state.user;
+    },
     roomId() {
       return this.$store.state.roomId;
     },

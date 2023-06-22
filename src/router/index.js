@@ -4,6 +4,8 @@ import VueRouter from "vue-router";
 import HomeView from "../components/HomeView.vue";
 import GameRoom from "../components/GameRoom.vue";
 import CatalogPage from "../components/pages/CatalogPage.vue";
+import Login from "@/components/pages/LoginPage.vue";
+import AuthCallback from "@/components/pages/AuthCallback.vue";
 
 Vue.use(VueRouter);
 
@@ -23,6 +25,8 @@ const routes = [
     name: "GameRoom",
     component: GameRoom,
   },
+  { path: "/login", component: Login },
+  { path: "/auth/callback", component: AuthCallback },
   {
     path: "/*",
     component: HomeView,

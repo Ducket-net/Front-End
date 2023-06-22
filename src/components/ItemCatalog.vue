@@ -142,13 +142,9 @@ export default {
       }
     },
     addToRoom(classname) {
-      console.log("Add to room", classname);
       this.$root.$emit("add-to-room", classname);
     },
-    selectItem() {
-      //   alert("ToDo: Perform an action with the selected item");
-      console.log("Selected");
-    },
+    selectItem() {},
   },
 };
 </script>

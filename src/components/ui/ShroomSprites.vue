@@ -51,11 +51,6 @@ export default {
     });
 
     furniture._onLoad = () => {
-      console.log("loaded");
-      console.log(furniture.dependencies.visualization.container);
-      console.log(furniture.dependencies.visualization.container.width);
-      console.log(furniture.dependencies.visualization.container.height);
-
       let furnitureContainer = furniture.dependencies.visualization.container;
 
       // Center the sprite considering the anchor point in the middle

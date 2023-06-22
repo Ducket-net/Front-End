@@ -91,6 +91,12 @@
         <!-- <p>Animation: {{ selectedItem.animation }}</p> -->
         <div class="flex-grow flex justify-end">
           <button
+            @click="duplicateItem"
+            class="p-2 px-4 font-semibold text-black bg-white border-1 border border-black rounded text-xs hover:bg-gray-800"
+          >
+            <font-awesome-icon :icon="['fas', 'plus']" />
+          </button>
+          <button
             @click="removeRoomItem"
             class="p-2 px-4 font-semibold text-black bg-white border-1 border border-black rounded text-xs hover:bg-gray-800"
           >
@@ -125,37 +131,49 @@
         </label>
 
         <div
-          class="col-span-2 w-full grid auto-cols-max grid-flow-col p-2 gap-2 overflow-hidden overflow-x-scroll no-scrollbar"
+          class="col-span-2 w-full grid auto-cols-max grid-flow-col p-2 overflow-hidden overflow-x-scroll no-scrollbar"
         >
           <button
             @click="increment = 0.1"
             class="h-[42px] rounded-lg bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button border border-black"
           >
-            1 Pixel
+            .1 <font-awesome-icon :icon="['fas', 'cube']" />
           </button>
           <button
             @click="increment = 0.5"
             class="h-[42px] rounded-lg bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button border border-black"
           >
-            .5 Block
+            .5 <font-awesome-icon :icon="['fas', 'cube']" />
           </button>
           <button
             @click="increment = 1.0"
             class="h-[42px] rounded-lg bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button border border-black"
           >
-            1 Block
+            1 <font-awesome-icon :icon="['fas', 'cube']" />
           </button>
           <button
             @click="increment = 2.0"
             class="h-[42px] rounded-lg bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button border border-black"
           >
-            2 Block
+            2 <font-awesome-icon :icon="['fas', 'cube']" />
+          </button>
+          <button
+            @click="increment = 0.05"
+            class="h-[42px] rounded-lg bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button border border-black"
+          >
+            .05 <font-awesome-icon :icon="['fas', 'cube']" />
+          </button>
+          <button
+            @click="increment = 0.01"
+            class="h-[42px] rounded-lg bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button border border-black"
+          >
+            .01 <font-awesome-icon :icon="['fas', 'cube']" />
           </button>
         </div>
 
         <!-- Animation -->
         <div
-          class="col-span-2 w-full grid auto-cols-max grid-flow-col p-2 gap-2 overflow-hidden overflow-x-scroll no-scrollbar"
+          class="col-span-2 w-full grid auto-cols-max grid-flow-col p-2 overflow-hidden overflow-x-scroll no-scrollbar"
         >
           <button
             @click="selectedItem.animation = 0"
@@ -241,8 +259,7 @@ export default {
       this.selectedItem = item;
     });
 
-    EventBus.$on("item-unselected", (item) => {
-      console.log("item unselected", item);
+    EventBus.$on("item-unselected", () => {
       this.selectedItem = null;
       this.saveRoomToLocalStorage();
     });
@@ -254,10 +271,14 @@ export default {
     });
   },
   methods: {
+    duplicateItem() {
+      if (this.selectedItem) {
+        this.game.addItem(this.selectedItem);
+        this.saveRoomToLocalStorage();
+      }
+    },
     rotateFurni() {
-      console.log(this.selectedItem);
       this.selectedItem.validDirections.then((directions) => {
-        console.log(directions);
         if (directions.length > 0) {
           // Get the index of the current direction in the valid directions array
           const currentIndex = directions.indexOf(this.selectedItem.direction);

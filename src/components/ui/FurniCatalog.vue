@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/require-v-for-key -->
 <template>
   <vue-bottom-sheet
     ref="catalogSheet"
@@ -62,11 +63,10 @@
                   <div
                     v-for="item in [furniGroup.items[0]]"
                     :key="item.classname"
-                    :id="item.strippedClassname"
+                    :id="item.baseClassname"
                     class="grid grid-cols-2 items-center"
                   >
                     <!-- Added a wrapper for image and text -->
-
                     <div
                       v-if="item.name"
                       class="grid grid-cols-[50px,auto] pl-2 items-center"
@@ -117,16 +117,18 @@
                     <template v-if="showColors[groupName]">
                       <div class="mt-2 items-center grid grid-cols-8 gap-1">
                         <!-- Added a wrapper for colors -->
-                        <div
-                          v-for="item in furniGroup.items"
-                          :key="item.classname"
-                          class="text-xs"
-                        >
+                        <div v-for="item in furniGroup.items" class="text-xs">
                           <button
-                            :style="{ backgroundColor: item.partcolors[0] }"
+                            :style="{
+                              backgroundColor: notWhite(item.partcolors.color),
+                            }"
                             class="relative h-[42px] min-w-[44px] overflow-hidden rounded-xl border border-1 border-opacity-10 border-white active:brightness-125"
                             @click="
-                              selectColor(item, item.partcolors[0], $event)
+                              selectColor(
+                                item,
+                                item.partcolors.color[1],
+                                $event
+                              )
                             "
                           >
                             <div
@@ -152,7 +154,6 @@
 
 <script>
 import axios from "axios";
-import xml2js from "xml-js";
 import VueBottomSheet from "@webzlodimir/vue-bottom-sheet";
 import { EventBus } from "@/eventBus";
 
@@ -173,8 +174,8 @@ export default {
   components: {
     VueBottomSheet,
   },
-  created() {
-    this.fetchAndParseXML();
+  async created() {
+    await this.fetchCatalogData();
     EventBus.$on("item-catalog", () => {
       this.showCatalog = true;
       setTimeout(() => {
@@ -202,16 +203,12 @@ export default {
 
       const categoryMapping = this.getCategoryMapping();
 
-      this.filteredCatalog.forEach((item) => {
+      this.filteredCatalog.flat().forEach((item) => {
         let itemCategory = "Uncategorized";
 
         if (item.classname.includes("clothing_")) {
           return; // skip clothing items
         }
-
-        // if (item.furniline != "iced") {
-        //   return; // skip items with category
-        // }
 
         Object.keys(categoryMapping).forEach((category) => {
           if (categoryMapping[category].includes(item.furniline)) {
@@ -228,18 +225,10 @@ export default {
         if (!categories[itemCategory][item.furniline][groupKey]) {
           categories[itemCategory][item.furniline][groupKey] = {
             items: [],
-            colors: [],
           }; // Initialize with items and colors arrays
         }
 
         categories[itemCategory][item.furniline][groupKey].items.push(item);
-
-        // Adds colors only if item.partcolors is present
-        if (item.partcolors) {
-          categories[itemCategory][item.furniline][groupKey].colors.push(
-            ...item.partcolors
-          );
-        }
       });
 
       return categories;
@@ -255,18 +244,22 @@ export default {
       immediate: false,
     },
   },
-  // https://ducket.net/assets/furni/couch_norja_5_icon.png
   methods: {
+    notWhite(color) {
+      for (let i = 0; i < color.length; i++) {
+        color[i] = color[i].toLowerCase();
+        if (color[i] != "#ffffff") {
+          return color[i];
+        }
+      }
+    },
     openColors(groupName) {
-      console.log("Show Colors", groupName);
       this.showColors = {
         ...this.showColors,
         [groupName]: !this.showColors[groupName],
       };
     },
     toggleSubCategory(subCategoryName) {
-      console.log("Toggle Sub Category", subCategoryName);
-
       // Use Vue.set() to ensure reactivity
       if (this.categoryState[subCategoryName] === undefined) {
         this.$set(this.categoryState, subCategoryName, true);
@@ -277,8 +270,6 @@ export default {
           !this.categoryState[subCategoryName]
         );
       }
-
-      console.log(this.categoryState);
     },
     openCatalog() {
       try {
@@ -298,7 +289,6 @@ export default {
       }
     },
     addToRoom(classname) {
-      console.log("Add to room", classname);
       this.$root.$emit("add-to-room", classname);
     },
     replaceAsteriskWithUnderscore(classname) {
@@ -309,8 +299,8 @@ export default {
       this.selectedColor = { item, color };
 
       //Update the image where id = item.classname img
-      const parentElement = document.getElementById(item.strippedClassname);
-
+      let baseClassname = item.baseClassname;
+      const parentElement = document.getElementById(baseClassname);
       const furniImgComponent = parentElement.querySelector("img");
       //Refactor this to use the FurniImg component
       furniImgComponent.src = `https://ducket-net.github.io/resources/icons/${this.replaceAsteriskWithUnderscore(
@@ -322,10 +312,10 @@ export default {
       addToRoomButton.classList.remove("hidden");
 
       // Remove the old event listener if there is one
-      if (this.listeners[item.strippedClassname]) {
+      if (this.listeners[item.baseClassname]) {
         addToRoomButton.removeEventListener(
           "click",
-          this.listeners[item.strippedClassname]
+          this.listeners[item.baseClassname]
         );
       }
 
@@ -338,11 +328,7 @@ export default {
       addToRoomButton.addEventListener("click", newListener);
 
       // Store the new event listener for the given classname
-      this.listeners[item.strippedClassname] = newListener;
-    },
-    getUniqueColors(colors) {
-      const uniqueColors = Array.from(new Set(colors));
-      return uniqueColors;
+      this.listeners[item.baseClassname] = newListener;
     },
     createGroupKey(classname) {
       if (!classname) {
@@ -488,14 +474,31 @@ export default {
           "excludeddynamic",
         ],
         Gaming: ["wired", "arcade", "snowboard", "gambling", "football"],
-        Miscellaneous: [
-          "testing",
-          "partcolors",
-          "undefined",
-          "military",
-          "animals",
-        ],
+        Miscellaneous: ["testing", "undefined", "military", "animals"],
       };
+    },
+    async fetchCatalogData() {
+      try {
+        // Fetch the catalog data from Laravel API
+        const response = await axios.get(
+          `${process.env.VUE_APP_DUCKET_URL}/api/catalog`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+              Accept: "application/json",
+              ContentType: "application/json",
+            },
+            body: {},
+          }
+        );
+
+        // Set the catalog, lines, and categories from the response
+        this.catalog = response.data.catalog;
+        this.lines = response.data.lines;
+        this.categories = response.data.categories;
+      } catch (error) {
+        console.error("Unable to fetch catalog data:", error);
+      }
     },
     async fetchAndParseXML() {
       try {
@@ -563,89 +566,6 @@ export default {
       } catch (error) {
         console.error("Unable to fetch XML data:", error);
       }
-    },
-    parseXMLAndCreateCatalogItems(xmlData) {
-      const options = {
-        compact: true,
-        ignoreComment: true,
-        alwaysChildren: true,
-      };
-      const parsedXML = xml2js.xml2js(xmlData, options);
-      const furnitypes = parsedXML.furnidata.roomitemtypes.furnitype;
-
-      this.catalog = furnitypes.map((furnitype) => {
-        let partcolors = [];
-
-        if (furnitype.partcolors && furnitype.partcolors.color) {
-          // If color is an array
-          if (Array.isArray(furnitype.partcolors.color)) {
-            // Remove white color
-            partcolors = furnitype.partcolors.color
-              .map((color) => color._text)
-              .filter((color) => color.toLowerCase() !== "#ffffff");
-          }
-          // If color is a single object
-          else {
-            // Check if the single object is not white color
-            if (furnitype.partcolors.color._text.toLowerCase() !== "#ffffff") {
-              partcolors = [furnitype.partcolors.color._text];
-            }
-          }
-        }
-        return {
-          partcolors,
-          strippedClassname: this.removeAsteriskFromClassName(
-            furnitype._attributes.classname
-          ),
-          classname: furnitype._attributes.classname,
-          revision: furnitype.revision._text,
-          name: furnitype.name._text,
-          furniline: furnitype.furniline._text,
-          xdim: furnitype.xdim._text,
-          ydim: furnitype.ydim._text,
-          specialtype: furnitype.specialtype._text,
-          description: furnitype.description._text,
-          bc: furnitype.bc._text,
-          canstandon: furnitype.canstandon._text,
-          cansiton: furnitype.cansiton._text,
-          canlayon: furnitype.canlayon._text,
-          rare: furnitype.rare._text,
-          category: furnitype.category._text,
-          defaultdir: furnitype.defaultdir._text,
-          buyout: furnitype.buyout._text,
-          offerid: furnitype.offerid._text,
-          excludeddynamic: furnitype.excludeddynamic._text,
-
-          // <category>shelf</category>
-          // <defaultdir>0</defaultdir>
-          // <xdim>1</xdim>
-          // <ydim>1</ydim>
-          // <partcolors>
-          // <color>#ffffff</color>
-          // <color>#F7EBBC</color>
-          // </partcolors>
-          // <name>Bookcase</name>
-          // <description>For nic naks and art deco books</description>
-          // <adurl/>
-          // <offerid>5</offerid>
-          // <buyout>1</buyout>
-          // <rentofferid>-1</rentofferid>
-          // <rentbuyout>0</rentbuyout>
-          // <bc>1</bc>
-          // <excludeddynamic>0</excludeddynamic>
-          // <customparams/>
-          // <specialtype>1</specialtype>
-          // <canstandon>0</canstandon>
-          // <cansiton>0</cansiton>
-          // <canlayon>0</canlayon>
-          // <furniline>iced</furniline>
-          // <environment/>
-          // <rare>0</rare>
-          // </furnitype>
-
-          // Include other properties you're interested in
-        };
-      });
     },
     filterCatalogItems(query) {
       this.searchResults = this.catalog.filter((item) =>

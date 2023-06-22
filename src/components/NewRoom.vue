@@ -164,7 +164,6 @@ export default {
       this.$refs.myBottomSheet.close();
     },
     onNewButtonClick() {
-      console.log("NewRoom button clicked");
       this.openBottomSheet();
     },
   },

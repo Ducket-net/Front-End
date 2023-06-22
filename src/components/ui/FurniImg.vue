@@ -42,11 +42,9 @@ export default {
       return match ? classname.replace(/\*(\d+)$/, "_" + match[1]) : classname;
     },
     onImageError() {
-      console.log("error");
       this.src = this.fallbackSrc;
     },
     updateSrc(newClassname) {
-      console.log("updateSrc");
       this.src = `https://ducket-net.github.io/resources/icons/${this.replaceAsteriskWithUnderscore(
         newClassname
       )}_icon.png`;
