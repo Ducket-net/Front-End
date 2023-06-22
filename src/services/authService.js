@@ -1,8 +1,8 @@
 // authService.js
 import axios from "axios";
 
-const clientId = "5";
-const clientSecret = "hMBIIs4ahklffeKJjs2A6HHVVWSNu78xlBMpxsPJ";
+const clientId = process.env.VUE_APP_CLIENT_ID;
+const clientSecret = process.env.VUE_APP_CLIENT_SECRET;
 const ducketUrl = process.env.VUE_APP_DUCKET_URL;
 const appUrl = process.env.VUE_APP_URL;
 
