@@ -103,11 +103,11 @@
 </style>
 
 <script>
-import GameRoom from "./GameRoom.vue";
-import ItemCatalogContainer from "./ItemCatalogContainer.vue";
-import SpecialCard from "./ui/SpecialCard.vue";
-import { EventBus } from "@/eventBus";
-import FurniCatalog from "./ui/FurniCatalog.vue";
+import GameRoom from '../GameRoom.vue';
+import ItemCatalogContainer from '../ItemCatalogContainer.vue';
+import SpecialCard from '../ui/SpecialCard.vue';
+import { EventBus } from '@/eventBus.js';
+import FurniCatalog from '../ui/FurniCatalog.vue';
 
 export default {
   components: {
@@ -118,15 +118,15 @@ export default {
   },
   data() {
     return {
-      home: "home",
-      cake: "cake",
-      roomSettingsOpen: false,
+      home: 'home',
+      cake: 'cake',
       itemCatalogOpen: false,
     };
   },
   methods: {
     emitSettings() {
-      EventBus.$emit("item-settings");
+      console.log('emitting');
+      EventBus.$emit('item-settings');
     },
   },
 };

@@ -1,3 +1,4 @@
+<!-- Login.vue -->
 <template>
   <transition name="fade">
     <div
@@ -95,7 +96,14 @@
           @click="clearLocalStorage"
           class="top-80 text-red-500 overflow-auto bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer"
         >
-          <font-awesome-icon :icon="['fas', 'trash']" /> Reset All
+          <font-awesome-icon :icon="['fas', 'trash']" /> Debug Reset
+        </button>
+
+        <button
+          @click="removeAllItems"
+          class="top-80 text-red-500 overflow-auto bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer"
+        >
+          <font-awesome-icon :icon="['fas', 'trash']" /> Remove All Items
         </button>
 
         <button
@@ -153,3 +161,126 @@
     </div>
   </transition>
 </template>
+
+<script>
+import Swatches from 'vue-color/src/components/Swatches';
+import authService from '@/services/authService';
+import EventBus from '../../eventBus.js';
+
+export default {
+  components: {
+    Swatches,
+  },
+  props: ['gameRoom'],
+  data() {
+    return {
+      room: this.gameRoom,
+      showBgColorPicker: false,
+      showWallColorPicker: false,
+      showFloorColorPicker: false,
+      roomSettingsOpen: false,
+      bgColor: this.$store.state.room.settings.bgColor,
+      wallColor: this.$store.state.room.settings.wallColor,
+      floorColor: this.$store.state.room.settings.floorColor,
+    };
+  },
+  methods: {
+    // eslint-disable-next-line no-unused-vars
+    handleWallColorChange(hexColor) {
+      // Call the fromHex function or handle the color change here
+      this.room.wallColor = hexColor;
+      this.$store.commit('setRoomWallColor', hexColor);
+    },
+    // eslint-disable-next-line no-unused-vars
+    handleFloorColorChange(hexColor) {
+      // Call the fromHex function or handle the color change here
+      this.room.floorColor = hexColor;
+      //Commit to store.js
+      this.$store.commit('setRoomFloorColor', hexColor);
+    },
+    handleBgColorChange(hexColor) {
+      // Call the fromHex function or handle the color change here
+      console.log(hexColor);
+      this.$store.commit('setRoomBgColor', hexColor);
+    },
+    authorize() {
+      authService.getAuthorizationCode();
+    },
+    clearLocalStorage() {
+      // Confirm
+      if (!confirm('Are you sure you want to reset all?')) return;
+      localStorage.clear();
+      // Clear IndexedDB
+      indexedDB.deleteDatabase('furnidataDB');
+      location.reload();
+    },
+    toggleWall() {
+      this.room.hideWalls = !this.room.hideWalls;
+
+      if (this.room.hideWalls) {
+        this.room.y = 224;
+        this.room.x = this.room.x + 8;
+      } else {
+        this.room.y = 100;
+        this.room.x = this.room.x - 8;
+      }
+
+      localStorage.setItem('hideWalls', this.room.hideWalls);
+    },
+    toggleFloor() {
+      this.room.hideFloor = !this.room.hideFloor;
+      this.toggleWall();
+      localStorage.setItem('hideFloor', this.room.hideFloor);
+    },
+    removeAllItems() {
+      if (!confirm('Are you sure you want to reset all?')) return;
+      this.room.roomObjects.forEach((item) => {
+        this.room.removeRoomObject(item);
+      });
+      this.$store.commit('saveRoomToLocalStorage');
+    },
+  },
+  created() {
+    console.log(this.room);
+    EventBus.$on('item-settings', () => {
+      console.log('item-settings');
+      this.roomSettingsOpen = !this.roomSettingsOpen;
+    });
+  },
+  mounted() {},
+  watch: {
+    wallColor: {
+      handler(newColor) {
+        this.handleWallColorChange(newColor.hex);
+      },
+      deep: true,
+    },
+    floorColor: {
+      handler(newColor) {
+        this.handleFloorColorChange(newColor.hex);
+      },
+      deep: true,
+    },
+    bgColor: {
+      handler(newColor) {
+        this.handleBgColorChange(newColor.hex);
+      },
+      deep: true,
+    },
+  },
+};
+</script>
+
+<style scoped>
+.vc-swatches {
+  box-shadow: none !important;
+  width: 100%;
+  background-color: transparent;
+  padding: 0 !important;
+  height: 300px;
+}
+.vc-swatches-box {
+  padding: 0px !important;
+  margin: 0px !important;
+}
+</style>

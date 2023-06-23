@@ -239,12 +239,12 @@
 </template>
 
 <script>
-import { EventBus } from "@/eventBus";
-import { FloorFurniture } from "@tetreum/shroom";
+import { EventBus } from '@/eventBus';
+import { FloorFurniture } from '@tetreum/shroom';
 
 export default {
-  name: "GameController",
-  props: ["game"],
+  name: 'GameController',
+  props: ['game'],
   data() {
     return {
       increment: 1,
@@ -255,16 +255,16 @@ export default {
     };
   },
   created() {
-    EventBus.$on("item-selected", (item) => {
+    EventBus.$on('item-selected', (item) => {
       this.selectedItem = item;
     });
 
-    EventBus.$on("item-unselected", () => {
+    EventBus.$on('item-unselected', () => {
       this.selectedItem = null;
       this.saveRoomToLocalStorage();
     });
 
-    EventBus.$on("furni-added", () => {
+    EventBus.$on('furni-added', () => {
       setTimeout(() => {
         this.saveRoomToLocalStorage();
       }, 1500);
@@ -303,20 +303,20 @@ export default {
     },
     saveRoomToLocalStorage() {
       const roomData = this.game.getSerializedRoom();
-      localStorage.setItem("savedRoom", JSON.stringify(roomData));
+      localStorage.setItem('savedRoom', JSON.stringify(roomData));
     },
     getIconUrl(type) {
       //Remove from here
       return `https://ducket.net/assets/furni/${type.replace(
-        "*",
-        "_"
+        '*',
+        '_'
       )}_icon.png`;
     },
     updateItem() {
-      EventBus.$emit("update-item", this.selectedItem);
+      EventBus.$emit('update-item', this.selectedItem);
     },
     removeRoomItem() {
-      EventBus.$emit("furni-removed", this.selectedItem);
+      EventBus.$emit('furni-removed', this.selectedItem);
       this.game.room.removeRoomObject(this.selectedItem);
       this.saveRoomToLocalStorage();
       this.selectedItem = null;
@@ -339,7 +339,7 @@ export default {
     },
     clearRoomItems() {
       //Confirm
-      if (!confirm("Are you sure you want to clear the room?")) return;
+      if (!confirm('Are you sure you want to clear the room?')) return;
       //Remove all floor furniture
       this.game.room.roomObjects.forEach((object) => {
         if (object instanceof FloorFurniture) {

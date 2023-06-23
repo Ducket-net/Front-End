@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 // src/game.js
-import * as PIXI from "pixi.js";
+import * as PIXI from 'pixi.js';
 import {
   Room,
   Avatar,
@@ -8,11 +8,11 @@ import {
   FloorFurniture,
   loadRoomTexture,
   RoomCamera,
-} from "@tetreum/shroom";
-import { EventBus } from "./eventBus";
-import { gsap } from "gsap";
-import ExtendedFloorFurniture from "./renderer/ExtendedFloorFurniture.js";
-import DebouncedOnClick from "./services/debounceAction.js";
+} from '@tetreum/shroom';
+import { EventBus } from './eventBus';
+import { gsap } from 'gsap';
+import ExtendedFloorFurniture from './renderer/ExtendedFloorFurniture.js';
+import DebouncedOnClick from './services/debounceAction.js';
 
 export default class Game {
   constructor(view, roomData) {
@@ -46,20 +46,20 @@ export default class Game {
   createShroom() {
     return Shroom.create({
       application: this.application,
-      resourcePath: "https://ducket-net.github.io/resources",
+      resourcePath: 'https://ducket-net.github.io/resources',
     });
   }
 
   onFurnitureItemClick(item) {
     if (this.selectedFurnitureItem && this.selectedFurnitureItem !== item) {
-      EventBus.$emit("item-unselected", this.selectedFurnitureItem);
+      EventBus.$emit('item-unselected', this.selectedFurnitureItem);
     }
 
     if (this.selectedFurnitureItem === item) {
-      EventBus.$emit("item-unselected", item);
+      EventBus.$emit('item-unselected', item);
       this.selectedFurnitureItem = null;
     } else {
-      EventBus.$emit("item-selected", item);
+      EventBus.$emit('item-selected', item);
       this.selectedFurnitureItem = item;
     }
   }
@@ -75,12 +75,12 @@ export default class Game {
 
     //Set width to max 400px, or if less, make centered
 
-    const containerElement = window.document.getElementById("canvasContainer");
+    const containerElement = window.document.getElementById('canvasContainer');
     const containerWidth = containerElement.clientWidth;
     this.renderItem(roomData, room);
-    room.wallColor = roomData.wallColor || "#DE6E2B";
-    room.floorColor = roomData.floorColor || "#cccccc";
-    room.floorTexture = loadRoomTexture("tile.png");
+    room.wallColor = roomData.wallColor || '#DE6E2B';
+    room.floorColor = roomData.floorColor || '#cccccc';
+    room.floorTexture = loadRoomTexture('tile.png');
     room.y = 100;
     room.x = containerWidth / 2 - room.width / 2;
 
@@ -123,7 +123,7 @@ export default class Game {
     this.room.addRoomObject(furnitureItem);
     this.animateDropFurnitureItem(furnitureItem);
 
-    EventBus.$emit("furni-added", furnitureItem);
+    EventBus.$emit('furni-added', furnitureItem);
   }
 
   createAndSetFurnitureItem(itemData) {
@@ -133,11 +133,16 @@ export default class Game {
       this.onFurnitureItemClick(furnitureItem);
     };
     furnitureItem.onDoubleClick = (event) => {
-      console.log("double click");
+      //Animaton off and on
+      if (furnitureItem.animation === 1) {
+        furnitureItem.animation = 0;
+      } else {
+        furnitureItem.animation = 1;
+      }
     };
 
     furnitureItem.onDragStart = (event) => {
-      console.log("drag start");
+      console.log('drag start');
       this.onFurnitureItemClick(furnitureItem);
       this.animateTap(furnitureItem);
     };
@@ -163,7 +168,7 @@ export default class Game {
       .to(furnitureItem, {
         roomZ: endZ,
         duration: 0.7,
-        ease: "bounce.out",
+        ease: 'bounce.out',
         onUpdate: () => this.application.render(this.room),
       })
       .to(
@@ -173,7 +178,7 @@ export default class Game {
           duration: 0.5,
           onComplete,
         },
-        "<"
+        '<'
       );
   }
 
@@ -209,7 +214,7 @@ export default class Game {
         roomX: endX,
         roomY: endY,
         duration: duration,
-        ease: "back", // Update the easing function for a snappier animation
+        ease: 'back', // Update the easing function for a snappier animation
         onUpdate: () => this.application.render(this.room),
         onComplete: () => {
           furnitureItem.roomX = endX;

@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions } from 'vuex';
 
 export default {
   computed: {
@@ -22,7 +22,7 @@ export default {
     },
     splashScreenImage() {
       // Set the default splash screen image path
-      let imagePath = "/logo.png";
+      let imagePath = '/logo.png';
 
       // Get the device dimensions and pixel ratio
       const deviceWidth = window.innerWidth;
@@ -32,97 +32,97 @@ export default {
       // Define the splash screens based on width, height, and pixel ratio
       const splashScreens = [
         {
-          path: "/splashscreens/apple-splash-2048-2732.png",
+          path: '/splashscreens/apple-splash-2048-2732.png',
           width: 1024,
           height: 1366,
           ratio: 2,
         },
         {
-          path: "/splashscreens/apple-splash-1668-2388.png",
+          path: '/splashscreens/apple-splash-1668-2388.png',
           width: 834,
           height: 1194,
           ratio: 2,
         },
         {
-          path: "/splashscreens/apple-splash-1536-2048.png",
+          path: '/splashscreens/apple-splash-1536-2048.png',
           width: 768,
           height: 1024,
           ratio: 2,
         },
         {
-          path: "/splashscreens/apple-splash-1668-2224.png",
+          path: '/splashscreens/apple-splash-1668-2224.png',
           width: 834,
           height: 1112,
           ratio: 2,
         },
         {
-          path: "/splashscreens/apple-splash-1620-2160.png",
+          path: '/splashscreens/apple-splash-1620-2160.png',
           width: 810,
           height: 1080,
           ratio: 2,
         },
         {
-          path: "/splashscreens/apple-splash-1290-2796.png",
+          path: '/splashscreens/apple-splash-1290-2796.png',
           width: 430,
           height: 932,
           ratio: 3,
         },
         {
-          path: "/splashscreens/apple-splash-1179-2556.png",
+          path: '/splashscreens/apple-splash-1179-2556.png',
           width: 393,
           height: 852,
           ratio: 3,
         },
         {
-          path: "/splashscreens/apple-splash-1284-2778.png",
+          path: '/splashscreens/apple-splash-1284-2778.png',
           width: 428,
           height: 926,
           ratio: 3,
         },
         {
-          path: "/splashscreens/apple-splash-1284-2778.png",
+          path: '/splashscreens/apple-splash-1284-2778.png',
           width: 428,
           height: 926,
           ratio: 2,
         },
         {
-          path: "/splashscreens/apple-splash-1170-2532.png",
+          path: '/splashscreens/apple-splash-1170-2532.png',
           width: 390,
           height: 844,
           ratio: 3,
         },
         {
-          path: "/splashscreens/apple-splash-1125-2436.png",
+          path: '/splashscreens/apple-splash-1125-2436.png',
           width: 375,
           height: 812,
           ratio: 3,
         },
         {
-          path: "/splashscreens/apple-splash-1242-2688.png",
+          path: '/splashscreens/apple-splash-1242-2688.png',
           width: 414,
           height: 896,
           ratio: 3,
         },
         {
-          path: "/splashscreens/apple-splash-828-1792.png",
+          path: '/splashscreens/apple-splash-828-1792.png',
           width: 414,
           height: 896,
           ratio: 2,
         },
         {
-          path: "/splashscreens/apple-splash-1242-2208.png",
+          path: '/splashscreens/apple-splash-1242-2208.png',
           width: 414,
           height: 736,
           ratio: 3,
         },
         {
-          path: "/splashscreens/apple-splash-750-1334.png",
+          path: '/splashscreens/apple-splash-750-1334.png',
           width: 375,
           height: 667,
           ratio: 2,
         },
         {
-          path: "/splashscreens/apple-splash-640-1136.png",
+          path: '/splashscreens/apple-splash-640-1136.png',
           width: 320,
           height: 568,
           ratio: 2,
@@ -153,7 +153,7 @@ export default {
         };
       });
     },
-    ...mapActions(["updateShowSplashScreen"]),
+    ...mapActions(['updateShowSplashScreen']),
 
     initApp() {
       // Data fetching or processing can go here, for example
@@ -161,14 +161,15 @@ export default {
       setTimeout(() => {
         this.updateShowSplashScreen(false);
 
-        if (localStorage.getItem("bgColor")) {
-          document.body.style.backgroundColor = localStorage.getItem("bgColor");
+        if (this.$store.state.room.settings.bgColor) {
+          document.body.style.backgroundColor =
+            this.$store.state.room.settings.bgColor;
         }
       }, 1200); // You can adjust the delay as needed
     },
     checkIfPwa() {
       if (
-        window.matchMedia("(display-mode: standalone)").matches ||
+        window.matchMedia('(display-mode: standalone)').matches ||
         window.navigator.standalone === true
       ) {
         return true;
