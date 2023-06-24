@@ -24,7 +24,7 @@ export default new Vuex.Store({
     pixiInstance: null,
     room: {
       settings: {
-        bgColor: '#ffffff', // '#ffffff'
+        bgColor: '#1A1F25', // '#ffffff'
         wallColor: '#ffffff', // '#ffffff
         floorColor: '#ffffff', // '#ffffff
         hideWalls: false,
