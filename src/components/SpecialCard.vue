@@ -1,6 +1,6 @@
 <template>
   <div
-    class="card-container bg-white relative border border-black p-4 rounded-xl"
+    class="card-container bg-white relative border border-black p-4 rounded-xl active:bg-black transition-all duration-100 active:text-white"
     @click="$emit('card-click')"
   >
     <!-- <video
@@ -21,7 +21,7 @@
 
 <script>
 export default {
-  name: "SpecialCard",
+  name: 'SpecialCard',
 };
 </script>
 

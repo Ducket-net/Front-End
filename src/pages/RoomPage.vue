@@ -13,19 +13,14 @@
         <SpecialCard @card-click="$router.push('/login')">
           <h2 class="font-bold text-sm">
             <font-awesome-icon :icon="['fas', 'gear']" />
-            Account
+            Login
           </h2>
-          <p v-if="isUserLoggedIn">Hello, {{ loggedInUser.name }}!</p>
-          <p v-else>Hello, guest!</p>
         </SpecialCard>
         <SpecialCard @card-click="emitSettings">
           <h2 class="font-bold text-sm">
             <font-awesome-icon :icon="['fas', 'gear']" />
             Manage Room
           </h2>
-          <p class="text-sm text-gray-700">
-            Edit the background, floors, positions, and more.
-          </p>
         </SpecialCard>
 
         <SpecialCard>
@@ -33,27 +28,12 @@
             <font-awesome-icon :icon="['fas', 'arrow-up-from-bracket']" />
             Install the App
           </h2>
-          <p class="text-sm text-gray-700">
-            Click the share icon
-            <font-awesome-icon :icon="['fas', 'arrow-up-from-bracket']" /> and
-            then Add to Home Screen.
-          </p>
         </SpecialCard>
 
         <SpecialCard @card-click="emitSettings">
           <h2 class="font-bold text-sm">
             <font-awesome-icon :icon="['fas', 'bug']" /> Report Bugs & Issues
           </h2>
-          <p class="text-sm text-gray-700">
-            If you find any bugs, report them to
-            <a
-              href="https://twitter.com/wes_wim"
-              target="_blank"
-              class="underline text-black"
-              >Wes</a
-            >
-            on Twitter!
-          </p>
         </SpecialCard>
       </div>
     </div>
@@ -64,7 +44,6 @@
 .home-container {
   display: flex;
   flex-direction: column;
-  height: 100vh; /* Set the container height to the screen height */
 }
 
 .game-room-container {
