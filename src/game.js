@@ -7,18 +7,17 @@ import {
   Shroom,
   FloorFurniture,
   loadRoomTexture,
-  RoomCamera,
 } from '@tetreum/shroom';
 import { EventBus } from './eventBus';
 import { gsap } from 'gsap';
-import ExtendedFloorFurniture from './renderer/ExtendedFloorFurniture.js';
-import DebouncedOnClick from './services/debounceAction.js';
+import { isIOS17 } from './utils';
 
 export default class Game {
   constructor(view, roomData) {
     this.setupPixiApp(view);
     this.shroom = this.createShroom();
     this.room = this.createRoom(roomData);
+    this.createBackground();
 
     if (roomData.avatar) {
       this.avatar = this.createAvatar(roomData.avatar);
@@ -27,29 +26,52 @@ export default class Game {
 
     this.selectedFurnitureItem = null;
   }
-
   setupPixiApp(view) {
     this.application = new PIXI.Application({
       view,
       antialias: false,
       resolution: window.devicePixelRatio,
       autoDensity: true,
-      width: window.innerWidth,
+      width: document.getElementById('app').clientWidth,
       height: 500,
-      transparent: true,
+      transparent: false,
     });
     // eslint-disable-next-line no-undef
     globalThis.__PIXI_APP__ = this.application;
     PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
   }
+  createBackground() {
+    // Load the texture from an image URL
+    PIXI.Loader.shared.reset(); // Reset the PIXI.Loader.shared
+    PIXI.Loader.shared
+      .add('backgroundImage', '6432-grid_2.png')
+      .load((_, resources) => {
+        // Create a TilingSprite from the texture
+        const background = new PIXI.TilingSprite(
+          resources.backgroundImage.texture,
+          this.application.screen.width,
+          this.application.screen.height
+        );
 
+        // Set the size of the TilingSprite
+        background.width = this.application.screen.width;
+        background.height = this.application.screen.height;
+
+        //Needed, iOS 17 does not seem to respect alpha.
+        if (isIOS17()) {
+          background.alpha = 0.1;
+        }
+
+        // Add the TilingSprite to the stage
+        this.application.stage.addChildAt(background, 0);
+      });
+  }
   createShroom() {
     return Shroom.create({
       application: this.application,
       resourcePath: 'https://ducket-net.github.io/resources',
     });
   }
-
   onFurnitureItemClick(item) {
     if (this.selectedFurnitureItem && this.selectedFurnitureItem !== item) {
       EventBus.$emit('item-unselected', this.selectedFurnitureItem);
@@ -63,7 +85,6 @@ export default class Game {
       this.selectedFurnitureItem = item;
     }
   }
-
   createRoom(roomData) {
     const room = Room.create(this.shroom, {
       tilemap: `xxxxx
@@ -81,31 +102,28 @@ export default class Game {
     room.wallColor = roomData.wallColor || '#DE6E2B';
     room.floorColor = roomData.floorColor || '#cccccc';
     room.floorTexture = loadRoomTexture('tile.png');
+
     room.y = 100;
     room.x = containerWidth / 2 - room.width / 2;
 
     return room;
   }
-
   createAvatar(avatarData) {
     if (avatarData) {
       return new Avatar(avatarData);
     }
   }
-
   renderItem(roomData, room) {
     roomData.items.forEach((item) => {
       const furnitureItem = this.createAndSetFurnitureItem(item);
       room.addRoomObject(furnitureItem);
     });
   }
-
   unselectFurniture(item) {
     if (this.selectedFurnitureItem) {
       this.onFurnitureItemClick(this.selectedFurnitureItem);
     }
   }
-
   updateItem(itemData) {
     if (this.selectedFurnitureItem) {
       this.room.removeRoomObject(this.selectedFurnitureItem);
@@ -117,7 +135,6 @@ export default class Game {
       this.onFurnitureItemClick(updatedItem);
     }
   }
-
   addItem(itemData) {
     const furnitureItem = this.createAndSetFurnitureItem(itemData);
     this.room.addRoomObject(furnitureItem);
@@ -125,7 +142,6 @@ export default class Game {
 
     EventBus.$emit('furni-added', furnitureItem);
   }
-
   createAndSetFurnitureItem(itemData) {
     const furnitureItem = new FloorFurniture(itemData);
     furnitureItem.onClick = (event) => {
@@ -148,7 +164,6 @@ export default class Game {
     };
     return furnitureItem;
   }
-
   animateDropFurnitureItem(furnitureItem) {
     const startY = 10; // starting position (shift upwards)
     const endZ = furnitureItem.roomZ; // target position
@@ -181,7 +196,6 @@ export default class Game {
         '<'
       );
   }
-
   animateTap(furnitureItem) {
     const initialZ = furnitureItem.roomZ;
     const tappedZ = initialZ + 0.2; // Adjust the tapping factor
@@ -200,7 +214,6 @@ export default class Game {
         onUpdate: () => this.application.render(this.room),
       });
   }
-
   moveFurnitureItem(furnitureItem, moveX, moveY) {
     const startX = furnitureItem.roomX;
     const startY = furnitureItem.roomY;
@@ -227,7 +240,6 @@ export default class Game {
     // Call the animateMove function
     animateMove();
   }
-
   floorFurnitureItemToJSON(floorFurniture) {
     return {
       type: floorFurniture.type,
@@ -238,7 +250,6 @@ export default class Game {
       animation: floorFurniture.animation,
     };
   }
-
   getSerializedRoom() {
     const roomData = {
       wallColor: this.room.wallColor,
@@ -255,14 +266,17 @@ export default class Game {
 
     return roomData;
   }
-
   addFloatingDot(furnitureItem) {
     if (!furnitureItem.floatingDot) {
       furnitureItem.alpha = 0.7;
     }
   }
-
   removeFloatingDot(furnitureItem) {
     furnitureItem.alpha = 1;
+  }
+
+  setBackground(bgColor) {
+    let convertHex = parseInt(bgColor.slice(1), 16);
+    this.application.renderer.backgroundColor = convertHex;
   }
 }

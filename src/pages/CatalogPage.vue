@@ -29,8 +29,8 @@
 </style>
 
 <script>
-import { EventBus } from "@/eventBus";
-import FurniCatalog from "../ui/FurniCatalog.vue";
+import { EventBus } from '@/eventBus';
+import FurniCatalog from '@/components/FurniCatalog.vue';
 
 export default {
   components: {
@@ -44,7 +44,7 @@ export default {
   },
   methods: {
     emitSettings() {
-      EventBus.$emit("item-settings");
+      EventBus.$emit('item-settings');
     },
   },
 };

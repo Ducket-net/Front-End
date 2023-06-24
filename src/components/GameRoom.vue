@@ -1,11 +1,10 @@
 <!-- src/components/GameRoom.vue -->
 <template>
-  <div ref="container" class="mx-auto">
+  <div ref="container" class="mx-auto max-w-md">
     <div
       ref="canvasContainer"
       id="canvasContainer"
       class="relative"
-      :style="{ backgroundColor: this.$store.state.room.settings.bgColor }"
       @keydown="handleKeydown"
       tabindex="0"
     >
@@ -14,62 +13,33 @@
       </div>
     </div>
 
-    <room-items-list
-      v-if="game && game.room"
-      :roomItems="Array.from(game.room.roomObjects)"
-    ></room-items-list>
+    <div v-if="withController == 'true'">
+      <room-items-list
+        v-if="game && game.room"
+        :roomItems="Array.from(game.room.roomObjects)"
+      ></room-items-list>
 
-    <!-- src/components/GameRoom.vue -->
+      <!-- src/components/GameRoom.vue -->
 
-    <vue-bottom-sheet
-      ref="myBottomSheet"
-      :overlay="false"
-      :click-to-close="false"
-      :background-clickable="true"
-      @closed="game.unselectFurniture(selectedItem)"
-    >
-      <game-controller :game="game" ref="gameController"></game-controller>
-    </vue-bottom-sheet>
+      <vue-bottom-sheet
+        ref="myBottomSheet"
+        :overlay="false"
+        :click-to-close="false"
+        :background-clickable="true"
+        @closed="game.unselectFurniture(selectedItem)"
+      >
+        <game-controller :game="game" ref="gameController"></game-controller>
+      </vue-bottom-sheet>
 
-    <RoomSettings v-if="game && game.room" :gameRoom="game.room"></RoomSettings>
+      <RoomSettings
+        v-if="game && game.room"
+        :gameRoom="game.room"
+      ></RoomSettings>
+    </div>
 
     <!-- roomSettingsOpen -->
   </div>
 </template>
-
-<style scoped>
-/* Fade Transition */
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-
-.fade-enter-to {
-  opacity: 1;
-}
-
-#canvasContainer {
-  background-image: url('../../public/6432-grid_2.png'),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.2));
-}
-
-@keyframes slide-up {
-  0% {
-    transform: translateY(100%);
-  }
-  75% {
-    transform: translateY(-10%);
-  }
-  100% {
-    transform: translateY(0%);
-  }
-}
-</style>
 
 <script>
 import VueBottomSheet from '@webzlodimir/vue-bottom-sheet';
@@ -78,7 +48,7 @@ import Game from '@/game';
 import { EventBus } from '@/eventBus'; // Import the EventBus
 import RoomItemsList from '@/components/RoomItemList.vue'; // Import RoomItemsList
 import GameController from '@/components/GameController.vue';
-import RoomSettings from '@/components/ui/RoomSettings.vue';
+import RoomSettings from '@/components/RoomSettings.vue';
 
 export default {
   name: 'GameRoom',
@@ -88,7 +58,7 @@ export default {
     RoomSettings,
     VueBottomSheet,
   },
-  props: ['roomId'],
+  props: ['roomId', 'withController'],
   data() {
     return {
       game: null,
@@ -107,12 +77,13 @@ export default {
   },
   async mounted() {
     const { canvas } = this.$refs;
-    const roomId = this.$route.params.id || this.roomId || 'home';
+    const roomId = this.$route.params.id || this.roomId || 'blank';
     await this.$store.dispatch('selectRoomById', roomId);
     const { currentRoom } = this.$store.state;
     this.game = new Game(canvas, currentRoom);
     this.game.application.stage.addChild(this.game.room);
     this.$store.commit('setGame', this.game);
+    this.game.setBackground(this.$store.state.room.settings.bgColor);
   },
   methods: {
     moveRoom(dir) {
@@ -232,6 +203,43 @@ export default {
     EventBus.$on('item-settings', () => {
       this.roomSettingsOpen = !this.roomSettingsOpen;
     });
+
+    EventBus.$on('bg-color-change', (color) => {
+      this.game.setBackground(color);
+    });
   },
 };
 </script>
+<style scoped>
+/* Fade Transition */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.fade-enter-to {
+  opacity: 1;
+}
+
+#canvasContainer {
+  background-image: url('../../public/6432-grid_2.png'),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.2));
+}
+
+@keyframes slide-up {
+  0% {
+    transform: translateY(100%);
+  }
+  75% {
+    transform: translateY(-10%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
+}
+</style>

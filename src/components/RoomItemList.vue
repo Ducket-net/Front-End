@@ -30,11 +30,11 @@
 </template>
 
 <script>
-import { EventBus } from "@/eventBus";
-import SpecialButton from "@/components/ui/SpecialButton.vue";
+import { EventBus } from '@/eventBus';
+import SpecialButton from '@/components/SpecialButton.vue';
 
 export default {
-  name: "RoomItemsList",
+  name: 'RoomItemsList',
   components: {
     SpecialButton,
   },
@@ -52,19 +52,19 @@ export default {
   },
   methods: {
     emitSettings() {
-      EventBus.$emit("item-settings");
+      EventBus.$emit('item-settings');
     },
     emitCatalog() {
-      EventBus.$emit("item-catalog");
+      EventBus.$emit('item-catalog');
     },
     selectItem(item) {
-      EventBus.$emit("select-item", item);
+      EventBus.$emit('select-item', item);
     },
     getIconUrl(type) {
       //Remove from here
       return `https://ducket.net/assets/furni/${type.replace(
-        "*",
-        "_"
+        '*',
+        '_'
       )}_icon.png`;
     },
   },
@@ -72,23 +72,23 @@ export default {
     this.localRoomItems = [...this.roomItems].reverse();
   },
   created() {
-    EventBus.$on("item-selected", (item) => {
+    EventBus.$on('item-selected', (item) => {
       this.selectedItem = item;
     });
 
-    EventBus.$on("furni-added", (item) => {
+    EventBus.$on('furni-added', (item) => {
       // this.localRoomItems.push(item);
       //Add item tos tart of array
       this.localRoomItems.unshift(item);
     });
 
-    EventBus.$on("furni-removed", (item) => {
+    EventBus.$on('furni-removed', (item) => {
       this.localRoomItems.splice(
         this.localRoomItems.findIndex((i) => i === item),
         1
       );
     });
-    EventBus.$on("item-selected", (item) => {
+    EventBus.$on('item-selected', (item) => {
       // Find the index of the selected item
       const itemIndex = this.localRoomItems.findIndex((i) => i === item);
 
@@ -100,7 +100,7 @@ export default {
         this.localRoomItems.unshift(item);
       }
     });
-    EventBus.$on("item-unselected", () => {
+    EventBus.$on('item-unselected', () => {
       this.selectedItem = null;
     });
   },

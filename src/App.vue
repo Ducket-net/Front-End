@@ -2,7 +2,7 @@
 <template>
   <div
     id="app"
-    class="h-full w-full mx-auto md:rounded-lg max-w-md overflow-hidden bg-[#1A1F25] lg:mt-11 lg:max-h-[calc(100vh-80px)] lg:shadow-2xl"
+    class="w-full mx-auto sm:rounded-lg max-w-md overflow-hidden bg-[#1A1F25] sm:mt-11 sm:shadow-2xl"
   >
     <splash-screen></splash-screen>
 
@@ -16,56 +16,49 @@
               href="/"
               class="ml-4 flex-shrink text-white text-[14px] no-underline leading-4 flex items-center space-x-1"
             >
-              <img src="/logo.png" class="h-[19px] w-[19px] font-lato" />
+              <img src="/logo.png" class="h-[19px] w-[19px] bg-transparent" />
               <span>Ducket Alpha</span>
             </a>
 
             <new-room></new-room>
           </div>
         </header>
-
-        <router-view></router-view>
+        <div
+          :style="{ backgroundColor, ...backgroundStyles }"
+          class="sm:pb-4 h-screen sm:max-h-[calc(100vh-100px)] overflow-auto no-scrollbar"
+        >
+          <router-view></router-view>
+          <footer
+            class="mt-10 mx-auto text-white my-12 text-center max-w-sm text-xs pb-7"
+          >
+            <div class="block py-2">
+              <a
+                href="https://twitter.com/wes_wim"
+                target="_blank"
+                class="underline text-white"
+                >Twitter</a
+              >
+              |
+              <a href="" class="underline text-white"
+                >Reload <font-awesome-icon :icon="['fas', 'sync-alt']" />
+              </a>
+            </div>
+            <p class="text-white">
+              Ducket is not affiliated with, endorsed, sponsored, or
+              specifically approved by Sulake Corporation Oy or its Affiliates.
+              Ducket may use the trademarks and other intellectual property of
+              Habbo, which is permitted under Habbo Fan Site Policy.
+            </p>
+          </footer>
+        </div>
       </div>
     </transition>
   </div>
 </template>
 
-<style scoped>
-/* Move the fade transition styles to SplashScreen.vue */
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 1s;
-}
-
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
-.isometric-tile::before,
-.isometric-tile::after {
-  content: "";
-  position: absolute;
-  width: 0;
-  height: 0;
-  border-style: solid;
-}
-
-.isometric-tile::before {
-  bottom: 50%;
-  border-width: 0 32px 16px 32px;
-  border-color: transparent transparent rgba(255, 0, 0, 0.1) transparent;
-}
-
-.isometric-tile::after {
-  top: 50%;
-  border-width: 16px 32px 0 32px;
-  border-color: rgba(255, 255, 255, 0.1) transparent transparent transparent;
-}
-</style>
-
 <script>
-import NewRoom from "@/components/NewRoom.vue";
-import SplashScreen from "@/components/SplashScreen.vue"; // Add this line to import the SplashScreen component
+import NewRoom from '@/components/NewRoom.vue';
+import SplashScreen from '@/components/SplashScreen.vue'; // Add this line to import the SplashScreen component
 
 export default {
   components: {
@@ -88,9 +81,60 @@ export default {
     catalogItems() {
       return this.$store.state.catalog || [];
     },
+    backgroundColor() {
+      return this.$store.state.room.settings.bgColor;
+    },
+    backgroundStyles() {
+      //NEED TO FIX iOS 17 BUG WITH PNGs
+      let styles = {
+        backgroundColor: this.backgroundColor,
+      };
+
+      if (!this.$isIOS17()) {
+        styles.backgroundImage = "url('6432-grid_2.png')";
+        styles.backgroundPosition = '32px 48px';
+        //not Fixed background image on iOS
+        styles.backgroundAttachment = 'local';
+      }
+
+      return styles;
+    },
   },
   methods: {},
   mounted() {},
   created() {},
 };
 </script>
+
+<style scoped>
+/* Move the fade transition styles to SplashScreen.vue */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 1s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+.isometric-tile::before,
+.isometric-tile::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+
+.isometric-tile::before {
+  bottom: 50%;
+  border-width: 0 32px 16px 32px;
+  border-color: transparent transparent rgba(255, 0, 0, 0.1) transparent;
+}
+
+.isometric-tile::after {
+  top: 50%;
+  border-width: 16px 32px 0 32px;
+  border-color: rgba(255, 255, 255, 0.1) transparent transparent transparent;
+}
+</style>

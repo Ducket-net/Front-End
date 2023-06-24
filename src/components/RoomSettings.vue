@@ -165,7 +165,7 @@
 <script>
 import Swatches from 'vue-color/src/components/Swatches';
 import authService from '@/services/authService';
-import EventBus from '../../eventBus.js';
+import EventBus from '@/eventBus.js';
 
 export default {
   components: {
@@ -200,7 +200,6 @@ export default {
     },
     handleBgColorChange(hexColor) {
       // Call the fromHex function or handle the color change here
-      console.log(hexColor);
       this.$store.commit('setRoomBgColor', hexColor);
     },
     authorize() {
@@ -241,9 +240,7 @@ export default {
     },
   },
   created() {
-    console.log(this.room);
     EventBus.$on('item-settings', () => {
-      console.log('item-settings');
       this.roomSettingsOpen = !this.roomSettingsOpen;
     });
   },
@@ -264,6 +261,7 @@ export default {
     bgColor: {
       handler(newColor) {
         this.handleBgColorChange(newColor.hex);
+        EventBus.$emit('bg-color-change', newColor.hex);
       },
       deep: true,
     },

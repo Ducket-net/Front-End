@@ -16,8 +16,8 @@
 </template>
 
 <script>
-import authService from "@/services/authService";
-import SpecialCard from "../ui/SpecialCard.vue";
+import authService from '@/services/authService';
+import SpecialCard from '@/components/SpecialCard.vue';
 
 export default {
   components: {

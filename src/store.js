@@ -61,8 +61,8 @@ export default new Vuex.Store({
       state.room.settings.y = y;
     },
     setRoomBgColor(state, color) {
-      console.log(color);
       state.room.settings.bgColor = color;
+      localStorage.setItem('settings', JSON.stringify(state.room.settings));
     },
     setRoomWallColor(state, color) {
       state.room.settings.wallColor = color;
@@ -114,6 +114,8 @@ export default new Vuex.Store({
     loggedInUser: (state) => state.user,
     isUserLoggedIn: (state) => !!state.accessToken,
     currentRoom: (state) => state.room,
+    roomSettings: (state) => state.room.settings,
+    game: (state) => state.game,
   },
   actions: {
     async authenticate({ commit }, accessToken) {
@@ -174,27 +176,41 @@ export default new Vuex.Store({
     async fetchCurrentRoom({ commit }, roomId) {
       try {
         let roomData;
+        let settings;
 
         // Check if room data exists in local storage
-        if (localStorage.getItem('savedRoom')) {
+        if (
+          localStorage.getItem('savedRoom') &&
+          localStorage.getItem('settings') &&
+          roomId !== 'home'
+        ) {
           roomData = JSON.parse(localStorage.getItem('savedRoom'));
+          settings = JSON.parse(localStorage.getItem('settings'));
         } else {
           // If no room data in local storage, fetch from server
           // Replace the URL with your actual server URL
           const response = await axios.get(`/room-${roomId}.json`);
           roomData = response.data;
+          settings = {
+            bgColor: '#1A1F25',
+            wallColor: '#ffffff', // '#ffffff
+            floorColor: '#ffffff', // '#ffffff
+            hideWalls: false,
+            hideFloor: false,
+            x: 0,
+            y: 0,
+          };
         }
 
-        console.log(roomData);
         //Set Room Settings
         const roomSettings = {
-          bgColor: roomData.bgColor || '#ffffff',
-          wallColor: roomData.wallColor || '#ffffff',
-          floorColor: roomData.floorColor || '#ffffff',
-          hideWalls: roomData.hideWalls || false,
-          hideFloor: roomData.hideFloor || false,
-          x: roomData.x || 250,
-          y: roomData.y || 250,
+          bgColor: settings.bgColor || '#ffffff',
+          wallColor: settings.wallColor || '#ffffff',
+          floorColor: settings.floorColor || '#ffffff',
+          hideWalls: settings.hideWalls || false,
+          hideFloor: settings.hideFloor || false,
+          x: settings.x || 250,
+          y: settings.y || 250,
         };
 
         commit('setRoomSettings', roomSettings);
@@ -208,6 +224,7 @@ export default new Vuex.Store({
     },
     async selectRoomById({ commit, dispatch }, roomId) {
       const room = await dispatch('fetchCurrentRoom', roomId);
+      console.info('Room:', room);
       if (room) {
         commit('setCurrentRoom', room);
       }

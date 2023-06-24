@@ -1,12 +1,12 @@
 // src/router/index.js
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import RoomPage from '@/components/pages/RoomPage.vue';
+import RoomPage from '@/pages/RoomPage.vue';
 import GameRoom from '../components/GameRoom.vue';
-import CatalogPage from '../components/pages/CatalogPage.vue';
-import DashboardPage from '../components/pages/DashboardPage.vue';
-import Login from '@/components/pages/LoginPage.vue';
-import AuthCallback from '@/components/pages/AuthCallback.vue';
+import CatalogPage from '../pages/CatalogPage.vue';
+import DashboardPage from '../pages/DashboardPage.vue';
+import Login from '@/pages/LoginPage.vue';
+import AuthCallback from '@/pages/AuthCallback.vue';
 
 Vue.use(VueRouter);
 

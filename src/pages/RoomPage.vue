@@ -1,12 +1,13 @@
 <!-- src/components/Home.vue -->
 <template>
-  <div class="home-container">
-    <div class="game-room-container">
-      <GameRoom room-id="home" />
+  <div class="home-container max-w-md">
+    <div class="game-room-container fixed overflow-hidden">
+      <GameRoom room-id="blank" withController="true" />
     </div>
-    <FurniCatalog :index="1" />
-
-    <div class="item-catalog-container no-scrollbar bg-[#1A1F25]">
+    <div class="mt-[500px]">
+      <FurniCatalog :index="1" />
+    </div>
+    <div class="item-catalog-container no-scrollbar">
       <ItemCatalogContainer />
       <div class="grid text-black gap-4 py-4 p-4 grid-cols-2 mt-4">
         <SpecialCard @card-click="$router.push('/login')">
@@ -55,28 +56,6 @@
           </p>
         </SpecialCard>
       </div>
-      <footer
-        class="mt-10 mx-auto text-white my-12 text-center max-w-sm text-xs pb-7"
-      >
-        <div class="block py-2">
-          <a
-            href="https://twitter.com/wes_wim"
-            target="_blank"
-            class="underline text-white"
-            >Twitter</a
-          >
-          |
-          <a href="" class="underline text-white"
-            >Reload <font-awesome-icon :icon="['fas', 'sync-alt']" />
-          </a>
-        </div>
-        <p class="text-gray-500">
-          Ducket is not affiliated with, endorsed, sponsored, or specifically
-          approved by Sulake Corporation Oy or its Affiliates. Ducket may use
-          the trademarks and other intellectual property of Habbo, which is
-          permitted under Habbo Fan Site Policy.
-        </p>
-      </footer>
     </div>
   </div>
 </template>
@@ -90,7 +69,6 @@
 
 .game-room-container {
   /* position: sticky; */
-  top: 0; /* Stick the GameRoom component to the top of the viewport */
   z-index: 9; /* Set a high z-index to ensure it's above the scrolling content */
   touch-action: none;
 }
@@ -103,11 +81,11 @@
 </style>
 
 <script>
-import GameRoom from '../GameRoom.vue';
-import ItemCatalogContainer from '../ItemCatalogContainer.vue';
-import SpecialCard from '../ui/SpecialCard.vue';
+import GameRoom from '@/components/GameRoom.vue';
+import ItemCatalogContainer from '@/components/ItemCatalogContainer.vue';
+import SpecialCard from '@/components/SpecialCard.vue';
 import { EventBus } from '@/eventBus.js';
-import FurniCatalog from '../ui/FurniCatalog.vue';
+import FurniCatalog from '@/components/FurniCatalog.vue';
 
 export default {
   components: {
@@ -125,7 +103,6 @@ export default {
   },
   methods: {
     emitSettings() {
-      console.log('emitting');
       EventBus.$emit('item-settings');
     },
   },
