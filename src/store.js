@@ -46,6 +46,7 @@ export default new Vuex.Store({
       state.room.settings.hideFloor = hideFloor;
       state.room.settings.x = x;
       state.room.settings.y = y;
+      localStorage.setItem('settings', JSON.stringify(state.room.settings));
     },
     setGame(state, game) {
       state.game = game;
@@ -59,6 +60,7 @@ export default new Vuex.Store({
     },
     setRoomY(state, y) {
       state.room.settings.y = y;
+      localStorage.setItem('settings', JSON.stringify(state.room.settings));
     },
     setRoomBgColor(state, color) {
       state.room.settings.bgColor = color;
@@ -66,15 +68,19 @@ export default new Vuex.Store({
     },
     setRoomWallColor(state, color) {
       state.room.settings.wallColor = color;
+      localStorage.setItem('settings', JSON.stringify(state.room.settings));
     },
     setRoomFloorColor(state, color) {
       state.room.settings.floorColor = color;
+      localStorage.setItem('settings', JSON.stringify(state.room.settings));
     },
     setRoomHideWalls(state, value) {
       state.room.settings.hideWalls = value;
+      localStorage.setItem('settings', JSON.stringify(state.room.settings));
     },
     setRoomHideFloor(state, value) {
       state.room.settings.hideFloor = value;
+      localStorage.setItem('settings', JSON.stringify(state.room.settings));
     },
     setPixiInstance(state, instance) {
       state.pixiInstance = instance;
@@ -201,7 +207,6 @@ export default new Vuex.Store({
             y: 0,
           };
         }
-
         //Set Room Settings
         const roomSettings = {
           bgColor: settings.bgColor || '#ffffff',
