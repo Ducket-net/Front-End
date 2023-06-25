@@ -13,10 +13,10 @@ import { gsap } from 'gsap';
 import { isIOS17 } from './utils';
 
 export default class Game {
-  constructor(view, roomData) {
+  constructor(view, roomData, buildMode = false) {
     this.setupPixiApp(view);
     this.shroom = this.createShroom();
-    this.room = this.createRoom(roomData);
+    this.room = this.createRoom(roomData, buildMode);
     this.createBackground();
 
     if (roomData.avatar) {
@@ -84,7 +84,7 @@ export default class Game {
       this.selectedFurnitureItem = item;
     }
   }
-  createRoom(roomData) {
+  createRoom(roomData, buildMode) {
     const room = Room.create(this.shroom, {
       tilemap: `xxxxx
         x0000
@@ -97,7 +97,7 @@ export default class Game {
 
     const containerElement = window.document.getElementById('canvasContainer');
     const containerWidth = containerElement.clientWidth;
-    this.renderItem(roomData, room);
+    this.renderItem(roomData, room, buildMode);
     room.wallColor = roomData.wallColor || '#DE6E2B';
     room.floorColor = roomData.floorColor || '#cccccc';
     room.floorTexture = loadRoomTexture('tile.png');
@@ -112,9 +112,9 @@ export default class Game {
       return new Avatar(avatarData);
     }
   }
-  renderItem(roomData, room) {
+  renderItem(roomData, room, buildMode) {
     roomData.items.forEach((item) => {
-      const furnitureItem = this.createAndSetFurnitureItem(item);
+      const furnitureItem = this.createAndSetFurnitureItem(item, buildMode);
       room.addRoomObject(furnitureItem);
     });
   }
@@ -141,20 +141,23 @@ export default class Game {
 
     EventBus.$emit('furni-added', furnitureItem);
   }
-  createAndSetFurnitureItem(itemData) {
+  createAndSetFurnitureItem(itemData, buildMode) {
     const furnitureItem = new FloorFurniture(itemData);
-    furnitureItem.onClick = (event) => {
-      this.animateTap(furnitureItem);
-      this.onFurnitureItemClick(furnitureItem);
-    };
-    furnitureItem.onDoubleClick = (event) => {
-      //Animaton off and on
-      if (furnitureItem.animation === 1) {
-        furnitureItem.animation = 0;
-      } else {
-        furnitureItem.animation = 1;
-      }
-    };
+
+    if (buildMode) {
+      furnitureItem.onClick = (event) => {
+        this.animateTap(furnitureItem);
+        this.onFurnitureItemClick(furnitureItem);
+      };
+      furnitureItem.onDoubleClick = (event) => {
+        //Animaton off and on
+        if (furnitureItem.animation === 1) {
+          furnitureItem.animation = 0;
+        } else {
+          furnitureItem.animation = 1;
+        }
+      };
+    }
 
     furnitureItem.onDragStart = (event) => {
       console.log('drag start');

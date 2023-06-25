@@ -1,7 +1,9 @@
 {
   "id": "room-1",
-  "wallColor": "#303F9F",
-  "floorColor": "#FBC02D",
+  "wallColor": "#ffffff",
+  "floorColor": "#ffffff",
+  "hideWalls": true,
+  "hideFloors": true,
   "avatar": null,
   "items": [
     {

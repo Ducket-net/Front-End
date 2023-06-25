@@ -63,7 +63,21 @@ export default {
     RoomSettings,
     VueBottomSheet,
   },
-  props: ['roomId', 'withController', 'size'],
+
+  props: {
+    roomId: {
+      type: String,
+      default: 'blank',
+    },
+    withController: {
+      type: Boolean,
+      default: false,
+    },
+    size: {
+      type: String,
+      default: 'default',
+    },
+  },
   data() {
     return {
       game: null,
@@ -91,7 +105,7 @@ export default {
     const roomId = this.$route.params.id || this.roomId || 'blank';
     await this.$store.dispatch('selectRoomById', roomId);
     const { currentRoom } = this.$store.state;
-    this.game = new Game(canvas, currentRoom);
+    this.game = new Game(canvas, currentRoom, this.withController);
     this.game.application.stage.addChild(this.game.room);
     this.$store.commit('setGame', this.game);
     this.game.setBackground(this.$store.state.room.settings.bgColor);
