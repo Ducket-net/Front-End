@@ -18,7 +18,7 @@
       </div>
     </div>
 
-    <div v-if="withController == 'true'">
+    <div v-if="withController">
       <room-items-list
         v-if="game && game.room"
         :roomItems="Array.from(game.room.roomObjects)"

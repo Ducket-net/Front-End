@@ -25,6 +25,7 @@
         </header>
         <div
           :style="{ backgroundColor, ...backgroundStyles }"
+          id="viewport"
           class="sm:pb-4 h-screen sm:max-h-[calc(100vh-100px)] overflow-auto no-scrollbar"
         >
           <router-view></router-view>
@@ -77,9 +78,6 @@ export default {
     },
     showSplashScreen() {
       return this.$store.state.showSplashScreen;
-    },
-    catalogItems() {
-      return this.$store.state.catalog || [];
     },
     backgroundColor() {
       return this.$store.state.room.settings.bgColor;

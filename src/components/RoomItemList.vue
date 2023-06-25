@@ -3,8 +3,8 @@
     class="relative -mt-[64px] h-[64px] grid auto-cols-max grid-flow-col bg-black bg-opacity-25 p-2 gap-1 overflow-hidden overflow-x-scroll no-scrollbar"
   >
     <special-button
-      @button-click="emitCatalog"
-      :icon="['fas', 'plus']"
+      @button-click="emitSettings"
+      :icon="['fas', 'gear']"
     ></special-button>
     <div
       v-for="item in localRoomItems"
@@ -16,16 +16,8 @@
       }"
       @click="selectItem(item)"
     >
-      <img
-        :src="getIconUrl(item.type)"
-        class="w-[40px] h-[40px] object-contain"
-      />
+      <img :src="getIconUrl(item.type)" class="object-contain" />
     </div>
-
-    <special-button
-      @button-click="emitSettings"
-      :icon="['fas', 'gear']"
-    ></special-button>
   </div>
 </template>
 

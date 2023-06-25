@@ -1,5 +1,5 @@
 <template>
-  <div class="" v-if="itemCatalogOpen">
+  <div class="">
     <div v-for="(search, index) in searches" :key="index">
       <ItemCatalog :index="index" :search="search" />
     </div>
@@ -13,11 +13,11 @@
 </template>
 
 <script>
-import ItemCatalog from "./ItemCatalog.vue";
-import { EventBus } from "@/eventBus";
+import ItemCatalog from './ItemCatalog.vue';
+import { EventBus } from '@/eventBus';
 
 export default {
-  name: "ItemCatalogContainer",
+  name: 'ItemCatalogContainer',
   components: {
     ItemCatalog,
   },
@@ -28,18 +28,18 @@ export default {
     };
   },
   created() {
-    EventBus.$on("item-catalog", () => {
+    EventBus.$on('item-catalog', () => {
       this.itemCatalogOpen = !this.itemCatalogOpen;
     });
 
-    if (localStorage.getItem("searches")) {
-      this.searches = JSON.parse(localStorage.getItem("searches"));
+    if (localStorage.getItem('searches')) {
+      this.searches = JSON.parse(localStorage.getItem('searches'));
     }
   },
   methods: {
     addSearch() {
       this.searches.push({});
-      localStorage.setItem("searches", JSON.stringify(this.searches));
+      localStorage.setItem('searches', JSON.stringify(this.searches));
     },
   },
 };

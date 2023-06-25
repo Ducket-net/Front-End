@@ -2,8 +2,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
-import * as PIXI from 'pixi.js';
-import { Shroom } from '@tetreum/shroom';
 const storedAccessToken = localStorage.getItem('access_token');
 const storedUser = JSON.parse(localStorage.getItem('user'));
 
@@ -16,7 +14,11 @@ export default new Vuex.Store({
     hideHeader: false,
     showSplashScreen: true,
     rooms: {},
-    catalog: [],
+    catalog: {
+      items: [],
+      lines: [],
+      categories: [],
+    },
     currentRoom: null,
     //Auth
     user: storedUser,
@@ -103,8 +105,10 @@ export default new Vuex.Store({
     setRooms(state, rooms) {
       state.rooms = rooms;
     },
-    setCatalog(state, catalog) {
-      state.catalog = catalog;
+    setCatalog(state, { catalog, lines, categories }) {
+      state.catalog.items = catalog;
+      state.catalog.lines = lines;
+      state.catalog.categories = categories;
     },
     updateRoom(state, { roomId, items }) {
       Vue.set(state.rooms, roomId, items);
@@ -122,6 +126,7 @@ export default new Vuex.Store({
     currentRoom: (state) => state.room,
     roomSettings: (state) => state.room.settings,
     game: (state) => state.game,
+    catalog: (state) => state.catalog,
   },
   actions: {
     async authenticate({ commit }, accessToken) {
@@ -146,35 +151,6 @@ export default new Vuex.Store({
         console.error('Error authenticating user:', error);
         return false;
       }
-    },
-
-    initPixiInstance({ commit }) {
-      if (!PIXI.utils.isWebGLSupported()) {
-        throw new Error('WebGL is not supported');
-      }
-
-      const pixiInstance = PIXI.autoDetectRenderer({
-        width: 0,
-        height: 0,
-        autoDensity: true,
-        resolution: window.devicePixelRatio,
-        forceCanvas: false, // forceCanvas should be set to false (default value)
-      });
-
-      // Disable automatic starting of the application ticker
-      const app = new PIXI.Application({
-        view: pixiInstance.view,
-        ticker: new PIXI.Ticker().stop(),
-      });
-
-      let shroom = Shroom.createShared({
-        application: this.app, // Replace 'this.application' with 'this.app'
-        resourcePath: 'https://ducket-net.github.io/resources',
-      });
-
-      commit('setShroom', shroom);
-      // Set the PIXI instance in the store
-      commit('setPixiInstance', app);
     },
     updateShowSplashScreen({ commit }, value) {
       commit('setShowSplashScreen', value);
@@ -235,8 +211,27 @@ export default new Vuex.Store({
       }
     },
     async fetchCatalog({ commit }) {
-      const response = await axios.get(`/catalog.json`);
-      commit('setCatalog', response.data.catalog);
+      try {
+        const response = await axios.get(
+          `${process.env.VUE_APP_DUCKET_URL}/api/catalog`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+              Accept: 'application/json',
+              ContentType: 'application/json',
+            },
+            body: {},
+          }
+        );
+
+        // Extract the catalog, lines, and categories from the response
+        const { catalog, lines, categories } = response.data;
+
+        // Set the catalog, lines, and categories in the Vuex state
+        commit('setCatalog', { catalog, lines, categories });
+      } catch (error) {
+        console.error('Unable to fetch catalog data:', error);
+      }
     },
     async fetchSearchResults({ commit }, searchQuery) {
       try {

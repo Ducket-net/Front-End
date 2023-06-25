@@ -2,13 +2,12 @@
 <template>
   <div class="home-container max-w-md">
     <div class="game-room-container fixed overflow-hidden">
-      <GameRoom room-id="blank" withController="true" />
+      <GameRoom room-id="blank" :withController="true" />
     </div>
     <div class="mt-[500px]">
       <FurniCatalog :index="1" />
     </div>
     <div class="item-catalog-container no-scrollbar">
-      <ItemCatalogContainer />
       <div class="grid text-black gap-4 py-4 p-4 grid-cols-2 mt-4">
         <SpecialCard @card-click="$router.push('/login')">
           <h2 class="font-bold text-sm">
@@ -61,7 +60,6 @@
 
 <script>
 import GameRoom from '@/components/GameRoom.vue';
-import ItemCatalogContainer from '@/components/ItemCatalogContainer.vue';
 import SpecialCard from '@/components/SpecialCard.vue';
 import { EventBus } from '@/eventBus.js';
 import FurniCatalog from '@/components/FurniCatalog.vue';
@@ -71,7 +69,6 @@ export default {
     GameRoom,
     SpecialCard,
     FurniCatalog,
-    ItemCatalogContainer,
   },
   data() {
     return {

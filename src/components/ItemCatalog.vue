@@ -10,7 +10,7 @@
         class="flex-auto text-xs uppercase font-mono text-white mb-3"
         :class="{ 'cursor-pointer': minimized }"
       >
-        {{ searchQuery ? searchQuery : "Catalog" }}
+        {{ searchQuery ? searchQuery : 'Catalog' }}
       </h3>
       <button
         @click="minimize"
@@ -33,40 +33,29 @@
         class="flex min-h-[42px] items-center px-2 bg-white rounded cursor-pointer hover:bg-black"
         @click.stop="addToRoom(item.classname)"
       >
-        <!-- <img :src="item.image_url" class="max-w-[30px] flex-initial mx-auto" /> -->
         <furni-img :classname="item.classname" />
-        <!-- <div class="ml-1"> -->
-        <!-- <h4 class="text-xs font-semibold">{{ item.name }}</h4> -->
-        <!-- <p class="text-xs">
-            {{ item.classname }} | {{ item.category }} | {{ item.furniline }}
-          </p> -->
-        <!-- </div> -->
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
-import axios from "axios";
+import { mapState } from 'vuex';
+import axios from 'axios';
 
 export default {
-  name: "ItemCatalog",
+  name: 'ItemCatalog',
   components: {},
   props: {
     index: {
       type: Number,
       required: true,
     },
-    search: {
-      type: Object,
-      required: true,
-    },
   },
   data() {
     return {
       minimized: false,
-      searchQuery: "",
+      searchQuery: '',
       searchResults: [], // Add this to store search results for each component
     };
   },
@@ -82,19 +71,15 @@ export default {
   },
   mounted() {
     // Listen for the "add-to-room" event
-    if (localStorage.getItem(`minimized_${this.index}`)) {
-      //   this.minimized = localStorage.getItem(`minimized_${this.index}`);
-
-      if (localStorage.getItem(`minimized_${this.index}`) === "true") {
-        this.$refs.catalog.classList.toggle("h-12");
-        this.minimized = true;
-      }
+    console.log(localStorage.getItem(`minimized`));
+    if (localStorage.getItem(`minimized`) === 'true') {
+      this.$refs.catalog.classList.add('h-24');
+      this.minimized = true;
     }
   },
   computed: {
-    ...mapState(["catalog"]),
+    ...mapState(['catalog']),
     filteredItems() {
-      if (this.searchQuery === "") return this.catalog;
       if (this.searchResults.length > 0) {
         // Use this.searchResults instead of calling the Vuex store
         localStorage.setItem(
@@ -120,9 +105,10 @@ export default {
   },
   methods: {
     minimize() {
-      this.$refs.catalog.classList.toggle("h-12");
+      console.log(this.$refs.catalog);
+      this.$refs.catalog.classList.toggle('h-24');
       this.minimized = !this.minimized ? true : false;
-      localStorage.setItem(`minimized_${this.index}`, this.minimized);
+      localStorage.setItem(`minimized`, this.minimized);
     },
     async fetchSearchResults(query) {
       try {
@@ -138,11 +124,11 @@ export default {
         );
         localStorage.setItem(`searchQuery_${this.index}`, this.searchQuery);
       } catch (error) {
-        console.error("Error fetching search results:", error);
+        console.error('Error fetching search results:', error);
       }
     },
     addToRoom(classname) {
-      this.$root.$emit("add-to-room", classname);
+      this.$root.$emit('add-to-room', classname);
     },
     selectItem() {},
   },

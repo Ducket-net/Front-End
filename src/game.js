@@ -7,6 +7,7 @@ import {
   Shroom,
   FloorFurniture,
   loadRoomTexture,
+  IConfiguration,
 } from '@tetreum/shroom';
 import { EventBus } from './eventBus';
 import { gsap } from 'gsap';
@@ -32,7 +33,7 @@ export default class Game {
       antialias: false,
       resolution: 2,
       autoDensity: true,
-      width: window.innerWidth,
+      width: document.getElementById('canvas').clientWidth,
       height: document.getElementById('canvas').clientHeight,
     });
     // eslint-disable-next-line no-undef
@@ -93,6 +94,9 @@ export default class Game {
         x0000`,
     });
 
+    room.onTileClick = (event) => {
+      console.log('tile clicked', event);
+    };
     //Set width to max 400px, or if less, make centered
 
     const containerElement = window.document.getElementById('canvasContainer');
@@ -144,6 +148,10 @@ export default class Game {
   createAndSetFurnitureItem(itemData, buildMode) {
     const furnitureItem = new FloorFurniture(itemData);
 
+    furnitureItem.cacheAsBitmap = true;
+
+    console.log('furnitureItem', furnitureItem);
+
     if (buildMode) {
       furnitureItem.onClick = (event) => {
         this.animateTap(furnitureItem);
@@ -157,13 +165,13 @@ export default class Game {
           furnitureItem.animation = 1;
         }
       };
-    }
 
-    furnitureItem.onDragStart = (event) => {
-      console.log('drag start');
-      this.onFurnitureItemClick(furnitureItem);
-      this.animateTap(furnitureItem);
-    };
+      furnitureItem.onDragStart = (event) => {
+        console.log('drag start');
+        this.onFurnitureItemClick(furnitureItem);
+        this.animateTap(furnitureItem);
+      };
+    }
     return furnitureItem;
   }
   animateDropFurnitureItem(furnitureItem) {
