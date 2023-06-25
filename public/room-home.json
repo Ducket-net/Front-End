@@ -1,303 +1,208 @@
 {
   "id": "room-1",
-  "wallColor": "#B5B7C4",
+  "wallColor": "#303F9F",
   "floorColor": "#FBC02D",
+  "avatar": null,
   "items": [
     {
-      "type": "icecream_c21_floor",
-      "roomX": 3,
-      "roomY": 1,
-      "roomZ": 0,
-      "direction": 2,
-      "animation": 1
-    },
-    {
-      "type": "icecream_c21_floor",
-      "roomX": 1,
-      "roomY": 1,
-      "roomZ": 1,
-      "direction": 2,
-      "animation": 1
-    },
-    {
-      "type": "icecream_c21_floor",
-      "roomX": 6.500003999999993,
-      "roomY": 6.699999999999991,
-      "roomZ": 3.7,
-      "direction": 2,
-      "animation": 1
-    },
-    {
-      "type": "icecream_c21_floor",
-      "roomX": 1,
-      "roomY": 3,
-      "roomZ": 0,
-      "direction": 0,
-      "animation": 1
-    },
-    {
-      "type": "icecream_c21_wall",
-      "roomX": 3,
-      "roomY": 0,
-      "roomZ": 0,
-      "direction": 0,
-      "animation": 3
-    },
-    {
-      "type": "icecream_c21_wall",
-      "roomX": 1,
-      "roomY": 0,
-      "roomZ": 0,
-      "direction": 0,
-      "animation": 1
-    },
-    {
-      "type": "icecream_c21_wall",
-      "roomX": 0,
-      "roomY": 0,
-      "roomZ": 0,
-      "direction": 2,
-      "animation": 1
-    },
-    {
-      "type": "icecream_c21_menu",
-      "roomX": 1,
-      "roomY": 2.6000000000000005,
-      "roomZ": 0.1,
-      "direction": 2,
-      "animation": 0
-    },
-    {
-      "type": "icecream_c21_display",
+      "type": "photo",
       "roomX": 2,
-      "roomY": 3,
-      "roomZ": 0.1,
+      "roomY": 5.1,
+      "roomZ": 4.6999999999999975,
       "direction": 2,
       "animation": 1
     },
     {
-      "type": "icecream_c21_sundaes",
-      "roomX": 2,
-      "roomY": 0.9999999999999992,
-      "roomZ": 1,
-      "direction": 2,
-      "animation": 1
-    },
-    {
-      "type": "icecream_c21_stool",
-      "roomX": 3,
-      "roomY": 1,
-      "roomZ": 0,
-      "direction": 2,
-      "animation": 1
-    },
-    {
-      "type": "icecream_c21_light",
-      "roomX": 2,
-      "roomY": 2,
-      "roomZ": 0.20000000000000004,
-      "direction": 2,
-      "animation": 1
-    },
-    {
-      "type": "icecream_c21_counter",
-      "roomX": 2,
-      "roomY": 1,
-      "roomZ": 0,
-      "direction": 2,
-      "animation": 1
-    },
-    {
-      "type": "icecream_c21_wall",
-      "roomX": 0,
-      "roomY": 2,
-      "roomZ": 0,
-      "direction": 2,
-      "animation": 1
-    },
-    {
-      "type": "bc_round*14",
-      "roomX": 4.699963,
-      "roomY": 4.700000000000001,
-      "roomZ": 0,
-      "direction": 4,
-      "animation": 3
-    },
-    {
-      "type": "bc_block_0*14",
-      "roomX": 4.9,
-      "roomY": 2,
-      "roomZ": 0.20000000000000004,
-      "direction": 2,
-      "animation": 3
-    },
-    {
-      "type": "bc_block_0*14",
-      "roomX": 3.1,
-      "roomY": 5,
-      "roomZ": 0.30000000000000004,
-      "direction": 4,
-      "animation": 3
-    },
-    {
-      "type": "bc_block_0*14",
-      "roomX": 4.9,
-      "roomY": 3,
-      "roomZ": 0.20000000000000004,
-      "direction": 2,
-      "animation": 3
-    },
-    {
-      "type": "bc_block_0*14",
-      "roomX": 4.1,
-      "roomY": 5,
-      "roomZ": 0.3,
-      "direction": 4,
-      "animation": 3
-    },
-    {
-      "type": "bc_block_0*14",
-      "roomX": 5.199999999999997,
-      "roomY": 3.8000040000000017,
-      "roomZ": 4.163336342344337e-16,
+      "type": "bc_panel*13",
+      "roomX": 4.799999999999999,
+      "roomY": -0.14999999999999958,
+      "roomZ": -0.23000000000000018,
       "direction": 6,
-      "animation": 3
+      "animation": 4
     },
     {
-      "type": "icecream_c21_machine",
-      "roomX": 1.5999999999999996,
-      "roomY": 1.7999999999999998,
-      "roomZ": 0.8,
-      "direction": 2,
-      "animation": 1
+      "type": "bc_panel*13",
+      "roomX": 4.799999999999999,
+      "roomY": 2.9900000000000007,
+      "roomZ": -0.24,
+      "direction": 6,
+      "animation": 4
     },
     {
-      "type": "icecream_c21_floor",
-      "roomX": 11.699898000000005,
-      "roomY": 11.700000000000005,
-      "roomZ": 8.8,
-      "direction": 2,
-      "animation": 1
-    },
-    {
-      "type": "bc_block_0*14",
-      "roomX": 2,
-      "roomY": 4.9,
-      "roomZ": 0.2,
-      "direction": 4,
-      "animation": 3
-    },
-    {
-      "type": "bc_block_0*14",
-      "roomX": 4.599999999999998,
-      "roomY": 0.7,
-      "roomZ": -0.10000000000000014,
-      "direction": 2,
-      "animation": 3
-    },
-    {
-      "type": "bc_block_0*14",
-      "roomX": 1,
-      "roomY": 4.9,
-      "roomZ": 0.2,
-      "direction": 4,
-      "animation": 3
-    },
-    {
-      "type": "bc_block_0*14",
-      "roomX": 0.2,
-      "roomY": 4.700000000000001,
+      "type": "easter_c18_hangingplant",
+      "roomX": 3.9999999999999996,
+      "roomY": 1,
       "roomZ": 0,
-      "direction": 4,
-      "animation": 3
-    },
-    {
-      "type": "bc_block_0*14",
-      "roomX": 4.700000000000001,
-      "roomY": 0.20000000000000018,
-      "roomZ": 2.7755575615628914e-17,
       "direction": 2,
-      "animation": 3
+      "animation": 1
     },
     {
-      "type": "bc_halfcylinder*14",
-      "roomX": 0,
+      "type": "hc23_1",
+      "roomX": 0.10000000000000003,
+      "roomY": 3.1,
+      "roomZ": 0.1,
+      "direction": 0,
+      "animation": 0
+    },
+    {
+      "type": "hc23_1",
+      "roomX": 0.10000000000000003,
+      "roomY": 1.2000000000000002,
+      "roomZ": 0.1,
+      "direction": 0,
+      "animation": 0
+    },
+    {
+      "type": "hc23_1",
+      "roomX": -0.1,
+      "roomY": 0,
+      "roomZ": -0.1,
+      "direction": 0,
+      "animation": 0
+    },
+    {
+      "type": "hc23_7",
+      "roomX": 0.9999999999999997,
+      "roomY": 4.000000000000002,
+      "roomZ": 0,
+      "direction": 0,
+      "animation": 1
+    },
+    {
+      "type": "hc23_7",
+      "roomX": 2,
+      "roomY": 3,
+      "roomZ": 0,
+      "direction": 0,
+      "animation": 1
+    },
+    {
+      "type": "hc23_7",
+      "roomX": 2,
+      "roomY": 3.9999999999999996,
+      "roomZ": 0,
+      "direction": 0,
+      "animation": 1
+    },
+    {
+      "type": "hc23_7",
+      "roomX": 1.9999999999999998,
       "roomY": 2,
-      "roomZ": 3.9000000000000004,
-      "direction": 4,
-      "animation": 0
-    },
-    {
-      "type": "bc_halfcylinder*14",
-      "roomX": 0,
-      "roomY": 3,
-      "roomZ": 3.9,
-      "direction": 4,
-      "animation": 0
-    },
-    {
-      "type": "bc_halfcylinder*14",
-      "roomX": 0,
-      "roomY": 4,
-      "roomZ": 3.9,
-      "direction": 4,
-      "animation": 0
-    },
-    {
-      "type": "bc_halfcylinder*14",
-      "roomX": 0.1,
-      "roomY": 1.0999999999999992,
-      "roomZ": 4,
-      "direction": 4,
-      "animation": 0
-    },
-    {
-      "type": "bc_halfcylinder*14",
-      "roomX": 1,
-      "roomY": 0,
-      "roomZ": 4,
-      "direction": 2,
-      "animation": 0
-    },
-    {
-      "type": "bc_halfcylinder*14",
-      "roomX": 2,
-      "roomY": -0.000042000000000097515,
-      "roomZ": 4,
-      "direction": 2,
-      "animation": 0
-    },
-    {
-      "type": "bc_halfcylinder*14",
-      "roomX": 3,
-      "roomY": 0,
-      "roomZ": 4,
-      "direction": 2,
-      "animation": 0
-    },
-    {
-      "type": "bc_halfcylinder*14",
-      "roomX": 4,
-      "roomY": 0,
-      "roomZ": 4,
-      "direction": 2,
-      "animation": 0
-    },
-    {
-      "type": "bc_round*14",
-      "roomX": -0.20000000000000004,
-      "roomY": -0.30000000000000004,
-      "roomZ": 3.099999999999999,
-      "direction": 4,
+      "roomZ": 0,
+      "direction": 0,
       "animation": 1
     },
     {
-      "type": "icecream_c21_wall",
-      "roomX": 0,
+      "type": "hc_exe_wfall",
+      "roomX": 1.5999999999999996,
+      "roomY": 3.5600000000000027,
+      "roomZ": 3.7599999999999993,
+      "direction": 2,
+      "animation": 1
+    },
+    {
+      "type": "hc23_3",
+      "roomX": 3,
+      "roomY": 1,
+      "roomZ": 0,
+      "direction": 0,
+      "animation": 0
+    },
+    {
+      "type": "bc_panel*13",
+      "roomX": -0.22000000000000058,
+      "roomY": 3.99,
+      "roomZ": -0.24,
+      "direction": 4,
+      "animation": 4
+    },
+    {
+      "type": "bc_panel*13",
+      "roomX": 1.3799999999999994,
+      "roomY": 3.99,
+      "roomZ": -0.24,
+      "direction": 4,
+      "animation": 4
+    },
+    {
+      "type": "bc_panel*13",
+      "roomX": 2.8799999999999994,
+      "roomY": 3.99,
+      "roomZ": -0.24,
+      "direction": 4,
+      "animation": 4
+    },
+    {
+      "type": "bc_panel*13",
+      "roomX": 4.799999999999999,
+      "roomY": 1.4900000000000002,
+      "roomZ": -0.24,
+      "direction": 6,
+      "animation": 4
+    },
+    {
+      "type": "hc23_1",
+      "roomX": 3.1,
+      "roomY": 0.20000000000000007,
+      "roomZ": 0.1,
+      "direction": 2,
+      "animation": 3
+    },
+    {
+      "type": "hc23_1",
+      "roomX": 1.1,
+      "roomY": 0.20000000000000007,
+      "roomZ": 0.1,
+      "direction": 2,
+      "animation": 5
+    },
+    {
+      "type": "hc23_3",
+      "roomX": 3,
       "roomY": 3,
       "roomZ": 0,
+      "direction": 0,
+      "animation": 0
+    },
+    {
+      "type": "hc23_11",
+      "roomX": 1.5000000000000004,
+      "roomY": 4.499999999999998,
+      "roomZ": 2,
+      "direction": 2,
+      "animation": 0
+    },
+    {
+      "type": "magazines",
+      "roomX": 2.1,
+      "roomY": 2.3000000000000003,
+      "roomZ": 1.4,
+      "direction": 0,
+      "animation": 3
+    },
+    {
+      "type": "testbot",
+      "roomX": 1.1,
+      "roomY": 2.8,
+      "roomZ": 0.7,
+      "direction": 0,
+      "animation": 1
+    },
+    {
+      "type": "ads_twi_mist",
+      "roomX": 1,
+      "roomY": 4,
+      "roomZ": 1.3,
       "direction": 2,
       "animation": 1
+    },
+    {
+      "type": "bolly_tile1",
+      "roomX": 3,
+      "roomY": 1,
+      "roomZ": 0,
+      "direction": 2,
+      "animation": 3
     }
   ]
 }

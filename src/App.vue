@@ -2,7 +2,7 @@
 <template>
   <div
     id="app"
-    class="w-full mx-auto sm:rounded-lg max-w-md overflow-hidden bg-[#1A1F25] sm:mt-11 sm:shadow-2xl"
+    class="w-full mx-auto sm:rounded-lg max-w-md overflow-hidden bg-[#1A1F25] sm:shadow-2xl"
   >
     <splash-screen></splash-screen>
 

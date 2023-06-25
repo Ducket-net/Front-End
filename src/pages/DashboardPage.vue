@@ -1,7 +1,13 @@
 <!-- Login.vue -->
 <template>
   <div>
-    <GameRoom roomId="home" />
+    <div class="text-white text-center z-50 relative top-14">
+      <h1 class="text-lg font-bold">Welcome to Ducket</h1>
+      <p class="text-sm w-48 mx-auto">
+        Play Games and Buld your Pixel Creations!
+      </p>
+    </div>
+    <GameRoom roomId="home" size="small" />
 
     <div class="p-4 grid grid-flow-row gap-4">
       <SpecialCard @card-click="$router.push('/create')">

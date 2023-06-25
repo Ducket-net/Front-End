@@ -30,11 +30,10 @@ export default class Game {
     this.application = new PIXI.Application({
       view,
       antialias: false,
-      resolution: window.devicePixelRatio,
+      resolution: 2,
       autoDensity: true,
-      width: document.getElementById('app').clientWidth,
-      height: 500,
-      transparent: false,
+      width: window.innerWidth,
+      height: document.getElementById('canvas').clientHeight,
     });
     // eslint-disable-next-line no-undef
     globalThis.__PIXI_APP__ = this.application;
@@ -103,7 +102,7 @@ export default class Game {
     room.floorColor = roomData.floorColor || '#cccccc';
     room.floorTexture = loadRoomTexture('tile.png');
 
-    room.y = 100;
+    room.y = 120;
     room.x = containerWidth / 2 - room.width / 2;
 
     return room;

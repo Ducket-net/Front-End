@@ -9,7 +9,12 @@
       tabindex="0"
     >
       <div class="mx-auto">
-        <canvas ref="canvas" id="canvas" class="w-full min-h-[400px]"></canvas>
+        <canvas
+          ref="canvas"
+          id="canvas"
+          class="w-full"
+          :style="{ height: canvasHeight + 'px' }"
+        ></canvas>
       </div>
     </div>
 
@@ -58,7 +63,7 @@ export default {
     RoomSettings,
     VueBottomSheet,
   },
-  props: ['roomId', 'withController'],
+  props: ['roomId', 'withController', 'size'],
   data() {
     return {
       game: null,
@@ -74,6 +79,12 @@ export default {
         animation: 1,
       },
     };
+  },
+  computed: {
+    canvasHeight() {
+      console.log(this.size);
+      return this.size == 'small' ? 380 : 500;
+    },
   },
   async mounted() {
     const { canvas } = this.$refs;
@@ -164,7 +175,6 @@ export default {
       this.saveRoomToLocalStorage();
     },
   },
-
   created() {
     // Listen for the 'item-selected' event and update selectedItemType
 
