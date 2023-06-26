@@ -257,24 +257,31 @@ export default {
   created() {
     EventBus.$on('item-selected', (item) => {
       this.selectedItem = item;
+      console.log('GameController: item-selected');
     });
 
     EventBus.$on('item-unselected', () => {
       this.selectedItem = null;
-      this.saveRoomToLocalStorage();
+      console.log('GameController: item-unselected');
+      this.$store.commit('saveRoomToLocalStorage');
     });
 
     EventBus.$on('furni-added', () => {
       setTimeout(() => {
-        this.saveRoomToLocalStorage();
+        this.$store.commit('saveRoomToLocalStorage');
       }, 1500);
     });
+  },
+  beforeDestroy() {
+    EventBus.$off('item-selected');
+    EventBus.$off('item-unselected');
+    EventBus.$off('furni-added');
   },
   methods: {
     duplicateItem() {
       if (this.selectedItem) {
         this.game.addItem(this.selectedItem);
-        this.saveRoomToLocalStorage();
+        this.$store.commit('saveRoomToLocalStorage');
       }
     },
     rotateFurni() {
@@ -301,10 +308,6 @@ export default {
       setTimeout(() => (this.touchLocked = false), 500); // Set a delay to unlock.
       this[action](...args);
     },
-    saveRoomToLocalStorage() {
-      const roomData = this.game.getSerializedRoom();
-      localStorage.setItem('savedRoom', JSON.stringify(roomData));
-    },
     getIconUrl(type) {
       //Remove from here
       return `https://ducket.net/assets/furni/${type.replace(
@@ -318,7 +321,7 @@ export default {
     removeRoomItem() {
       EventBus.$emit('furni-removed', this.selectedItem);
       this.game.room.removeRoomObject(this.selectedItem);
-      this.saveRoomToLocalStorage();
+      this.$store.commit('saveRoomToLocalStorage');
       this.selectedItem = null;
 
       //Emit
@@ -346,7 +349,7 @@ export default {
           this.game.room.removeRoomObject(object);
         }
       });
-      this.saveRoomToLocalStorage();
+      this.$store.commit('saveRoomToLocalStorage');
       //reload page
       location.reload();
     },

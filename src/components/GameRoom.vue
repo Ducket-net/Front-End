@@ -8,7 +8,7 @@
       @keydown="handleKeydown"
       tabindex="0"
     >
-      <div class="mx-auto">
+      <div class="mx-auto fade-in">
         <canvas
           ref="canvas"
           id="canvas"
@@ -96,7 +96,6 @@ export default {
   },
   computed: {
     canvasHeight() {
-      console.log(this.size);
       return this.size == 'small' ? 380 : 500;
     },
   },
@@ -109,6 +108,18 @@ export default {
     this.game.application.stage.addChild(this.game.room);
     this.$store.commit('setGame', this.game);
     this.game.setBackground(this.$store.state.room.settings.bgColor);
+
+    if (this.$store.state.room.settings.hideWalls) {
+      this.game.room.hideWalls = true;
+    }
+    if (this.$store.state.room.settings.hideFloors) {
+      this.game.room.hideFloor = true;
+    }
+
+    if (this.game.room.hideWalls) {
+      this.game.room.y = 240;
+      this.game.room.x = this.game.room.x + 8;
+    }
   },
   methods: {
     moveRoom(dir) {
@@ -135,11 +146,6 @@ export default {
     },
     close() {
       this.$refs.myBottomSheet.close();
-    },
-
-    saveRoomToLocalStorage() {
-      const roomData = this.game.getSerializedRoom();
-      localStorage.setItem('savedRoom', JSON.stringify(roomData));
     },
     addItemByClassName(classname) {
       const newItem = new FloorFurniture({
@@ -186,7 +192,7 @@ export default {
           this.selectedItem.direction = (this.selectedItem.direction + 1) % 8;
           break;
       }
-      this.saveRoomToLocalStorage();
+      this.$store.commit('saveRoomToLocalStorage');
     },
   },
   created() {
@@ -202,11 +208,12 @@ export default {
     EventBus.$on('item-unselected', () => {
       if (!this.selectedItem) return;
       this.unselectItem();
+      this.close();
     });
 
     this.$root.$on('add-to-room', (classname) => {
       this.addItemByClassName(classname);
-      this.saveRoomToLocalStorage();
+      this.$store.commit('saveRoomToLocalStorage');
     });
 
     EventBus.$on('select-item', (item) => {
@@ -216,12 +223,12 @@ export default {
     EventBus.$on('furni-added', () => {
       //   this.selectedItem = item;
       //   this.game.onFurnitureItemClick(item);
-      //   this.saveRoomToLocalStorage();
+      //   this.$store.commit('saveRoomToLocalStorage');
     });
 
     EventBus.$on('update-item', () => {
       this.game.updateItem(this.selectedItem);
-      this.saveRoomToLocalStorage();
+      this.$store.commit('saveRoomToLocalStorage');
     });
 
     EventBus.$on('item-settings', () => {
@@ -235,6 +242,34 @@ export default {
 };
 </script>
 <style scoped>
+.fade-in {
+  -webkit-animation: 1.9s ease 0s normal forwards 1 fadein;
+  animation: 1.9s ease 0s normal forwards 1 fadein;
+}
+
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+  66% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+  66% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 /* Fade Transition */
 .fade-enter-active,
 .fade-leave-active {
@@ -248,11 +283,6 @@ export default {
 
 .fade-enter-to {
   opacity: 1;
-}
-
-#canvasContainer {
-  background-image: url('../../public/6432-grid_2.png'),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.2));
 }
 
 @keyframes slide-up {

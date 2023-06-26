@@ -1,7 +1,7 @@
 <template>
   <div
     ref="catalog"
-    class="overflow-hidden bg-black bg-opacity-50 shadow-md p-4 text-white"
+    class="overflow-hidden bg-black bg-opacity-50 shadow-md p-4 rounded-lg text-white"
   >
     <!-- Minimize -->
     <div class="flex">
@@ -73,7 +73,7 @@ export default {
     // Listen for the "add-to-room" event
     console.log(localStorage.getItem(`minimized`));
     if (localStorage.getItem(`minimized`) === 'true') {
-      this.$refs.catalog.classList.add('h-24');
+      this.$refs.catalog.classList.add('h-36');
       this.minimized = true;
     }
   },
@@ -106,7 +106,7 @@ export default {
   methods: {
     minimize() {
       console.log(this.$refs.catalog);
-      this.$refs.catalog.classList.toggle('h-24');
+      this.$refs.catalog.classList.toggle('h-36');
       this.minimized = !this.minimized ? true : false;
       localStorage.setItem(`minimized`, this.minimized);
     },

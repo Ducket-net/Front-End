@@ -4,67 +4,65 @@
     id="app"
     class="w-full mx-auto sm:rounded-lg max-w-md overflow-hidden bg-[#1A1F25] sm:shadow-2xl"
   >
-    <splash-screen></splash-screen>
+    <!-- <splash-screen></splash-screen>
 
     <transition name="fade">
-      <div v-if="!showSplashScreen">
-        <header class="z-50 fixed top-0 left-0 w-full bg-opacity-25">
-          <div
-            class="max-w-md h-[42px] mx-auto flex items-center justify-between"
-          >
-            <a
-              href="/"
-              class="ml-4 flex-shrink text-white text-[14px] no-underline leading-4 flex items-center space-x-1"
-            >
-              <img src="/logo.png" class="h-[19px] w-[19px] bg-transparent" />
-              <span>Ducket Alpha</span>
-            </a>
-
-            <new-room></new-room>
-          </div>
-        </header>
-        <div
-          :style="{ backgroundColor, ...backgroundStyles }"
-          id="viewport"
-          class="sm:pb-4 h-screen sm:max-h-[calc(100vh-100px)] overflow-auto no-scrollbar"
+      <div v-if="!showSplashScreen"> -->
+    <header class="z-50 fixed top-0 left-0 w-full bg-opacity-25">
+      <div class="max-w-md h-[42px] mx-auto flex items-center justify-between">
+        <a
+          href="/"
+          class="ml-4 flex-shrink text-white text-[14px] no-underline leading-4 flex items-center space-x-1"
         >
-          <router-view></router-view>
-          <footer
-            class="mt-10 mx-auto text-white my-12 text-center max-w-sm text-xs pb-7"
-          >
-            <div class="block py-2">
-              <a
-                href="https://twitter.com/wes_wim"
-                target="_blank"
-                class="underline text-white"
-                >Twitter</a
-              >
-              |
-              <a href="" class="underline text-white"
-                >Reload <font-awesome-icon :icon="['fas', 'sync-alt']" />
-              </a>
-            </div>
-            <p class="text-white">
-              Ducket is not affiliated with, endorsed, sponsored, or
-              specifically approved by Sulake Corporation Oy or its Affiliates.
-              Ducket may use the trademarks and other intellectual property of
-              Habbo, which is permitted under Habbo Fan Site Policy.
-            </p>
-          </footer>
-        </div>
+          <img src="/logo.png" class="h-[19px] w-[19px] bg-transparent" />
+          <span>Ducket Alpha</span>
+        </a>
+
+        <new-room></new-room>
       </div>
-    </transition>
+    </header>
+    <div
+      :style="{ backgroundColor, ...backgroundStyles }"
+      id="viewport"
+      class="sm:pb-4 h-screen sm:max-h-[calc(100vh-100px)] overflow-auto overflow-x-hidden no-scrollbar"
+    >
+      <router-view></router-view>
+      <footer
+        class="mt-10 mx-auto text-white my-12 text-center max-w-sm text-xs pb-7"
+      >
+        <div class="block py-2">
+          <a
+            href="https://twitter.com/wes_wim"
+            target="_blank"
+            class="underline text-white"
+            >Twitter</a
+          >
+          |
+          <a href="" class="underline text-white"
+            >Reload <font-awesome-icon :icon="['fas', 'sync-alt']" />
+          </a>
+        </div>
+        <p class="text-white">
+          Ducket is not affiliated with, endorsed, sponsored, or specifically
+          approved by Sulake Corporation Oy or its Affiliates. Ducket may use
+          the trademarks and other intellectual property of Habbo, which is
+          permitted under Habbo Fan Site Policy.
+        </p>
+      </footer>
+    </div>
+    <!-- </div>
+    </transition> -->
   </div>
 </template>
 
 <script>
 import NewRoom from '@/components/NewRoom.vue';
-import SplashScreen from '@/components/SplashScreen.vue'; // Add this line to import the SplashScreen component
+// import SplashScreen from '@/components/SplashScreen.vue'; // Add this line to import the SplashScreen component
 
 export default {
   components: {
     NewRoom,
-    SplashScreen, // Add this line to register the SplashScreen component
+    // SplashScreen, // Add this line to register the SplashScreen component
   },
   computed: {
     loggedInUser() {

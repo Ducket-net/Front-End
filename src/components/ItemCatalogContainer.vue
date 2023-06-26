@@ -14,7 +14,6 @@
 
 <script>
 import ItemCatalog from './ItemCatalog.vue';
-import { EventBus } from '@/eventBus';
 
 export default {
   name: 'ItemCatalogContainer',
@@ -28,10 +27,6 @@ export default {
     };
   },
   created() {
-    EventBus.$on('item-catalog', () => {
-      this.itemCatalogOpen = !this.itemCatalogOpen;
-    });
-
     if (localStorage.getItem('searches')) {
       this.searches = JSON.parse(localStorage.getItem('searches'));
     }

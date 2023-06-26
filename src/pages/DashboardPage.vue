@@ -10,7 +10,7 @@
     <GameRoom roomId="home" size="small" />
 
     <div class="p-4 grid grid-flow-row gap-4">
-      <SpecialCard @card-click="$router.push('/create')">
+      <SpecialCard @card-click="createPage">
         <h2 class="font-bold text-sm">
           <font-awesome-icon :icon="['fas', 'square']" />
           Create
@@ -20,6 +20,19 @@
         <h2 class="font-bold text-sm">
           <font-awesome-icon :icon="['fas', 'lock']" />
           Login with Ducket
+        </h2>
+      </SpecialCard>
+
+      <SpecialCard>
+        <h2 class="font-bold text-sm">
+          <font-awesome-icon :icon="['fas', 'arrow-up-from-bracket']" />
+          Add to Home Screen to Install the App
+        </h2>
+      </SpecialCard>
+
+      <SpecialCard>
+        <h2 class="font-bold text-sm">
+          <font-awesome-icon :icon="['fas', 'bug']" /> Report Bugs & Issues
         </h2>
       </SpecialCard>
     </div>
@@ -39,6 +52,9 @@ export default {
   methods: {
     authorize() {
       authService.getAuthorizationCode();
+    },
+    createPage() {
+      location.href = '/create';
     },
   },
 };

@@ -1,7 +1,10 @@
 <!-- eslint-disable vue/require-v-for-key -->
 <template>
   <div>
-    <div v-if="selectedCategory" class="grid grid-cols-9 gap-1 p-0.5 mt-2">
+    <div
+      v-if="selectedCategory"
+      class="grid grid-cols-9 gap-1 p-0.5 mt-2 rounded-lg"
+    >
       <button
         class="capitalize min-h-[42px] text-center col-span-3 items-center px-2 bg-white rounded cursor-pointer hover:bg-black hover:text-white"
         @click.stop="clearSearch"
@@ -22,8 +25,17 @@
     <div>
       <ItemCatalog :index="99" />
     </div>
-    <div class="grid grid-cols-3 gap-1">
-      <h2 class="col-span-3 bg-black text-white text-sm font-bold mt-2 p-3">
+    <SpecialButton
+      class="bg-black text-white text-sm font-bold mt-2 p-3 rounded-lg w-full"
+      @button-click="loadCatalog"
+      v-if="!catalog.lines.length"
+    >
+      Open Catalog
+    </SpecialButton>
+    <div class="grid grid-cols-3 gap-1" v-if="catalog.lines.length">
+      <h2
+        class="col-span-3 bg-black text-white text-sm font-bold mt-2 p-3 rounded-lg"
+      >
         Categories
       </h2>
       <div
@@ -35,7 +47,9 @@
         {{ catagory }}
       </div>
 
-      <h2 class="col-span-3 bg-black text-white text-sm font-bold mt-2 p-3">
+      <h2
+        class="col-span-3 bg-black text-white text-sm font-bold mt-2 p-3 rounded-lg"
+      >
         Lines
       </h2>
       <div
@@ -51,10 +65,9 @@
 </template>
 
 <script>
-// import VueBottomSheet from '@webzlodimir/vue-bottom-sheet';
-import { EventBus } from '@/eventBus';
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions } from 'vuex';
 import ItemCatalog from './ItemCatalog.vue';
+import SpecialButton from './SpecialButton.vue';
 
 export default {
   name: 'FurniCatalog',
@@ -69,84 +82,33 @@ export default {
       listeners: [],
       categoryState: {},
       showColors: {},
+      catalog: {
+        categories: [],
+        lines: [],
+        items: [],
+      },
     };
   },
   components: {
     ItemCatalog,
+    SpecialButton,
   },
-  async created() {
-    await this.fetchCatalog();
-    EventBus.$on('item-catalog', () => {
-      this.showCatalog = true;
-      setTimeout(() => {
-        this.openCatalog();
-      }, 100);
-    });
-  },
-  computed: {
-    ...mapGetters(['catalog', 'lines', 'categories']),
-
-    filteredCatalog() {
-      return this.catalog;
-    },
-    totalItemCount() {
-      return this.catalog.length;
-    },
-    categorizedItems() {
-      const categories = {
-        Classic: {},
-        Collections: {},
-        Themed: {},
-        Gaming: {},
-        Miscellaneous: {},
-        'Event-based': {},
-        Uncategorized: {},
-      };
-
-      const categoryMapping = this.getCategoryMapping();
-      this.catalog.items.flat().forEach((item) => {
-        let itemCategory = 'Uncategorized';
-
-        if (item.classname.includes('clothing_')) {
-          return; // skip clothing items
-        }
-
-        Object.keys(categoryMapping).forEach((category) => {
-          if (categoryMapping[category].includes(item.furniline)) {
-            itemCategory = category;
-          }
-        });
-
-        if (!categories[itemCategory][item.furniline]) {
-          categories[itemCategory][item.furniline] = {}; // Initialize empty object
-        }
-
-        const groupKey = this.createGroupKey(item.classname);
-
-        if (!categories[itemCategory][item.furniline][groupKey]) {
-          categories[itemCategory][item.furniline][groupKey] = {
-            items: [],
-          }; // Initialize with items and colors arrays
-        }
-
-        categories[itemCategory][item.furniline][groupKey].items.push(item);
-      });
-
-      return categories;
-    },
-  },
-  watch: {
-    searchQuery: {
-      handler(query) {
-        if (query.length > 2) {
-          this.triggerBrowserFind();
-        }
-      },
-      immediate: false,
-    },
-  },
+  async created() {},
+  computed: {},
+  watch: {},
   methods: {
     ...mapActions(['fetchCatalog']),
+    loadCatalog() {
+      this.fetchCatalog();
+      this.catalog = {
+        lines: this.$store.state.catalog.lines,
+        categories: this.$store.state.catalog.categories,
+        items: this.$store.state.catalog.items,
+      };
+      console.log('Catalog:', this.$store.state.catalog.items);
+      console.log('Categories:', this.categories);
+      console.log('Lines:', this.lines);
+    },
     clearSearch() {
       this.searchResults = [];
       this.selectedCategory = '';

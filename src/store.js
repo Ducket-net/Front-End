@@ -9,7 +9,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    game: null,
+    game: {},
     roomId: 'home',
     hideHeader: false,
     showSplashScreen: true,
@@ -25,64 +25,69 @@ export default new Vuex.Store({
     accessToken: storedAccessToken,
     pixiInstance: null,
     room: {
+      id: null,
+      avatar: null,
+      items: [],
       settings: {
         bgColor: '#1A1F25', // '#ffffff'
         wallColor: '#ffffff', // '#ffffff
         floorColor: '#ffffff', // '#ffffff
         hideWalls: false,
         hideFloor: false,
-        x: 0,
-        y: 0,
       },
     },
   },
   mutations: {
-    setRoomSettings(
-      state,
-      { bgColor, wallColor, floorColor, hideWalls, hideFloor, x, y }
-    ) {
-      state.room.settings.bgColor = bgColor;
-      state.room.settings.wallColor = wallColor;
-      state.room.settings.floorColor = floorColor;
-      state.room.settings.hideWalls = hideWalls;
-      state.room.settings.hideFloor = hideFloor;
-      state.room.settings.x = x;
-      state.room.settings.y = y;
+    setRoomSettings(state, roomData) {
+      state.room = roomData;
       localStorage.setItem('settings', JSON.stringify(state.room.settings));
     },
     setGame(state, game) {
+      console.log('👋 Game Set!');
       state.game = game;
     },
     setRoomX(state, x) {
       state.room.settings.x = x;
     },
     saveRoomToLocalStorage() {
-      // const roomData = this.game.getSerializedRoom();
-      // localStorage.setItem('savedRoom', JSON.stringify(roomData));
+      const roomData = this.state.game.getSerializedRoom();
+      //Appebd Settings
+      roomData.settings = this.state.room.settings;
+      localStorage.setItem('room', JSON.stringify(roomData));
+      console.log(roomData);
+      console.log('👋 Room Saved!');
+    },
+    setRoomWallDisplay(state, value) {
+      state.room.settings.hideWalls = value;
+      this.commit('saveRoomToLocalStorage');
+    },
+    setRoomFloorDisplay(state, value) {
+      state.room.settings.hideFloor = value;
+      this.commit('saveRoomToLocalStorage');
     },
     setRoomY(state, y) {
       state.room.settings.y = y;
-      localStorage.setItem('settings', JSON.stringify(state.room.settings));
+      this.commit('saveRoomToLocalStorage');
     },
     setRoomBgColor(state, color) {
       state.room.settings.bgColor = color;
-      localStorage.setItem('settings', JSON.stringify(state.room.settings));
+      this.commit('saveRoomToLocalStorage');
     },
     setRoomWallColor(state, color) {
       state.room.settings.wallColor = color;
-      localStorage.setItem('settings', JSON.stringify(state.room.settings));
+      this.commit('saveRoomToLocalStorage');
     },
     setRoomFloorColor(state, color) {
       state.room.settings.floorColor = color;
-      localStorage.setItem('settings', JSON.stringify(state.room.settings));
+      this.commit('saveRoomToLocalStorage');
     },
     setRoomHideWalls(state, value) {
       state.room.settings.hideWalls = value;
-      localStorage.setItem('settings', JSON.stringify(state.room.settings));
+      this.commit('saveRoomToLocalStorage');
     },
     setRoomHideFloor(state, value) {
       state.room.settings.hideFloor = value;
-      localStorage.setItem('settings', JSON.stringify(state.room.settings));
+      this.commit('saveRoomToLocalStorage');
     },
     setPixiInstance(state, instance) {
       state.pixiInstance = instance;
@@ -158,44 +163,18 @@ export default new Vuex.Store({
     async fetchCurrentRoom({ commit }, roomId) {
       try {
         let roomData;
-        let settings;
 
         // Check if room data exists in local storage
-        if (
-          localStorage.getItem('savedRoom') &&
-          localStorage.getItem('settings') &&
-          roomId !== 'home'
-        ) {
-          roomData = JSON.parse(localStorage.getItem('savedRoom'));
-          settings = JSON.parse(localStorage.getItem('settings'));
+        if (localStorage.getItem('room') && roomId !== 'home') {
+          roomData = JSON.parse(localStorage.getItem('room'));
         } else {
           // If no room data in local storage, fetch from server
           // Replace the URL with your actual server URL
           const response = await axios.get(`/room-${roomId}.json`);
           roomData = response.data;
-          settings = {
-            bgColor: '#1A1F25',
-            wallColor: '#ffffff', // '#ffffff
-            floorColor: '#ffffff', // '#ffffff
-            hideWalls: false,
-            hideFloor: false,
-            x: 0,
-            y: 0,
-          };
         }
-        //Set Room Settings
-        const roomSettings = {
-          bgColor: settings.bgColor || '#ffffff',
-          wallColor: settings.wallColor || '#ffffff',
-          floorColor: settings.floorColor || '#ffffff',
-          hideWalls: settings.hideWalls || false,
-          hideFloor: settings.hideFloor || false,
-          x: settings.x || 250,
-          y: settings.y || 250,
-        };
 
-        commit('setRoomSettings', roomSettings);
-
+        commit('setRoomSettings', roomData);
         commit('setCurrentRoom', roomData);
         return roomData;
       } catch (error) {
@@ -205,12 +184,16 @@ export default new Vuex.Store({
     },
     async selectRoomById({ commit, dispatch }, roomId) {
       const room = await dispatch('fetchCurrentRoom', roomId);
-      console.info('Room:', room);
       if (room) {
         commit('setCurrentRoom', room);
       }
     },
     async fetchCatalog({ commit }) {
+      if (localStorage.getItem('catalog')) {
+        const catalog = JSON.parse(localStorage.getItem('catalog'));
+        commit('setCatalog', catalog);
+        return;
+      }
       try {
         const response = await axios.get(
           `${process.env.VUE_APP_DUCKET_URL}/api/catalog`,
@@ -229,6 +212,8 @@ export default new Vuex.Store({
 
         // Set the catalog, lines, and categories in the Vuex state
         commit('setCatalog', { catalog, lines, categories });
+        //Store into local storage
+        localStorage.setItem('catalog', JSON.stringify(response.data));
       } catch (error) {
         console.error('Unable to fetch catalog data:', error);
       }

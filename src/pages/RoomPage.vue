@@ -4,40 +4,33 @@
     <div class="game-room-container fixed overflow-hidden">
       <GameRoom room-id="blank" :withController="true" />
     </div>
-    <div class="mt-[500px]">
+    <div class="mt-[500px] m-2 rounded-lg">
       <FurniCatalog :index="1" />
     </div>
-    <div class="item-catalog-container no-scrollbar">
-      <div class="grid text-black gap-4 py-4 p-4 grid-cols-2 mt-4">
-        <SpecialCard @card-click="$router.push('/login')">
-          <h2 class="font-bold text-sm">
-            <font-awesome-icon :icon="['fas', 'gear']" />
-            Login
-          </h2>
-        </SpecialCard>
-        <SpecialCard @card-click="emitSettings">
-          <h2 class="font-bold text-sm">
-            <font-awesome-icon :icon="['fas', 'gear']" />
-            Manage Room
-          </h2>
-        </SpecialCard>
-
-        <SpecialCard>
-          <h2 class="font-bold text-sm">
-            <font-awesome-icon :icon="['fas', 'arrow-up-from-bracket']" />
-            Install the App
-          </h2>
-        </SpecialCard>
-
-        <SpecialCard @card-click="emitSettings">
-          <h2 class="font-bold text-sm">
-            <font-awesome-icon :icon="['fas', 'bug']" /> Report Bugs & Issues
-          </h2>
-        </SpecialCard>
-      </div>
-    </div>
+    <div class="item-catalog-container no-scrollbar"></div>
   </div>
 </template>
+
+<script>
+import GameRoom from '@/components/GameRoom.vue';
+import { EventBus } from '@/eventBus.js';
+import FurniCatalog from '@/components/FurniCatalog.vue';
+
+export default {
+  components: {
+    GameRoom,
+    FurniCatalog,
+  },
+  data() {
+    return {};
+  },
+  methods: {
+    emitSettings() {
+      EventBus.$emit('item-settings');
+    },
+  },
+};
+</script>
 
 <style scoped>
 .home-container {
@@ -57,30 +50,3 @@
   -webkit-overflow-scrolling: touch; /* Enable smooth scrolling on iOS */
 }
 </style>
-
-<script>
-import GameRoom from '@/components/GameRoom.vue';
-import SpecialCard from '@/components/SpecialCard.vue';
-import { EventBus } from '@/eventBus.js';
-import FurniCatalog from '@/components/FurniCatalog.vue';
-
-export default {
-  components: {
-    GameRoom,
-    SpecialCard,
-    FurniCatalog,
-  },
-  data() {
-    return {
-      home: 'home',
-      cake: 'cake',
-      itemCatalogOpen: false,
-    };
-  },
-  methods: {
-    emitSettings() {
-      EventBus.$emit('item-settings');
-    },
-  },
-};
-</script>

@@ -74,38 +74,38 @@
 </template>
 
 <script>
-import VueBottomSheet from "@webzlodimir/vue-bottom-sheet";
-import axios from "axios";
+import VueBottomSheet from '@webzlodimir/vue-bottom-sheet';
+import axios from 'axios';
 
 export default {
-  name: "NewRoom",
+  name: 'NewRoom',
   components: {
     VueBottomSheet,
   },
   data() {
     return {
-      roomName: "",
+      roomName: '',
     };
   },
   mounted() {},
   methods: {
     submitRoom(name) {
       const savedRooms = this.loadRooms();
-      const currentRoom = JSON.parse(localStorage.getItem("savedRoom"));
+      const currentRoom = JSON.parse(localStorage.getItem('savedRoom'));
 
       if (currentRoom) {
         savedRooms.push({ name: name, data: currentRoom });
-        localStorage.setItem("rooms", JSON.stringify(savedRooms));
+        localStorage.setItem('rooms', JSON.stringify(savedRooms));
 
         //Save to https://api.jsonbin.io/v3
-        const url = "https://api.jsonbin.io/v3/b";
+        const url = 'https://api.jsonbin.io/v3/b';
 
         const headers = {
-          "Content-Type": "application/json",
-          "X-Master-Key":
-            "$2b$10$5IRGtaCpxp8WwyEO9yuZmOCGr0w9yZMv1aBV5LyvAutcGU8yyXAzC",
-          "X-Collection-Id": "648a9486b89b1e2299af4bc1",
-          "X-Bin-Name": name,
+          'Content-Type': 'application/json',
+          'X-Master-Key':
+            '$2b$10$5IRGtaCpxp8WwyEO9yuZmOCGr0w9yZMv1aBV5LyvAutcGU8yyXAzC',
+          'X-Collection-Id': '648a9486b89b1e2299af4bc1',
+          'X-Bin-Name': name,
         };
         const data = {
           name: name,
@@ -115,11 +115,11 @@ export default {
         axios
           .post(url, data, { headers: headers })
           .then(() => {
-            localStorage.removeItem("savedRoom");
+            localStorage.removeItem('savedRoom');
             location.reload();
           })
           .catch(() => {
-            localStorage.removeItem("savedRoom");
+            localStorage.removeItem('savedRoom');
             location.reload();
           });
 
@@ -130,12 +130,12 @@ export default {
     },
     selectRoom(room) {
       // Replace the current savedRoom with the selected room
-      localStorage.setItem("savedRoom", JSON.stringify(room.data));
+      localStorage.setItem('savedRoom', JSON.stringify(room.data));
       this.loadRoom(room.data);
     },
 
     loadRooms() {
-      return JSON.parse(localStorage.getItem("rooms") || "[]");
+      return JSON.parse(localStorage.getItem('rooms') || '[]');
     },
     loadRoom(room) {
       if (
@@ -145,15 +145,15 @@ export default {
       ) {
         return;
       }
-      localStorage.setItem("savedRoom", JSON.stringify(room));
+      localStorage.setItem('savedRoom', JSON.stringify(room));
       location.reload();
     },
     openBottomSheet() {
       this.$refs.myBottomSheet.open();
-      var inputElement = document.getElementById("hiddenInput");
-      inputElement.style.visibility = "visible"; // unhide the input
+      var inputElement = document.getElementById('hiddenInput');
+      inputElement.style.visibility = 'visible'; // unhide the input
       inputElement.focus(); // focus on it so keyboard pops
-      inputElement.style.visibility = "hidden"; // hide it again
+      inputElement.style.visibility = 'hidden'; // hide it again
 
       //Open keyboard
       setTimeout(() => {

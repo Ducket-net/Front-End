@@ -131,7 +131,7 @@
           Background
         </button>
 
-        <div class="grid col-span-3 grid-cols-4 mt-64">
+        <!-- <div class="grid col-span-3 grid-cols-4 mt-64">
           <button
             @click="moveRoom('up')"
             class="text-white overflow-auto l bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer"
@@ -156,7 +156,7 @@
           >
             RoomRight
           </button>
-        </div>
+        </div> -->
       </div>
     </div>
   </transition>
@@ -190,6 +190,7 @@ export default {
       // Call the fromHex function or handle the color change here
       this.room.wallColor = hexColor;
       this.$store.commit('setRoomWallColor', hexColor);
+      this.$store.commit('saveRoomToLocalStorage');
     },
     // eslint-disable-next-line no-unused-vars
     handleFloorColorChange(hexColor) {
@@ -197,10 +198,13 @@ export default {
       this.room.floorColor = hexColor;
       //Commit to store.js
       this.$store.commit('setRoomFloorColor', hexColor);
+      this.$store.commit('saveRoomToLocalStorage');
     },
     handleBgColorChange(hexColor) {
       // Call the fromHex function or handle the color change here
       this.$store.commit('setRoomBgColor', hexColor);
+      this.$store.commit('saveRoomToLocalStorage');
+      EventBus.$emit('bg-color-change', hexColor);
     },
     authorize() {
       authService.getAuthorizationCode();
@@ -217,19 +221,18 @@ export default {
       this.room.hideWalls = !this.room.hideWalls;
 
       if (this.room.hideWalls) {
-        this.room.y = 224;
+        this.room.y = 240;
         this.room.x = this.room.x + 8;
       } else {
-        this.room.y = 100;
+        this.room.y = 115;
         this.room.x = this.room.x - 8;
       }
-
-      localStorage.setItem('hideWalls', this.room.hideWalls);
+      this.$store.commit('setRoomWallDisplay', this.room.hideWalls);
     },
     toggleFloor() {
       this.room.hideFloor = !this.room.hideFloor;
       this.toggleWall();
-      localStorage.setItem('hideFloor', this.room.hideFloor);
+      this.$store.commit('setRoomFloorDisplay', this.room.hideFloor);
     },
     removeAllItems() {
       if (!confirm('Are you sure you want to reset all?')) return;

@@ -18,6 +18,8 @@ export default class Game {
     this.setupPixiApp(view);
     this.shroom = this.createShroom();
     this.room = this.createRoom(roomData, buildMode);
+
+    this.room.getDefaults = this.getDefaults.bind(this);
     this.createBackground();
 
     if (roomData.avatar) {
@@ -33,8 +35,9 @@ export default class Game {
       antialias: false,
       resolution: 2,
       autoDensity: true,
-      width: document.getElementById('canvas').clientWidth,
+      width: window.innerWidth,
       height: document.getElementById('canvas').clientHeight,
+      transparent: false,
     });
     // eslint-disable-next-line no-undef
     globalThis.__PIXI_APP__ = this.application;
@@ -94,22 +97,27 @@ export default class Game {
         x0000`,
     });
 
-    room.onTileClick = (event) => {
-      console.log('tile clicked', event);
-    };
     //Set width to max 400px, or if less, make centered
 
-    const containerElement = window.document.getElementById('canvasContainer');
-    const containerWidth = containerElement.clientWidth;
+    // getDefaults(room);
+
+    //Set x and y
+    const defaults = this.getDefaults(room);
+    room.x = defaults.x;
+    room.y = defaults.y;
     this.renderItem(roomData, room, buildMode);
     room.wallColor = roomData.wallColor || '#DE6E2B';
     room.floorColor = roomData.floorColor || '#cccccc';
     room.floorTexture = loadRoomTexture('tile.png');
 
-    room.y = 120;
-    room.x = containerWidth / 2 - room.width / 2;
-
     return room;
+  }
+  getDefaults(room) {
+    const containerElement = window.document.getElementById('canvasContainer');
+    const containerWidth = containerElement.clientWidth;
+    let y = 120;
+    let x = containerWidth / 2 - room.width / 2;
+    return { x, y };
   }
   createAvatar(avatarData) {
     if (avatarData) {
@@ -149,8 +157,6 @@ export default class Game {
     const furnitureItem = new FloorFurniture(itemData);
 
     furnitureItem.cacheAsBitmap = true;
-
-    console.log('furnitureItem', furnitureItem);
 
     if (buildMode) {
       furnitureItem.onClick = (event) => {
