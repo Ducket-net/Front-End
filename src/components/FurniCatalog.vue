@@ -30,7 +30,7 @@
       @button-click="loadCatalog"
       v-if="!catalog.lines.length"
     >
-      Open Catalog
+      {{ catalogLoading ? 'Loading...' : 'Open Catalog' }}
     </SpecialButton>
     <div class="grid grid-cols-3 gap-1" v-if="catalog.lines.length">
       <h2
@@ -82,6 +82,7 @@ export default {
       listeners: [],
       categoryState: {},
       showColors: {},
+      catalogLoading: false,
       catalog: {
         categories: [],
         lines: [],
@@ -98,16 +99,11 @@ export default {
   watch: {},
   methods: {
     ...mapActions(['fetchCatalog']),
-    loadCatalog() {
-      this.fetchCatalog();
-      this.catalog = {
-        lines: this.$store.state.catalog.lines,
-        categories: this.$store.state.catalog.categories,
-        items: this.$store.state.catalog.items,
-      };
-      console.log('Catalog:', this.$store.state.catalog.items);
-      console.log('Categories:', this.categories);
-      console.log('Lines:', this.lines);
+    async loadCatalog() {
+      this.catalogLoading = !this.catalogLoading;
+      await this.fetchCatalog();
+      this.catalogLoading = !this.catalogLoading;
+      this.catalog = this.$store.state.catalog;
     },
     clearSearch() {
       this.searchResults = [];
