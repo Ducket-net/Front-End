@@ -22,7 +22,7 @@
         </div>
       </div>
     </div>
-    <div>
+    <div v-if="$store.state.user">
       <ItemCatalog :index="99" />
     </div>
     <SpecialButton

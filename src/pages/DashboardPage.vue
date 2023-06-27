@@ -10,21 +10,20 @@
     <div class="relative">
       <GameRoom roomId="home" size="small" />
 
-      <div class="absolute bottom-2/4 left-1/3 right-0">
+      <div class="absolute bottom-2/4 left-36 right-0">
         <ChatContainer />
       </div>
     </div>
 
     <div class="p-4 grid grid-flow-row gap-4">
-      <div v-if="loggedInUser">
-        <SpecialCard @card-click="createPage">
-          <h2 class="font-bold text-sm">
-            <font-awesome-icon :icon="['fas', 'square']" />
-            Create
-          </h2>
-        </SpecialCard>
-      </div>
-      <div v-else>
+      <SpecialCard @card-click="createPage">
+        <h2 class="font-bold text-sm">
+          <font-awesome-icon :icon="['fas', 'square']" />
+          Create
+        </h2>
+      </SpecialCard>
+
+      <div v-if="!$store.state.user">
         <SpecialCard @card-click="authorize">
           <h2 class="font-bold text-sm">
             <font-awesome-icon :icon="['fas', 'lock']" />
@@ -32,6 +31,7 @@
           </h2>
         </SpecialCard>
       </div>
+
       <!-- 
       <SpecialCard>
         <h2 class="font-bold text-sm">
@@ -67,8 +67,11 @@ export default {
     }, 1000);
 
     setTimeout(() => {
-      this.sendWelcomeMessage('Wait list opening soon!');
+      this.sendWelcomeMessage('Click Create to start building!');
     }, 4000);
+    setTimeout(() => {
+      this.sendWelcomeMessage('Your old favorites are in the catalog!');
+    }, 7000);
   },
   methods: {
     sendWelcomeMessage(message) {
