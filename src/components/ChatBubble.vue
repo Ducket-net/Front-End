@@ -109,7 +109,7 @@ export default {
             let typingSpeed;
 
             if (idx < 3) {
-              typingSpeed = 20;
+              typingSpeed = 100;
             } else {
               typingSpeed = 50;
             }

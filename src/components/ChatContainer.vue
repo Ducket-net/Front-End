@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-start justify-end overflow-hidden h-[200px]">
+  <div class="flex flex-col items-start justify-end h-[200px]">
     <ChatBubbleComponent
       v-for="(msg, index) in messages"
       :key="index"

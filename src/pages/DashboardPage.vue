@@ -58,10 +58,13 @@ export default {
     ChatContainer,
   },
   mounted() {
-    this.sendWelcomeMessage('👋 Welcome to Ducket!');
     setTimeout(() => {
-      this.sendWelcomeMessage('We are closed, wait list opening soon!');
-    }, 3000);
+      this.sendWelcomeMessage('👋 Welcome to Ducket!');
+    }, 1000);
+
+    setTimeout(() => {
+      this.sendWelcomeMessage('Wait list opening soon!');
+    }, 4000);
   },
   methods: {
     sendWelcomeMessage(message) {
