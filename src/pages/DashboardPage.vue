@@ -7,21 +7,12 @@
         Play Games and Buld your Pixel Creations!
       </p>
     </div>
-    <GameRoom roomId="home" size="small" />
+    <div class="relative">
+      <GameRoom roomId="home" size="small" />
 
-    <div
-      class="shadow-xl relative -top-32 rounded-full bg-red-500 p-[3px] grid grid-cols-[30px,auto] max-w-[200px] mx-auto mt-4 bg-gradient-to-bl from-red-400 to-red-800"
-    >
-      <div
-        class="bg-gray-300 rounded-l-full border-2 border-gray-300 flex items-baseline"
-      >
-        <div
-          class="bg-white h-6 w-6 rounded-full m-auto overflow-hidden border-2 border-white"
-        >
-          <img src="icons/frank.png" class="object-none" />
-        </div>
+      <div class="absolute bottom-2/4 left-1/3 right-0">
+        <ChatContainer />
       </div>
-      <div class="bg-white rounded-r-full text-sm pl-2 p-1">Coming Soon!</div>
     </div>
 
     <div class="p-4 grid grid-flow-row gap-4">
@@ -58,13 +49,28 @@
 import authService from '@/services/authService';
 import GameRoom from '@/components/GameRoom.vue';
 import SpecialCard from '@/components/SpecialCard.vue';
+import ChatContainer from '@/components/ChatContainer.vue';
 
 export default {
   components: {
     SpecialCard,
     GameRoom,
+    ChatContainer,
+  },
+  mounted() {
+    this.sendWelcomeMessage('👋 Welcome to Ducket!');
+    setTimeout(() => {
+      this.sendWelcomeMessage('We are closed, wait list opening soon!');
+    }, 3000);
   },
   methods: {
+    sendWelcomeMessage(message) {
+      this.$store.dispatch('sendMessage', {
+        text: message,
+        image: 'icons/frank.png',
+        color: 'red',
+      });
+    },
     authorize() {
       authService.getAuthorizationCode();
     },

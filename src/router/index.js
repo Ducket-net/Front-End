@@ -7,6 +7,7 @@ import CatalogPage from '../pages/CatalogPage.vue';
 import DashboardPage from '../pages/DashboardPage.vue';
 import Login from '@/pages/LoginPage.vue';
 import AuthCallback from '@/pages/AuthCallback.vue';
+import SpeechPage from '@/pages/SpeechPage.vue';
 
 Vue.use(VueRouter);
 
@@ -33,6 +34,7 @@ const routes = [
   },
   { path: '/login', component: Login },
   { path: '/auth/callback', component: AuthCallback },
+  { path: '/speech', name: 'SpeechPage', component: SpeechPage },
   {
     path: '/*',
     component: DashboardPage,

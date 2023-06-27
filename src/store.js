@@ -14,6 +14,7 @@ export default new Vuex.Store({
     hideHeader: false,
     showSplashScreen: true,
     rooms: {},
+    messages: [],
     catalog: {
       items: [],
       lines: [],
@@ -38,6 +39,13 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    addMessage(state, payload) {
+      state.messages.push(payload);
+    },
+    sendMessage({ commit }, payload) {
+      commit('addMessage', payload);
+    },
+
     setRoomSettings(state, roomData) {
       state.room = roomData;
       localStorage.setItem('settings', JSON.stringify(state.room.settings));
@@ -134,6 +142,9 @@ export default new Vuex.Store({
     catalog: (state) => state.catalog,
   },
   actions: {
+    sendMessage(context, payload) {
+      context.commit('addMessage', payload);
+    },
     async authenticate({ commit }, accessToken) {
       try {
         const response = await axios.get(

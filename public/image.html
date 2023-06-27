@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Bubble Animation</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        #chat-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .chat-bubble {
+            background-color: #4CAF50;
+            border-radius: 5px;
+            padding: 10px;
+            color: white;
+            margin: 10px;
+            max-width: 200px;
+            line-height: 1.4;
+        }
+
+        .chat-bubble:before {
+            content: "";
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid #4CAF50;
+            position: relative;
+            top: -20px;
+            left: -5px;
+        }
+
+        @keyframes slidein {
+            0% {
+                opacity: 0;
+                transform: translateY(20px) scaleY(0.5);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0) scaleY(1);
+            }
+        }
+
+        @keyframes pop {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            80% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="chat-container">
+        <!-- Chat bubbles will be added here -->
+    </div>
+    <button onclick="addBubble()">Add Chat Bubble</button>
+    <script src="script.js"></script>
+</body>
+<script>
+    function addBubble() {
+        const chatContainer = document.getElementById("chat-container");
+
+        // Create a dot
+        const dot = document.createElement("div");
+        dot.style.borderRadius = "50%";
+        dot.style.backgroundColor = "#4CAF50";
+        dot.style.width = "10px";
+        dot.style.height = "10px";
+        dot.style.position = "relative";
+        dot.style.animation = "slidein 1s forwards";
+
+        // Append the dot
+        chatContainer.appendChild(dot);
+
+        setTimeout(() => {
+            // Replace the dot with a chat bubble
+            const chatBubble = document.createElement("div");
+            chatBubble.className = "chat-bubble";
+            chatBubble.textContent = "I'm a chat bubble!";
+            chatBubble.style.animation = "pop 300ms forwards";
+
+            chatContainer.replaceChild(chatBubble, dot);
+        }, 1000);
+    }
+</script>
+
+</html>
