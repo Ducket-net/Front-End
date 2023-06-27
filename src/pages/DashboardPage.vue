@@ -16,18 +16,22 @@
     </div>
 
     <div class="p-4 grid grid-flow-row gap-4">
-      <!-- <SpecialCard @card-click="createPage">
-        <h2 class="font-bold text-sm">
-          <font-awesome-icon :icon="['fas', 'square']" />
-          Create
-        </h2>
-      </SpecialCard> -->
-      <SpecialCard @card-click="authorize">
-        <h2 class="font-bold text-sm">
-          <font-awesome-icon :icon="['fas', 'lock']" />
-          Login with Ducket
-        </h2>
-      </SpecialCard>
+      <div v-if="loggedInUser">
+        <SpecialCard @card-click="createPage">
+          <h2 class="font-bold text-sm">
+            <font-awesome-icon :icon="['fas', 'square']" />
+            Create
+          </h2>
+        </SpecialCard>
+      </div>
+      <div v-else>
+        <SpecialCard @card-click="authorize">
+          <h2 class="font-bold text-sm">
+            <font-awesome-icon :icon="['fas', 'lock']" />
+            Login with Ducket
+          </h2>
+        </SpecialCard>
+      </div>
       <!-- 
       <SpecialCard>
         <h2 class="font-bold text-sm">
