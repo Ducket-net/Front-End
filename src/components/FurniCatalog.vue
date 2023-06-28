@@ -32,23 +32,15 @@
     >
       {{ catalogLoading ? 'Loading...' : 'Open Catalog' }}
     </SpecialButton>
-    <div class="grid grid-cols-3 gap-1" v-if="catalog.lines.length">
+    <SpecialButton
+      class="bg-black text-white text-sm font-bold mt-2 p-3 rounded-lg w-full"
+      @button-click="previewMode"
+    >
+      Preview Mode
+    </SpecialButton>
+    <div class="grid grid-cols-4 gap-1" v-if="catalog.lines.length">
       <h2
-        class="col-span-3 bg-black text-white text-sm font-bold mt-2 p-3 rounded-lg"
-      >
-        Categories
-      </h2>
-      <div
-        class="bg-white p-1 rounded-lg capitalize text-center text-sm font-bold py-3 active:bg-[#1A1F25] active:text-white"
-        v-for="catagory in catalog.categories"
-        @click="toggleCatalog('category', catagory)"
-        :class="{ 'bg-slate-900 text-white': selectedCategory == catagory }"
-      >
-        {{ catagory }}
-      </div>
-
-      <h2
-        class="col-span-3 bg-black text-white text-sm font-bold mt-2 p-3 rounded-lg"
+        class="col-span-4 bg-black text-white text-sm font-bold mt-2 p-3 rounded-lg"
       >
         Lines
       </h2>
@@ -60,6 +52,19 @@
       >
         {{ line }}
       </div>
+      <h2
+        class="col-span-4 bg-black text-white text-sm font-bold mt-2 p-3 rounded-lg"
+      >
+        Categories
+      </h2>
+      <div
+        class="bg-white p-1 rounded-lg capitalize text-center text-sm font-bold py-3 active:bg-[#1A1F25] active:text-white"
+        v-for="catagory in catalog.categories"
+        @click="toggleCatalog('category', catagory)"
+        :class="{ 'bg-slate-900 text-white': selectedCategory == catagory }"
+      >
+        {{ catagory }}
+      </div>
     </div>
   </div>
 </template>
@@ -68,6 +73,7 @@
 import { mapActions } from 'vuex';
 import ItemCatalog from './ItemCatalog.vue';
 import SpecialButton from './SpecialButton.vue';
+import EventBus from '@/eventBus';
 
 export default {
   name: 'FurniCatalog',
@@ -99,6 +105,9 @@ export default {
   watch: {},
   methods: {
     ...mapActions(['fetchCatalog']),
+    previewMode() {
+      EventBus.$emit('download');
+    },
     async loadCatalog() {
       this.catalogLoading = !this.catalogLoading;
       await this.fetchCatalog();

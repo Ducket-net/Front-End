@@ -14,10 +14,30 @@ import { gsap } from 'gsap';
 import { isIOS17 } from './utils';
 
 export default class Game {
-  constructor(view, roomData, buildMode = false) {
+  constructor(view, roomData, buildMode = false, tilemap = null) {
     this.setupPixiApp(view);
     this.shroom = this.createShroom();
-    this.room = this.createRoom(roomData, buildMode);
+    gsap.ticker.fps(120);
+    this.actionLock = false;
+
+    // Add this inside your Game class's constructor method:
+    this.application.renderer.plugins.prepare.upload(
+      this.shroom.container,
+      () => {
+        console.log('Textures prepared for rendering');
+      }
+    );
+
+    //TileMap
+    if (!tilemap) {
+      tilemap = `xxxxx
+        x0000
+        x0000
+        x0000
+        x0000`;
+    }
+
+    this.room = this.createRoom(roomData, buildMode, tilemap);
 
     this.room.getDefaults = this.getDefaults.bind(this);
     this.createBackground();
@@ -77,24 +97,64 @@ export default class Game {
   }
   onFurnitureItemClick(item) {
     if (this.selectedFurnitureItem && this.selectedFurnitureItem !== item) {
+      this.room.roomObjects.forEach((object) => {
+        if (object instanceof FloorFurniture && object !== item) {
+          object.alpha = 0.5;
+        }
+      });
+      this.alpha = 1;
       EventBus.$emit('item-unselected', this.selectedFurnitureItem);
     }
 
     if (this.selectedFurnitureItem === item) {
       EventBus.$emit('item-unselected', item);
       this.selectedFurnitureItem = null;
+      this.room.roomObjects.forEach((object) => {
+        if (object instanceof FloorFurniture && object !== item) {
+          object.alpha = 1;
+        }
+      });
     } else {
       EventBus.$emit('item-selected', item);
+      this.room.roomObjects.forEach((object) => {
+        if (object instanceof FloorFurniture && object !== item) {
+          object.alpha = 0.5;
+        }
+      });
+      this.alpha = 1;
       this.selectedFurnitureItem = item;
     }
   }
-  createRoom(roomData, buildMode) {
+  downloadRoomAsPNG(filename = 'room.png') {
+    const renderTexture = PIXI.RenderTexture.create({
+      width: 450,
+      height: document.getElementById('canvas').clientHeight,
+      resolution: this.application.renderer.resolution,
+    });
+
+    this.application.renderer.render(this.room, renderTexture);
+
+    const extract = this.application.renderer.plugins.extract;
+    const canvas = extract.canvas(renderTexture);
+    canvas.toBlob((blob) => {
+      // Create a temporary anchor element to trigger the download
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = filename;
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // Clean up
+      URL.revokeObjectURL(link.href);
+
+      this.application.stage.removeChild(renderTexture);
+    }, 'image/png');
+  }
+  createRoom(roomData, buildMode, tilemap) {
     const room = Room.create(this.shroom, {
-      tilemap: `xxxxx
-        x0000
-        x0000
-        x0000
-        x0000`,
+      tilemap: tilemap,
     });
 
     //Set width to max 400px, or if less, make centered
@@ -147,7 +207,7 @@ export default class Game {
     }
   }
   addItem(itemData) {
-    const furnitureItem = this.createAndSetFurnitureItem(itemData);
+    const furnitureItem = this.createAndSetFurnitureItem(itemData, true);
     this.room.addRoomObject(furnitureItem);
     this.animateDropFurnitureItem(furnitureItem);
 
@@ -160,6 +220,15 @@ export default class Game {
 
     if (buildMode) {
       furnitureItem.onClick = (event) => {
+        //Lock for 500ms
+        console.log(this.actionLock);
+        if (this.actionLock) {
+          return;
+        }
+        this.actionLock = true;
+        setTimeout(() => {
+          this.actionLock = false;
+        }, 500);
         this.animateTap(furnitureItem);
         this.onFurnitureItemClick(furnitureItem);
       };
@@ -171,13 +240,8 @@ export default class Game {
           furnitureItem.animation = 1;
         }
       };
-
-      furnitureItem.onDragStart = (event) => {
-        console.log('drag start');
-        this.onFurnitureItemClick(furnitureItem);
-        this.animateTap(furnitureItem);
-      };
     }
+
     return furnitureItem;
   }
   animateDropFurnitureItem(furnitureItem) {
@@ -190,7 +254,6 @@ export default class Game {
     const onComplete = () => {
       furnitureItem.roomZ = endZ; // Ensure the final position is reached
       furnitureItem.alpha = 1; // Ensure the final alpha value is 1
-      this.application.render(this.room); // Render the final state
     };
 
     // Create the animation using gsap
@@ -200,7 +263,6 @@ export default class Game {
         roomZ: endZ,
         duration: 0.7,
         ease: 'bounce.out',
-        onUpdate: () => this.application.render(this.room),
       })
       .to(
         furnitureItem,
@@ -213,8 +275,9 @@ export default class Game {
       );
   }
   animateTap(furnitureItem) {
+    console.log('animateTap');
     const initialZ = furnitureItem.roomZ;
-    const tappedZ = initialZ + 0.2; // Adjust the tapping factor
+    const tappedZ = initialZ + 0.4; // Adjust the tapping factor
     const duration = 0.1; // Animation duration in seconds for each part (down and up)
 
     gsap
@@ -222,12 +285,10 @@ export default class Game {
       .to(furnitureItem, {
         roomZ: tappedZ,
         duration: duration,
-        onUpdate: () => this.application.render(this.room),
       })
       .to(furnitureItem, {
         roomZ: initialZ,
         duration: duration,
-        onUpdate: () => this.application.render(this.room),
       });
   }
   moveFurnitureItem(furnitureItem, moveX, moveY) {
@@ -235,7 +296,7 @@ export default class Game {
     const startY = furnitureItem.roomY;
     const endX = startX + moveX;
     const endY = startY + moveY;
-    const duration = 0.2; // Reduce the duration for a snappier animation
+    const duration = 0.4; // Reduce the duration for a snappier animation
 
     // Define the animation function
     const animateMove = () => {
@@ -244,11 +305,9 @@ export default class Game {
         roomY: endY,
         duration: duration,
         ease: 'back', // Update the easing function for a snappier animation
-        onUpdate: () => this.application.render(this.room),
         onComplete: () => {
           furnitureItem.roomX = endX;
           furnitureItem.roomY = endY;
-          this.application.render(this.room);
         },
       });
     };

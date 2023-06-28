@@ -1,6 +1,9 @@
 <!-- src/components/GameRoom.vue -->
 <template>
-  <div ref="container" class="mx-auto max-w-md">
+  <div
+    ref="container"
+    class="mx-auto max-w-md max-h-screen no-scrollbar overflow-y-scroll overflow-hidden"
+  >
     <div
       ref="canvasContainer"
       id="canvasContainer"
@@ -35,13 +38,13 @@
       >
         <game-controller :game="game" ref="gameController"></game-controller>
       </vue-bottom-sheet>
-
+    </div>
+    <div class="flex-1 overflow-y-auto h-auto">
       <RoomSettings
         v-if="game && game.room"
         :gameRoom="game.room"
       ></RoomSettings>
     </div>
-
     <!-- roomSettingsOpen -->
   </div>
 </template>
@@ -77,6 +80,11 @@ export default {
       type: String,
       default: 'default',
     },
+    tilemap: {
+      type: String,
+      default: '',
+      required: false,
+    },
   },
   data() {
     return {
@@ -104,7 +112,12 @@ export default {
     const roomId = this.$route.params.id || this.roomId || 'blank';
     await this.$store.dispatch('selectRoomById', roomId);
     const { currentRoom } = this.$store.state;
-    this.game = new Game(canvas, currentRoom, this.withController);
+    this.game = new Game(
+      canvas,
+      currentRoom,
+      this.withController,
+      this.tilemap
+    );
     this.game.application.stage.addChild(this.game.room);
     this.$store.commit('setGame', this.game);
     this.game.setBackground(this.$store.state.room.settings.bgColor);
@@ -122,6 +135,11 @@ export default {
     }
   },
   methods: {
+    async downloadCanvas() {
+      // Render the game room content one more time before downloading
+      this.game.downloadRoomAsPNG();
+    },
+
     moveRoom(dir) {
       switch (dir) {
         case 'up':
@@ -195,7 +213,7 @@ export default {
       this.$store.commit('saveRoomToLocalStorage');
     },
   },
-  created() {
+  async created() {
     // Listen for the 'item-selected' event and update selectedItemType
 
     EventBus.$on('item-selected', (item) => {
@@ -237,6 +255,10 @@ export default {
 
     EventBus.$on('bg-color-change', (color) => {
       this.game.setBackground(color);
+    });
+
+    EventBus.$on('download', () => {
+      this.downloadCanvas();
     });
   },
 };

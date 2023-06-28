@@ -1,0 +1,21 @@
+{
+  "id": "room-blank",
+  "settings": {
+    "hideWalls": true,
+    "hideFloor": false,
+    "wallColor": "#B5B7C4",
+    "floorColor": "#FBC02D",
+    "bgColor": "#1A1F25",
+    "x": 0,
+    "y": 0
+  },
+  "items": [
+    {
+      "roomX": 0,
+      "roomY": 0,
+      "roomZ": 1,
+      "direction": 2,
+      "type": "throne"
+    }
+  ]
+}

@@ -8,6 +8,7 @@ import DashboardPage from '../pages/DashboardPage.vue';
 import Login from '@/pages/LoginPage.vue';
 import AuthCallback from '@/pages/AuthCallback.vue';
 import SpeechPage from '@/pages/SpeechPage.vue';
+import GamePage from '@/pages/GamePage.vue';
 
 Vue.use(VueRouter);
 
@@ -16,6 +17,11 @@ const routes = [
     path: '/',
     name: 'Home',
     component: DashboardPage, // Set the home component for the root URL
+  },
+  {
+    path: '/game',
+    name: 'Game',
+    component: GamePage, // Set the home component for the root URL
   },
   {
     path: '/create',

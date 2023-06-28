@@ -4,6 +4,7 @@
       <button
         @click.prevent="handleClick('moveFurnitureItem', -increment, 0)"
         @touchstart="handleTouchStart('moveFurnitureItem', -increment, 0)"
+        @touchend="handleTouchEnd"
         class="w-full font-semibold text-white bg-black rounded-lg active:bg-gray-800 controller-button border border-black text-xs"
       >
         <!-- <i class="fa fa-angle-double-down"></i> -->
@@ -16,6 +17,7 @@
       <button
         @click.prevent="handleClick('moveFurnitureItem', 0, -increment)"
         @touchstart="handleTouchStart('moveFurnitureItem', 0, -increment)"
+        @touchend="handleTouchEnd"
         class="w-full font-semibold text-white bg-black rounded-lg active:bg-gray-800 controller-button border border-black text-xs"
       >
         <font-awesome-icon
@@ -40,6 +42,7 @@
       <button
         @click.prevent="handleClick('moveFurnitureItem', 0, increment)"
         @touchstart="handleTouchStart('moveFurnitureItem', 0, increment)"
+        @touchend="handleTouchEnd"
         class="w-full font-semibold text-white bg-black rounded-lg active:bg-gray-800 controller-button border border-black text-xs"
       >
         <font-awesome-icon
@@ -50,6 +53,7 @@
       <button
         @click.prevent="handleClick('moveFurnitureItem', increment, 0)"
         @touchstart="handleTouchStart('moveFurnitureItem', increment, 0)"
+        @touchend="handleTouchEnd"
         class="w-full font-semibold text-white bg-black rounded-lg active:bg-gray-800 controller-button border border-black text-xs"
       >
         <font-awesome-icon
@@ -299,13 +303,13 @@ export default {
       });
     },
     handleClick(action, ...args) {
-      if (this.touchLockedClick) return;
+      if (this.touchLocked) return;
       this[action](...args);
     },
+    handleTouchEnd() {
+      // setTimeout(() => (this.touchLocked = false), 600); // Set a delay to unlock.
+    },
     handleTouchStart(action, ...args) {
-      this.touchLocked = true;
-
-      setTimeout(() => (this.touchLocked = false), 500); // Set a delay to unlock.
       this[action](...args);
     },
     getIconUrl(type) {
@@ -314,9 +318,6 @@ export default {
         '*',
         '_'
       )}_icon.png`;
-    },
-    updateItem() {
-      EventBus.$emit('update-item', this.selectedItem);
     },
     removeRoomItem() {
       EventBus.$emit('furni-removed', this.selectedItem);

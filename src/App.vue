@@ -28,7 +28,7 @@
     >
       <router-view></router-view>
       <footer
-        class="mt-10 mx-auto text-white my-12 text-center max-w-sm text-xs pb-7"
+        class="mt-10 mx-auto text-white my-12 text-center max-w-sm text-xs pb-7 opacity-20"
       >
         <div class="block py-2">
           <a

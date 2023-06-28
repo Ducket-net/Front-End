@@ -1,175 +1,109 @@
 <!-- Login.vue -->
 <template>
-  <transition name="fade">
-    <div
-      v-if="roomSettingsOpen"
-      class="max-w-md mx-auto pt-[42px] absolute top-0 left-0 right-0"
-    >
-      <!-- BG Color -->
-
+  <div class="relative p-2">
+    <transition name="fade">
       <div
-        class="absolute top-80 right-4 left-4 bg-white overflow-auto rounded-lg z-10"
+        v-if="roomSettingsOpen"
+        class="max-w-md mx-auto p-1 grid grid-flow-row gap-1 grid-cols-2"
+        :style="{ backgroundColor: $store.state.room.settings.bgColor }"
+      >
+        <SpecialButton
+          @button-click="toggleColorPicker('roomSettingsOpen')"
+          class="w-full text-sm"
+          >Close Settings</SpecialButton
+        >
+        <SpecialButton
+          @button-click="toggleColorPicker('showWallColorPicker')"
+          class="w-full text-sm"
+          >Edit Wall Color</SpecialButton
+        >
+        <SpecialButton
+          @button-click="toggleColorPicker('showFloorColorPicker')"
+          class="w-full text-sm"
+          >Edit Floor Color</SpecialButton
+        >
+        <SpecialButton
+          @button-click="toggleColorPicker('showBgColorPicker')"
+          class="w-full text-sm"
+          >Edit Background Color</SpecialButton
+        >
+        <SpecialButton @button-click="toggleWall()" class="w-full text-sm"
+          >Toggle Wall</SpecialButton
+        >
+        <SpecialButton @button-click="toggleFloor()" class="w-full text-sm"
+          >Toggle Floor</SpecialButton
+        >
+        <SpecialButton @button-click="removeAllItems()" class="w-full text-sm"
+          >Remove All Items</SpecialButton
+        >
+        <SpecialButton
+          @button-click="clearLocalStorage()"
+          class="w-full text-sm"
+          >Debug Reset</SpecialButton
+        >
+      </div>
+
+      <!-- BG Color -->
+    </transition>
+
+    <transition name="fade">
+      <div
+        class="bg-white rounded-lg top-0 absolute p-1"
         v-if="showBgColorPicker"
       >
-        <Swatches v-model="bgColor" />
-        <button
-          @click="showBgColorPicker = false"
-          class="w-full py-2 h-[42px] mt-2 font-semibold text-white bg-black rounded text-xs rounded-t-none"
+        <SpecialButton
+          @button-click="toggleColorPicker('showBgColorPicker')"
+          class="bg-black text-white text-sm font-bold mt-2 p-3 rounded-lg w-full"
         >
           <font-awesome-icon :icon="['fas', 'close']" />
           Close Background Picker
-        </button>
+        </SpecialButton>
+        <Swatches v-model="bgColor" />
       </div>
-      <!-- BG Color -->
 
       <!-- Wall Color -->
       <div
-        @click="showWallColorPicker = !showWallColorPicker"
-        class="rounded-full absolute top-48 transform left-1/2 translate-x-24 -translate-y-0 bg-black text-white overflow-auto bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer"
-      >
-        <font-awesome-icon
-          class="text-white overflow-auto rounded-lg"
-          icon="cube"
-        />
-        Wall
-      </div>
-      <div
-        class="absolute top-80 right-4 left-4 bg-white overflow-auto rounded-lg z-10"
+        class="bg-white rounded-lg top-0 absolute p-1"
         v-if="showWallColorPicker"
       >
-        <Swatches v-model="wallColor" />
-        <button
-          @click="showWallColorPicker = false"
-          class="w-full py-2 h-[42px] mt-2 font-semibold text-white bg-black rounded text-xs rounded-t-none"
+        <SpecialButton
+          @button-click="toggleColorPicker('showWallColorPicker')"
+          class="bg-black text-white text-sm font-bold mt-2 p-3 rounded-lg w-full"
         >
           <font-awesome-icon :icon="['fas', 'close']" />
           Close Wall Picker
-        </button>
+        </SpecialButton>
+        <Swatches v-model="wallColor" />
       </div>
-      <!-- Wall Color -->
 
       <!-- Floor Color -->
       <div
-        @click="showFloorColorPicker = !showFloorColorPicker"
-        class="absolute top-64 transform left-1/2 -translate-x-1/2 translate-y-16 bg-black text-white overflow-auto rounded-full bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer"
-      >
-        <font-awesome-icon
-          class="text-white overflow-auto rounded-lg"
-          icon="cube"
-        />
-        Floor
-      </div>
-      <div
-        class="absolute top-80 right-4 left-4 bg-white overflow-auto rounded-lg z-10"
+        class="bg-white rounded-lg top-0 absolute p-1"
         v-if="showFloorColorPicker"
       >
-        <Swatches v-model="floorColor" />
-        <button
-          @click="showFloorColorPicker = false"
-          class="w-full h-[42px] py-2 mt-2 font-semibold text-white bg-black rounded text-xs rounded-t-none"
+        <SpecialButton
+          @button-click="toggleColorPicker('showFloorColorPicker')"
+          class="bg-black text-white text-sm font-bold mt-2 p-3 rounded-lg w-full"
         >
           <font-awesome-icon :icon="['fas', 'close']" />
           Close Floor Picker
-        </button>
+        </SpecialButton>
+        <Swatches v-model="floorColor" />
       </div>
-      <!-- Floor Color -->
-
-      <div class="grid grid-cols-3 grid-rows-2 text-left">
-        <button
-          @click="roomSettingsOpen = false"
-          class="text-white overflow-auto bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer"
-        >
-          <font-awesome-icon :icon="['fas', 'close']" /> Close Settings
-        </button>
-
-        <button
-          @click="showBgColorPicker = !showBgColorPicker"
-          class="text-white overflow-auto bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer"
-        >
-          <!-- <font-awesome-icon
-              class="text-white overflow-auto rounded-lg"
-              icon="cube"
-            /> -->
-          <!-- Background -->
-        </button>
-        <button
-          @click="clearLocalStorage"
-          class="top-80 text-red-500 overflow-auto bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer"
-        >
-          <font-awesome-icon :icon="['fas', 'trash']" /> Debug Reset
-        </button>
-
-        <button
-          @click="removeAllItems"
-          class="top-80 text-red-500 overflow-auto bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer"
-        >
-          <font-awesome-icon :icon="['fas', 'trash']" /> Remove All Items
-        </button>
-
-        <button
-          @click="toggleWall"
-          class="top-32 text-white overflow-auto l bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer"
-        >
-          Toggle Wall
-        </button>
-
-        <button
-          @click="toggleFloor"
-          class="left-0 top-[55px] text-white overflow-auto bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer"
-        >
-          Toggle Floor & Wall
-        </button>
-
-        <button
-          @click="showBgColorPicker = !showBgColorPicker"
-          class="text-white overflow-auto bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer"
-        >
-          <font-awesome-icon
-            class="text-white overflow-auto rounded-lg"
-            icon="cube"
-          />
-          Background
-        </button>
-
-        <!-- <div class="grid col-span-3 grid-cols-4 mt-64">
-          <button
-            @click="moveRoom('up')"
-            class="text-white overflow-auto l bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer"
-          >
-            RoomUp
-          </button>
-          <button
-            @click="moveRoom('down')"
-            class="text-white overflow-auto l bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer"
-          >
-            RoomDown
-          </button>
-          <button
-            @click="moveRoom('left')"
-            class="text-white overflow-auto l bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer"
-          >
-            RoomLeft
-          </button>
-          <button
-            @click="moveRoom('right')"
-            class="text-white overflow-auto l bg-opacity-70 text-xs px-5 py-3 hover:bg-gray-900 cursor-pointer"
-          >
-            RoomRight
-          </button>
-        </div> -->
-      </div>
-    </div>
-  </transition>
+    </transition>
+  </div>
 </template>
 
 <script>
 import Swatches from 'vue-color/src/components/Swatches';
 import authService from '@/services/authService';
 import EventBus from '@/eventBus.js';
+import SpecialButton from './SpecialButton.vue';
 
 export default {
   components: {
     Swatches,
+    SpecialButton,
   },
   props: ['gameRoom'],
   data() {
@@ -185,6 +119,10 @@ export default {
     };
   },
   methods: {
+    toggleColorPicker(picker) {
+      this[picker] = !this[picker];
+    },
+
     // eslint-disable-next-line no-unused-vars
     handleWallColorChange(hexColor) {
       // Call the fromHex function or handle the color change here
@@ -218,20 +156,48 @@ export default {
       location.reload();
     },
     toggleWall() {
-      this.room.hideWalls = !this.room.hideWalls;
-
       if (this.room.hideWalls) {
-        this.room.y = 240;
-        this.room.x = this.room.x + 8;
-      } else {
-        this.room.y = 115;
+        if (this.room.hideFloor) {
+          this.room.hideFloor = false;
+        }
+        this.room.y = 116;
+        this.room.hideWalls = false;
+        this.room.wallColor = this.$store.state.room.settings.wallColor;
         this.room.x = this.room.x - 8;
+        this.$store.commit('setRoomWallDisplay', this.room.hideWalls);
+        return;
+      } else {
+        this.room.y = 240;
+        this.room.hideWalls = true;
+        this.room.x = this.room.x + 8;
+        this.$store.commit('setRoomWallDisplay', this.room.hideWalls);
+        return;
       }
-      this.$store.commit('setRoomWallDisplay', this.room.hideWalls);
+
+      // this.room.hideWalls = !this.room.hideWalls;
+
+      //If wall is off, and floor is off, turn floor on
+      // if (!this.room.hideWalls && this.room.hideFloor) {
+      // this.toggleFloor();
+      // this.room.wallColor = 'transparent';
+      // return;
+      // }
+
+      // if (this.room.hideWalls) {
+      //   this.room.y = 240;
+      //   this.room.x = this.room.x + 8;
+      // } else {
+      //   this.room.y = 115;
+      //   this.room.x = this.room.x - 8;
+      // }
+      // this.$store.commit('setRoomWallDisplay', this.room.hideWalls);
     },
     toggleFloor() {
+      if (!this.room.hideWalls) {
+        this.toggleWall();
+      }
+
       this.room.hideFloor = !this.room.hideFloor;
-      this.toggleWall();
       this.$store.commit('setRoomFloorDisplay', this.room.hideFloor);
     },
     removeAllItems() {
@@ -272,16 +238,43 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
 .vc-swatches {
   box-shadow: none !important;
   width: 100%;
   background-color: transparent;
   padding: 0 !important;
-  height: 300px;
+  height: auto;
+  overflow: auto;
+  margin-top: 5px;
 }
 .vc-swatches-box {
-  padding: 0px !important;
-  margin: 0px !important;
+  margin: auto;
+  padding: 0px 0px 0px 0px;
+  margin: 0px;
+}
+.vc-swatches-color-group {
+  margin: 0px;
+  padding: 0px;
+}
+
+.vc-swatches-color-it {
+  width: 38px;
+  height: 38px;
+  border-radius: 100px;
+}
+.vc-swatches-pick {
+  margin-top: 7px;
+  margin-left: 7px;
 }
 </style>
