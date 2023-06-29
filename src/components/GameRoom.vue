@@ -114,6 +114,8 @@ export default {
   async mounted() {
     const { canvas } = this.$refs;
     const roomId = this.$route.params.id || this.roomId || 'blank';
+    // setRoomId
+    this.$store.commit('setRoomId', roomId);
     await this.$store.dispatch('selectRoomById', roomId);
     const { currentRoom } = this.$store.state;
     this.game = new Game(
@@ -131,12 +133,8 @@ export default {
       this.game.room.hideWalls = true;
     }
     if (this.$store.state.room.settings.hideFloors) {
+      this.game.room.hideWalls = true;
       this.game.room.hideFloor = true;
-    }
-
-    if (this.game.room.hideWalls) {
-      this.game.room.y = 240;
-      this.game.room.x = this.game.room.x + 8;
     }
   },
   methods: {

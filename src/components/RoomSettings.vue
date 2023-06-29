@@ -160,16 +160,14 @@ export default {
         if (this.room.hideFloor) {
           this.room.hideFloor = false;
         }
-        this.room.y = 116;
+
         this.room.hideWalls = false;
         this.room.wallColor = this.$store.state.room.settings.wallColor;
-        this.room.x = this.room.x - 8;
         this.$store.commit('setRoomWallDisplay', this.room.hideWalls);
         return;
       } else {
-        this.room.y = 240;
         this.room.hideWalls = true;
-        this.room.x = this.room.x + 8;
+
         this.$store.commit('setRoomWallDisplay', this.room.hideWalls);
         return;
       }

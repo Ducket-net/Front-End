@@ -3,7 +3,7 @@
   <div class="home-container max-w-md">
     <div class="game-room-container fixed overflow-hidden">
       <GameRoom
-        room-id="blank"
+        room-id="blankSmall"
         :withController="true"
         :smallRoom="true"
         :tilemap="tilemap"

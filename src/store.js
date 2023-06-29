@@ -60,8 +60,12 @@ export default new Vuex.Store({
     saveRoomToLocalStorage() {
       const roomData = this.state.game.getSerializedRoom();
       //Appebd Settings
+
       roomData.settings = this.state.room.settings;
-      localStorage.setItem('room', JSON.stringify(roomData));
+      localStorage.setItem(
+        'room-' + this.state.roomId,
+        JSON.stringify(roomData)
+      );
       console.log(roomData);
       console.log('👋 Room Saved!');
     },
@@ -175,9 +179,11 @@ export default new Vuex.Store({
       try {
         let roomData;
 
+        console.log('👋 Fetching room:', roomId);
+
         // Check if room data exists in local storage
-        if (localStorage.getItem('room') && roomId !== 'home') {
-          roomData = JSON.parse(localStorage.getItem('room'));
+        if (localStorage.getItem('room-' + roomId) && roomId !== 'home') {
+          roomData = JSON.parse(localStorage.getItem('room-' + roomId));
         } else {
           // If no room data in local storage, fetch from server
           // Replace the URL with your actual server URL

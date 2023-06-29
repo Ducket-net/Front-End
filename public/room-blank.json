@@ -3,11 +3,12 @@
   "settings": {
     "hideWalls": false,
     "hideFloor": false,
-    "wallColor": "#B5B7C4",
+    "wallColor": "#EE7BD1",
     "floorColor": "#FBC02D",
     "bgColor": "#1A1F25",
     "x": 0,
     "y": 0
   },
+  "wallColor": "#EE7BD1",
   "items": []
 }

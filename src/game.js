@@ -62,7 +62,7 @@ export default class Game {
     this.application = new PIXI.Application({
       view,
       antialias: false,
-      resolution: window.devicePixelRatio,
+      resolution: 4,
       autoDensity: true,
       width: canvasWidth,
       height: document.getElementById('canvas').clientHeight,
@@ -166,6 +166,8 @@ export default class Game {
       tilemap: tilemap,
     });
 
+    room.smallRoom = true;
+
     if (smallRoom) {
       room.wallHeight = 60;
       room.wallDepth = 4;
@@ -183,6 +185,7 @@ export default class Game {
 
     if (smallRoom) {
       room.floorTexture = loadRoomTexture('tile_32.png');
+      room.wallTexture = loadRoomTexture('wallpaper.png');
     } else {
       room.floorTexture = loadRoomTexture('tile.png');
     }
@@ -205,7 +208,7 @@ export default class Game {
 
     if (this.smallRoom) {
       y = 180;
-      x = (containerWidth - roomWidth) / 2 + roomWidth / 2 - 32;
+      x = (452 - roomWidth) / 2 + roomWidth / 2 - 32;
     } else {
       y = 212;
       x = containerWidth - roomWidth + 32;
@@ -339,8 +342,12 @@ export default class Game {
 
     const startX = furnitureItem.roomX;
     const startY = furnitureItem.roomY;
-    const endX = startX + moveX;
-    const endY = startY + moveY;
+    let endX = startX + moveX;
+    let endY = startY + moveY;
+    //Floor X and Y to 1 decimals
+    endX = Math.floor(endX * 100) / 100;
+    endY = Math.floor(endY * 100) / 100;
+
     const duration = 0.2; // Reduce the duration for a snappier animation
 
     // Define the animation function

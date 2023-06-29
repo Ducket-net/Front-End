@@ -334,6 +334,8 @@ export default {
       // Make sure there is a selected furniture item
       if (this.selectedItem) {
         // Access the moveFurnitureItem method from the game object using $refs
+        //Floor items to 2 digits
+
         this.game.moveFurnitureItem(this.selectedItem, moveX, moveY);
       }
 
