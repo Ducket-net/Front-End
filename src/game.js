@@ -211,7 +211,7 @@ export default class Game {
       x = (452 - roomWidth) / 2 + roomWidth / 2 - 32;
     } else {
       y = 212;
-      x = containerWidth - roomWidth + 32;
+      x = (452 - roomWidth) / 2 + roomWidth / 2 - 40;
     }
     return { x, y };
   }
