@@ -1,4 +1,4 @@
 [build]
   publish = "dist"
-  command = "cd ./lib/shroom/ yarn install && yarn build && npm run build"
+  command = "npm run build"
   environment = { NODE_VERSION = "19.x" }
