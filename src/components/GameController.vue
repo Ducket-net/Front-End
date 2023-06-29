@@ -339,7 +339,7 @@ export default {
 
       window.setTimeout(() => {
         this.actionInProgress = false;
-      }, 200);
+      }, 201);
     },
     clearRoomItems() {
       //Confirm

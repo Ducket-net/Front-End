@@ -191,20 +191,24 @@ export default class Game {
   }
   getDefaults(room) {
     const containerElement = window.document.getElementById('app');
-    const containerWidth = containerElement.clientWidth;
+    let containerWidth = containerElement.clientWidth;
+    let roomWidth = room.width * window.devicePixelRatio;
+    containerWidth = containerWidth * window.devicePixelRatio;
 
     console.log(containerWidth);
     console.log(room.width);
+
+    //Room width to device pixel ratio
 
     let x;
     let y;
 
     if (this.smallRoom) {
-      y = 210;
-      x = 300 - room.width + 32;
+      y = 180;
+      x = (containerWidth - roomWidth) / 2 + roomWidth / 2 - 32;
     } else {
       y = 212;
-      x = containerWidth - room.width + 32;
+      x = containerWidth - roomWidth + 32;
     }
     return { x, y };
   }
@@ -328,11 +332,16 @@ export default class Game {
       });
   }
   moveFurnitureItem(furnitureItem, moveX, moveY) {
+    if (this.smallRoom) {
+      moveX = moveX / 2;
+      moveY = moveY / 2;
+    }
+
     const startX = furnitureItem.roomX;
     const startY = furnitureItem.roomY;
     const endX = startX + moveX;
     const endY = startY + moveY;
-    const duration = 0.4; // Reduce the duration for a snappier animation
+    const duration = 0.2; // Reduce the duration for a snappier animation
 
     // Define the animation function
     const animateMove = () => {

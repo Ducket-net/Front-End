@@ -171,10 +171,18 @@ export default {
       this.$refs.myBottomSheet.close();
     },
     addItemByClassName(classname) {
+      let roomX = 2;
+      let roomY = 2;
+
+      if (this.smallRoom) {
+        roomX = 1.75;
+        roomY = 1.75;
+      }
+
       const newItem = new FloorFurniture({
         type: classname,
-        roomX: 2,
-        roomY: 2,
+        roomX: roomX,
+        roomY: roomY,
         roomZ: 0,
         direction: 2,
         animation: 1,
