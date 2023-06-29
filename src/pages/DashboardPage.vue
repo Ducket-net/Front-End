@@ -22,6 +22,12 @@
           Create
         </h2>
       </SpecialCard>
+      <SpecialCard @card-click="createSmallPage">
+        <h2 class="font-bold text-sm">
+          <font-awesome-icon :icon="['fas', 'square']" />
+          Create Small
+        </h2>
+      </SpecialCard>
 
       <div v-if="!$store.state.user">
         <SpecialCard @card-click="authorize">
@@ -86,6 +92,9 @@ export default {
     },
     createPage() {
       location.href = '/create';
+    },
+    createSmallPage() {
+      location.href = '/createSmall';
     },
   },
 };

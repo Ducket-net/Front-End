@@ -9,6 +9,7 @@ import Login from '@/pages/LoginPage.vue';
 import AuthCallback from '@/pages/AuthCallback.vue';
 import SpeechPage from '@/pages/SpeechPage.vue';
 import GamePage from '@/pages/GamePage.vue';
+import SmallRoomPage from '@/pages/SmallRoomPage.vue';
 
 Vue.use(VueRouter);
 
@@ -27,6 +28,11 @@ const routes = [
     path: '/create',
     name: 'Create',
     component: RoomPage, // Set the home component for the root URL
+  },
+  {
+    path: '/createSmall',
+    name: 'Create',
+    component: SmallRoomPage, // Set the home component for the root URL
   },
   {
     path: '/catalog',

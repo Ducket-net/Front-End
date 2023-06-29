@@ -85,6 +85,10 @@ export default {
       default: '',
       required: false,
     },
+    smallRoom: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -116,7 +120,8 @@ export default {
       canvas,
       currentRoom,
       this.withController,
-      this.tilemap
+      this.tilemap,
+      this.smallRoom
     );
     this.game.application.stage.addChild(this.game.room);
     this.$store.commit('setGame', this.game);
