@@ -32,7 +32,10 @@
             :key="index"
             class="flex mb-1 pb-2 border-b border-white border-opacity-10 last:border-0 last:pb-0 last:mb-0"
           >
-            <div class="flex-grow px-3 py-2">{{ room.name }}</div>
+            <div class="flex-grow px-3 py-2">
+              {{ room.name }}
+              <span class="text-xs">({{ room.itemsInRoom }} items)</span>
+            </div>
             <button
               @click="selectRoom(room)"
               class="flex-shink text-xs text-white controller-button rounded-lg px-3 py-2"
@@ -87,57 +90,71 @@ export default {
       roomName: '',
     };
   },
-  mounted() {},
+  created() {},
   methods: {
     submitRoom(name) {
-      const savedRooms = this.loadRooms();
-      const currentRoom = JSON.parse(localStorage.getItem('savedRoom'));
+      const currentRoom = this.$store.state.room;
 
-      if (currentRoom) {
-        savedRooms.push({ name: name, data: currentRoom });
-        localStorage.setItem('rooms', JSON.stringify(savedRooms));
+      // update room id in store
+      localStorage.removeItem('room-blank');
+      this.$store.commit('setRoomId', name);
+      this.$store.commit('saveRoomToLocalStorage');
 
-        //Save to https://api.jsonbin.io/v3
-        const url = 'https://api.jsonbin.io/v3/b';
+      const url = 'https://api.jsonbin.io/v3/b';
 
-        const headers = {
-          'Content-Type': 'application/json',
-          'X-Master-Key':
-            '$2b$10$5IRGtaCpxp8WwyEO9yuZmOCGr0w9yZMv1aBV5LyvAutcGU8yyXAzC',
-          'X-Collection-Id': '648a9486b89b1e2299af4bc1',
-          'X-Bin-Name': name,
-        };
-        const data = {
-          name: name,
-          data: currentRoom,
-        };
+      const headers = {
+        'Content-Type': 'application/json',
+        'X-Master-Key':
+          '$2b$10$5IRGtaCpxp8WwyEO9yuZmOCGr0w9yZMv1aBV5LyvAutcGU8yyXAzC',
+        'X-Collection-Id': '648a9486b89b1e2299af4bc1',
+        'X-Bin-Name': name,
+      };
+      const data = {
+        name: name,
+        data: currentRoom,
+      };
 
-        axios
-          .post(url, data, { headers: headers })
-          .then(() => {
-            localStorage.removeItem('savedRoom');
-            location.reload();
-          })
-          .catch(() => {
-            localStorage.removeItem('savedRoom');
-            location.reload();
-          });
-
-        // Clear the 'savedRoom' from the local storage and reload the page
-      } else {
-        this.closeBottomSheet();
-      }
+      axios
+        .post(url, data, { headers: headers })
+        .then(() => {
+          location.reload();
+        })
+        .catch(() => {
+          localStorage.removeItem('savedRoom');
+          location.reload();
+        });
+      this.closeBottomSheet();
     },
     selectRoom(room) {
       // Replace the current savedRoom with the selected room
-      localStorage.setItem('savedRoom', JSON.stringify(room.data));
-      this.loadRoom(room.data);
+      this.loadRoom(room);
     },
 
     loadRooms() {
-      return JSON.parse(localStorage.getItem('rooms') || '[]');
+      let rooms = JSON.parse(localStorage.getItem('rooms') || '[]');
+      console.log(rooms);
+
+      // Convert rooms to array
+      if (rooms && !Array.isArray(rooms)) {
+        //Add in the main key as the "name" attr
+
+        //Skip default room name
+        if (rooms['blank']) {
+          delete rooms['blank'];
+        }
+
+        rooms = Object.keys(rooms).map((key) => {
+          return {
+            name: key,
+            //Count items
+            itemsInRoom: Object.keys(rooms[key]).length,
+            ...rooms[key],
+          };
+        });
+      }
+      return rooms;
     },
-    loadRoom(room) {
+    async loadRoom(room) {
       if (
         !confirm(
           "Please make sure you've saved your room. Are you sure you want to leave"
@@ -145,7 +162,21 @@ export default {
       ) {
         return;
       }
-      localStorage.setItem('savedRoom', JSON.stringify(room));
+
+      console.log('Loading room');
+      console.log(room);
+
+      //Copy room.name localstorage to room.blank
+      //Remove room blank
+
+      localStorage.removeItem('room-blank');
+
+      localStorage.setItem(
+        'room-blank',
+        localStorage.getItem('room-' + room.name)
+      );
+
+      //Reload
       location.reload();
     },
     openBottomSheet() {

@@ -29,6 +29,7 @@ export default new Vuex.Store({
       id: null,
       avatar: null,
       items: [],
+      size: '',
       settings: {
         bgColor: '#1A1F25', // '#ffffff'
         wallColor: '#ffffff', // '#ffffff
@@ -68,6 +69,12 @@ export default new Vuex.Store({
       );
       console.log(roomData);
       console.log('👋 Room Saved!');
+
+      //Create or update room in rooms array
+      const rooms = JSON.parse(localStorage.getItem('rooms')) || {};
+
+      rooms[this.state.roomId] = roomData;
+      localStorage.setItem('rooms', JSON.stringify(rooms));
     },
     setRoomWallDisplay(state, value) {
       state.room.settings.hideWalls = value;

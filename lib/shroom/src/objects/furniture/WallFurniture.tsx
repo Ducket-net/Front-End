@@ -235,4 +235,3 @@ export class WallFurniture extends RoomObject {
     this._baseFurniture.zIndex = getZOrder(this.roomX, this.roomY, 0) - 1;
   }
 }
-
