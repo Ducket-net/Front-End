@@ -10,7 +10,7 @@
     <div class="relative">
       <GameRoom roomId="home" size="small" />
 
-      <div class="absolute bottom-2/4 left-36 right-0">
+      <div class="absolute bottom-2/4 left-16 right-0">
         <ChatContainer />
       </div>
     </div>
@@ -19,13 +19,13 @@
       <SpecialCard @card-click="createPage">
         <h2 class="font-bold text-sm">
           <font-awesome-icon :icon="['fas', 'square']" />
-          Create
+          Create a Regular Room
         </h2>
       </SpecialCard>
       <SpecialCard @card-click="createSmallPage">
         <h2 class="font-bold text-sm">
           <font-awesome-icon :icon="['fas', 'square']" />
-          Create Small
+          Create a Small Room
         </h2>
       </SpecialCard>
 

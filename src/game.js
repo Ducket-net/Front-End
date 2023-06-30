@@ -47,7 +47,8 @@ export default class Game {
     this.room = this.createRoom(roomData, buildMode, tilemap, smallRoom);
 
     this.room.getDefaults = this.getDefaults.bind(this);
-    this.createBackground();
+    // this.createBackground();
+    this.createFlag();
 
     if (roomData.avatar) {
       this.avatar = this.createAvatar(roomData.avatar);
@@ -71,6 +72,22 @@ export default class Game {
     // eslint-disable-next-line no-undef
     globalThis.__PIXI_APP__ = this.application;
     PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
+  }
+
+  createFlag() {
+    // // Load the texture from an image URL
+    // PIXI.Loader.shared.reset(); // Reset the PIXI.Loader.shared
+    // PIXI.Loader.shared
+    //   .add('flagImage', 'flags/Danishflag.png')
+    //   .load((_, resources) => {
+    //     // Create a TilingSprite from the texture
+    //     const flag = new PIXI.Sprite(resources.flagImage.texture, 32, 64);
+    //     flag.scale.x = 1;
+    //     flag.x = 100;
+    //     flag.y = 100;
+    //     // Add the TilingSprite to the stage
+    //     this.application.stage.addChildAt(flag, 1);
+    //   });
   }
   createBackground() {
     // Load the texture from an image URL
@@ -249,8 +266,13 @@ export default class Game {
 
     EventBus.$emit('furni-added', furnitureItem);
   }
+
   createAndSetFurnitureItem(itemData, buildMode) {
     //Set window tempfurnisite + type to 32
+
+    if (itemData.type === 'duck') {
+      //Insert PNG to room pixijs
+    }
 
     if (this.smallRoom) {
       window['_tempFurniSize'] = 32;

@@ -36,7 +36,7 @@
       class="bg-black text-white text-sm font-bold mt-2 p-3 rounded-lg w-full"
       @button-click="previewMode"
     >
-      Preview Mode
+      Download Room PNG
     </SpecialButton>
     <div class="grid grid-cols-4 gap-1" v-if="catalog.lines.length">
       <h2
@@ -100,6 +100,9 @@ export default {
     ItemCatalog,
     SpecialButton,
   },
+  mounted() {
+    this.fetchCatalog();
+  },
   async created() {},
   computed: {},
   watch: {},
@@ -109,9 +112,7 @@ export default {
       EventBus.$emit('download');
     },
     async loadCatalog() {
-      this.catalogLoading = !this.catalogLoading;
-      await this.fetchCatalog();
-      this.catalogLoading = !this.catalogLoading;
+      this.catalogLoading = true;
       this.catalog = this.$store.state.catalog;
     },
     clearSearch() {
