@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "cd ./lib/shroom/ && yarn install && yarn build && cd ../../ && vue-cli-service build",
     "lint": "vue-cli-service lint",
     "pwa": "npx pwa-asset-generator ./public/splash.html ./public/splashscreens -i ./public/index.html -m ./public/manifest.json --portrait-only -t png"
   },
