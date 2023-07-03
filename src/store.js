@@ -213,11 +213,10 @@ export default new Vuex.Store({
       }
     },
     async fetchCatalog({ commit }) {
-      // if (localStorage.getItem('catalog')) {
-      //   const catalog = JSON.parse(localStorage.getItem('catalog'));
-      //   commit('setCatalog', catalog);
-      //   return;
-      // }
+      if (localStorage.getItem('catalog')) {
+        const catalog = JSON.parse(localStorage.getItem('catalog'));
+        commit('setCatalog', catalog);
+      }
       try {
         const response = await axios.get(
           `${process.env.VUE_APP_DUCKET_URL}/api/catalog`,
