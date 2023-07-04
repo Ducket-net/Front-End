@@ -10,6 +10,9 @@ import AuthCallback from '@/pages/AuthCallback.vue';
 import SpeechPage from '@/pages/SpeechPage.vue';
 import GamePage from '@/pages/GamePage.vue';
 import SmallRoomPage from '@/pages/SmallRoomPage.vue';
+import FeedPage from '@/pages/Feed/FeedPage.vue';
+import CatalogListItems from '@/pages/Catalog/ListItems.vue';
+import CatalogSink from '@/pages/Catalog/CatalogPage.vue';
 
 Vue.use(VueRouter);
 
@@ -20,9 +23,24 @@ const routes = [
     component: DashboardPage, // Set the home component for the root URL
   },
   {
+    path: '/catalog-sink',
+    name: 'Catalog Sink',
+    component: CatalogSink, // Set the home component for the root URL
+  },
+  {
+    path: '/list',
+    name: 'List',
+    component: CatalogListItems, // Set the home component for the root URL
+  },
+  {
     path: '/game',
     name: 'Game',
     component: GamePage, // Set the home component for the root URL
+  },
+  {
+    path: '/feed',
+    name: 'Feed',
+    component: FeedPage, // Set the home component for the root URL
   },
   {
     path: '/create',
