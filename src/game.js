@@ -125,10 +125,10 @@ export default class Game {
     if (this.selectedFurnitureItem && this.selectedFurnitureItem !== item) {
       this.room.roomObjects.forEach((object) => {
         if (object instanceof FloorFurniture && object !== item) {
-          object.alpha = 0.5;
+          // object.alpha = 0.5;
         }
       });
-      this.alpha = 1;
+      // this.alpha = 1;
       EventBus.emit('item-unselected', this.selectedFurnitureItem);
     }
 
@@ -137,17 +137,17 @@ export default class Game {
       this.selectedFurnitureItem = null;
       this.room.roomObjects.forEach((object) => {
         if (object instanceof FloorFurniture && object !== item) {
-          object.alpha = 1;
+          // object.alpha = 1;
         }
       });
     } else {
       EventBus.emit('item-selected', item);
       this.room.roomObjects.forEach((object) => {
         if (object instanceof FloorFurniture && object !== item) {
-          object.alpha = 0.5;
+          // object.alpha = 0.5;
         }
       });
-      this.alpha = 1;
+      // this.alpha = 1;
       this.selectedFurnitureItem = item;
     }
   }
@@ -259,23 +259,6 @@ export default class Game {
       this.onFurnitureItemClick(updatedItem);
     }
   }
-  rotateItem(itemData) {
-    console.log(itemData);
-    // this.selectedItem.validDirections.then((directions) => {
-    //   console.log(directions);
-    //   if (directions.length > 0) {
-    //     // Get the index of the current direction in the valid directions array
-    //     // const currentIndex = directions.indexOf(this.selectedItem.direction);
-    //     // // Check if we are at the last direction, if yes set it to first, else set it to the next direction
-    //     // this.selectedItem.direction =
-    //     //   currentIndex < directions.length - 1
-    //     //     ? directions[currentIndex + 1]
-    //     //     : directions[0];
-    //   }
-    // });
-
-    this.selectedFurnitureItem.direction = 1;
-  }
   addItem(itemData) {
     const furnitureItem = this.createAndSetFurnitureItem(itemData, true);
     this.room.addRoomObject(furnitureItem);
@@ -331,11 +314,11 @@ export default class Game {
     const endZ = furnitureItem.roomZ; // target position
 
     furnitureItem.roomZ += startY; // Shift the furniture item upwards
-    furnitureItem.alpha = 1; // Hide the furniture item
+    // furnitureItem.alpha = 1; // Hide the furniture item
 
     const onComplete = () => {
       furnitureItem.roomZ = endZ; // Ensure the final position is reached
-      furnitureItem.alpha = 1; // Ensure the final alpha value is 1
+      // furnitureItem.alpha = 1; // Ensure the final alpha value is 1
     };
 
     // Create the animation using gsap
@@ -434,11 +417,11 @@ export default class Game {
   }
   addFloatingDot(furnitureItem) {
     if (!furnitureItem.floatingDot) {
-      furnitureItem.alpha = 0.7;
+      // furnitureItem.alpha = 0.7;
     }
   }
   removeFloatingDot(furnitureItem) {
-    furnitureItem.alpha = 1;
+    // furnitureItem.alpha = 1;
   }
 
   setBackground(bgColor) {
@@ -506,7 +489,7 @@ export default class Game {
 //     this.room.addRoomObject(furnitureItem);
 //     Animation.animateDropFurnitureItem(furnitureItem);
 
-//     EventBus.emit('furni-added', furnitureItem);
+//     EventBus.$emit('furni-added', furnitureItem);
 //   }
 //   createAndSetFurnitureItem(itemData, buildMode) {
 //     //Set window tempfurnisite + type to 32
@@ -646,9 +629,9 @@ export default class Game {
 //     if (buildMode) {
 //       this.onClick = (event) => {
 //         if (this.isSelected) {
-//           EventBus.emit('item-unselected', this);
+//           EventBus.$emit('item-unselected', this);
 //         } else {
-//           EventBus.emit('item-selected', this);
+//           EventBus.$emit('item-selected', this);
 //         }
 //         this.isSelected = !this.isSelected;
 //       };
@@ -944,11 +927,11 @@ export default class Game {
 //         }
 //       });
 //       this.alpha = 1;
-//       EventBus.emit('item-unselected', this.selectedFurnitureItem);
+//       EventBus.$emit('item-unselected', this.selectedFurnitureItem);
 //     }
 
 //     if (this.selectedFurnitureItem === item) {
-//       EventBus.emit('item-unselected', item);
+//       EventBus.$emit('item-unselected', item);
 //       this.selectedFurnitureItem = null;
 //       this.room.roomObjects.forEach((object) => {
 //         if (object instanceof FloorFurniture && object !== item) {
@@ -956,7 +939,7 @@ export default class Game {
 //         }
 //       });
 //     } else {
-//       EventBus.emit('item-selected', item);
+//       EventBus.$emit('item-selected', item);
 //       this.room.roomObjects.forEach((object) => {
 //         if (object instanceof FloorFurniture && object !== item) {
 //           object.alpha = 0.5;
