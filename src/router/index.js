@@ -12,6 +12,8 @@ import SmallRoomPage from '@/pages/SmallRoomPage.vue';
 import FeedPage from '@/pages/Feed/FeedPage.vue';
 import CatalogListItems from '@/pages/Catalog/ListItems.vue';
 import CatalogSink from '@/pages/Catalog/CatalogPage.vue';
+import Page from '@/pages/Page.vue';
+import Wired from '@/pages/Wired.vue';
 
 const routes = [
   {
@@ -24,6 +26,8 @@ const routes = [
     name: 'Catalog Sink',
     component: CatalogSink, // Set the home component for the root URL
   },
+  { path: '/wired', component: Wired, name: 'Wired' },
+
   {
     path: '/list',
     name: 'List',
@@ -62,6 +66,11 @@ const routes = [
   { path: '/login', component: Login },
   { path: '/auth/callback', component: AuthCallback },
   { path: '/speech', name: 'SpeechPage', component: SpeechPage },
+  {
+    path: '/:catchAll(.*)',
+    name: 'Pages',
+    component: Page,
+  },
   {
     path: '/*',
     component: DashboardPage,

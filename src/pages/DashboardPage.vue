@@ -15,17 +15,24 @@
       </div>
     </div>
 
-    <div class="p-4 grid grid-flow-row gap-4">
+    <div class="p-4 grid grid-flow-row grid-cols-2 gap-4">
       <SpecialCard @card-click="createPage">
         <h2 class="font-bold text-sm">
-          <font-awesome-icon :icon="['fas', 'square']" />
-          Create a Regular Room
+          <font-awesome-icon :icon="['fas', 'bomb']" />
+          <span class="pl-1">Create a Regular Room</span>
         </h2>
       </SpecialCard>
       <SpecialCard @card-click="createSmallPage">
         <h2 class="font-bold text-sm">
-          <font-awesome-icon :icon="['fas', 'square']" />
-          Create a Small Room
+          <font-awesome-icon :icon="['fas', 'kiwi-bird']" />
+          <span class="pl-1">Create a Mini Room</span>
+        </h2>
+      </SpecialCard>
+
+      <SpecialCard @card-click="goPages">
+        <h2 class="font-bold text-sm">
+          <font-awesome-icon :icon="['fas', 'newspaper']" />
+          <span class="pl-1">Wired</span>
         </h2>
       </SpecialCard>
 
@@ -33,7 +40,7 @@
         <SpecialCard @card-click="authorize">
           <h2 class="font-bold text-sm">
             <font-awesome-icon :icon="['fas', 'lock']" />
-            Login with Ducket
+            <span class="pl-1">Login with Ducket</span>
           </h2>
         </SpecialCard>
       </div>
@@ -42,14 +49,14 @@
       <SpecialCard>
         <h2 class="font-bold text-sm">
           <font-awesome-icon :icon="['fas', 'arrow-up-from-bracket']" />
-          Add to Home Screen to Install the App
+          <span class="pl-1">Add to Home Screen to Install the App</span>
         </h2>
       </SpecialCard>
 
       <SpecialCard>
         <h2 class="font-bold text-sm">
           <font-awesome-icon :icon="['fas', 'bug']" /> Report Bugs & Issues
-        </h2>
+        </<span class="pl-1">h2></span>
       </SpecialCard> -->
     </div>
   </div>
@@ -95,6 +102,11 @@ export default {
     },
     createSmallPage() {
       location.href = '/createSmall';
+    },
+    goPages() {
+      // location.href = '/pages';
+      //Router
+      this.$router.push('/pages');
     },
   },
 };
