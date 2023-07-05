@@ -47,62 +47,64 @@
     </transition>
 
     <transition name="fade">
-      <div
-        class="bg-white rounded-lg top-0 absolute p-1"
-        v-if="showBgColorPicker"
-      >
-        <SpecialButton
-          @button-click="toggleColorPicker('showBgColorPicker')"
-          class="bg-black text-white text-sm font-bold mt-2 p-3 rounded-lg w-full"
+      <div>
+        <div
+          class="bg-white rounded-lg top-0 absolute p-1"
+          v-if="showBgColorPicker"
         >
-          <font-awesome-icon :icon="['fas', 'close']" />
-          Close Background Picker
-        </SpecialButton>
-        <Swatches v-model="bgColor" />
-      </div>
+          <SpecialButton
+            @button-click="toggleColorPicker('showBgColorPicker')"
+            class="bg-black text-white text-sm font-bold mt-2 p-3 rounded-lg w-full"
+          >
+            <font-awesome-icon :icon="['fas', 'close']" />
+            Close Background Picker
+          </SpecialButton>
+          <Sketch v-model="bgColor" />
+        </div>
 
-      <!-- Wall Color -->
-      <div
-        class="bg-white rounded-lg top-0 absolute p-1"
-        v-if="showWallColorPicker"
-      >
-        <SpecialButton
-          @button-click="toggleColorPicker('showWallColorPicker')"
-          class="bg-black text-white text-sm font-bold mt-2 p-3 rounded-lg w-full"
+        <!-- Wall Color -->
+        <div
+          class="bg-white rounded-lg top-0 absolute p-1"
+          v-if="showWallColorPicker"
         >
-          <font-awesome-icon :icon="['fas', 'close']" />
-          Close Wall Picker
-        </SpecialButton>
-        <Swatches v-model="wallColor" />
-      </div>
+          <SpecialButton
+            @button-click="toggleColorPicker('showWallColorPicker')"
+            class="bg-black text-white text-sm font-bold mt-2 p-3 rounded-lg w-full"
+          >
+            <font-awesome-icon :icon="['fas', 'close']" />
+            Close Wall Picker
+          </SpecialButton>
+          <Sketch v-model="wallColor" />
+        </div>
 
-      <!-- Floor Color -->
-      <div
-        class="bg-white rounded-lg top-0 absolute p-1"
-        v-if="showFloorColorPicker"
-      >
-        <SpecialButton
-          @button-click="toggleColorPicker('showFloorColorPicker')"
-          class="bg-black text-white text-sm font-bold mt-2 p-3 rounded-lg w-full"
+        <!-- Floor Color -->
+        <div
+          class="bg-white rounded-lg top-0 absolute p-1"
+          v-if="showFloorColorPicker"
         >
-          <font-awesome-icon :icon="['fas', 'close']" />
-          Close Floor Picker
-        </SpecialButton>
-        <Swatches v-model="floorColor" />
+          <SpecialButton
+            @button-click="toggleColorPicker('showFloorColorPicker')"
+            class="bg-black text-white text-sm font-bold mt-2 p-3 rounded-lg w-full"
+          >
+            <font-awesome-icon :icon="['fas', 'close']" />
+            Close Floor Picker
+          </SpecialButton>
+          <Sketch v-model="floorColor" />
+        </div>
       </div>
     </transition>
   </div>
 </template>
 
 <script>
-import Swatches from 'vue-color/src/components/Swatches';
+import { Sketch } from '@ckpack/vue-color';
 import authService from '@/services/authService';
 import EventBus from '@/eventBus.js';
 import SpecialButton from './SpecialButton.vue';
 
 export default {
   components: {
-    Swatches,
+    Sketch,
     SpecialButton,
   },
   props: ['gameRoom'],
@@ -142,7 +144,7 @@ export default {
       // Call the fromHex function or handle the color change here
       this.$store.commit('setRoomBgColor', hexColor);
       this.$store.commit('saveRoomToLocalStorage');
-      EventBus.$emit('bg-color-change', hexColor);
+      EventBus.emit('bg-color-change', hexColor);
     },
     authorize() {
       authService.getAuthorizationCode();
@@ -207,7 +209,7 @@ export default {
     },
   },
   created() {
-    EventBus.$on('item-settings', () => {
+    EventBus.on('item-settings', () => {
       this.roomSettingsOpen = !this.roomSettingsOpen;
     });
   },
@@ -228,7 +230,7 @@ export default {
     bgColor: {
       handler(newColor) {
         this.handleBgColorChange(newColor.hex);
-        EventBus.$emit('bg-color-change', newColor.hex);
+        EventBus.emit('bg-color-change', newColor.hex);
       },
       deep: true,
     },

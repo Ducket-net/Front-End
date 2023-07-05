@@ -1,13 +1,10 @@
 // src/store.js
-import Vue from 'vue';
-import Vuex from 'vuex';
+import { createStore } from 'vuex';
 import axios from 'axios';
 const storedAccessToken = localStorage.getItem('access_token');
 const storedUser = JSON.parse(localStorage.getItem('user'));
 
-Vue.use(Vuex);
-
-export default new Vuex.Store({
+const store = createStore({
   state: {
     game: {},
     roomId: 'home',
@@ -135,7 +132,7 @@ export default new Vuex.Store({
       state.catalog.categories = categories;
     },
     updateRoom(state, { roomId, items }) {
-      Vue.set(state.rooms, roomId, items);
+      state.rooms[roomId] = items;
     },
     setAccessTokenAndUser(state, { token, user }) {
       state.accessToken = token;
@@ -254,3 +251,5 @@ export default new Vuex.Store({
     },
   },
 });
+
+export default store;

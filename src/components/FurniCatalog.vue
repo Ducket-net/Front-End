@@ -109,7 +109,7 @@ export default {
   methods: {
     ...mapActions(['fetchCatalog']),
     previewMode() {
-      EventBus.$emit('download');
+      EventBus.emit('download');
     },
     async loadCatalog() {
       this.catalogLoading = true;
@@ -185,7 +185,7 @@ export default {
       this.$refs.catalogSheet.close();
     },
     addToRoom(classname) {
-      this.$root.$emit('add-to-room', classname);
+      EventBus.emit('add-to-room', classname);
     },
     replaceAsteriskWithUnderscore(classname) {
       const match = classname.match(/\*(\d+)$/);

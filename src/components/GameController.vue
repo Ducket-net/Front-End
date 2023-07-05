@@ -245,6 +245,7 @@
 <script>
 import { EventBus } from '@/eventBus';
 import { FloorFurniture } from '@tetreum/shroom';
+import { shallowRef } from 'vue';
 
 export default {
   name: 'GameController',
@@ -252,25 +253,25 @@ export default {
   data() {
     return {
       increment: 1,
-      selectedItem: null,
+      selectedItem: shallowRef(null),
       isContentVisible: false,
       touchLocked: false,
       actionInProgress: false,
     };
   },
   created() {
-    EventBus.$on('item-selected', (item) => {
+    EventBus.on('item-selected', (item) => {
       this.selectedItem = item;
       console.log('GameController: item-selected');
     });
 
-    EventBus.$on('item-unselected', () => {
+    EventBus.on('item-unselected', () => {
       this.selectedItem = null;
       console.log('GameController: item-unselected');
       this.$store.commit('saveRoomToLocalStorage');
     });
 
-    EventBus.$on('furni-added', () => {
+    EventBus.on('furni-added', () => {
       setTimeout(() => {
         this.$store.commit('saveRoomToLocalStorage');
       }, 1500);
@@ -320,7 +321,7 @@ export default {
       )}_icon.png`;
     },
     removeRoomItem() {
-      EventBus.$emit('furni-removed', this.selectedItem);
+      EventBus.emit('furni-removed', this.selectedItem);
       this.game.room.removeRoomObject(this.selectedItem);
       this.$store.commit('saveRoomToLocalStorage');
       this.selectedItem = null;

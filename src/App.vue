@@ -18,7 +18,7 @@
           <span>Ducket Alpha</span>
         </a>
 
-        <new-room></new-room>
+        <!-- <new-room></new-room> -->
       </div>
     </header>
     <div
@@ -56,12 +56,12 @@
 </template>
 
 <script>
-import NewRoom from '@/components/NewRoom.vue';
+// import NewRoom from '@/components/NewRoom.vue';
 // import SplashScreen from '@/components/SplashScreen.vue'; // Add this line to import the SplashScreen component
 
 export default {
   components: {
-    NewRoom,
+    // NewRoom,
     // SplashScreen, // Add this line to register the SplashScreen component
   },
   computed: {

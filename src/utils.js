@@ -5,7 +5,7 @@ export const isIOS17 = () => {
 };
 
 export default {
-  install(Vue) {
-    Vue.prototype.$isIOS17 = isIOS17;
+  install(app) {
+    app.config.globalProperties.$isIOS17 = isIOS17;
   },
 };

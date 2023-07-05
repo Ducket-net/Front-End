@@ -1,6 +1,5 @@
 // src/router/index.js
-import Vue from 'vue';
-import VueRouter from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 import RoomPage from '@/pages/RoomPage.vue';
 import GameRoom from '../components/GameRoom.vue';
 import CatalogPage from '../pages/CatalogPage.vue';
@@ -13,8 +12,6 @@ import SmallRoomPage from '@/pages/SmallRoomPage.vue';
 import FeedPage from '@/pages/Feed/FeedPage.vue';
 import CatalogListItems from '@/pages/Catalog/ListItems.vue';
 import CatalogSink from '@/pages/Catalog/CatalogPage.vue';
-
-Vue.use(VueRouter);
 
 const routes = [
   {
@@ -49,7 +46,7 @@ const routes = [
   },
   {
     path: '/createSmall',
-    name: 'Create',
+    name: 'Create Small Room',
     component: SmallRoomPage, // Set the home component for the root URL
   },
   {
@@ -71,9 +68,8 @@ const routes = [
   },
 ];
 
-const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
+const router = createRouter({
+  history: createWebHistory(process.env.BASE_URL),
   routes,
 });
 

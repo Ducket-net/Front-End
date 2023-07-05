@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     emitSettings() {
-      EventBus.$emit('item-settings');
+      EventBus.emit('item-settings');
     },
   },
 };

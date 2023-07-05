@@ -1,30 +1,34 @@
 // src/main.js
-import Vue from 'vue';
+import { createApp } from 'vue';
 import App from './App.vue';
 import store from './store'; // Make sure you import the store
 import router from './router'; // Import the router
 import './tailwind.css';
 import { FontAwesomeIcon } from './fontAwesome'; // Import the FontAwesomeIcon component
-import Vue2TouchEvents from 'vue2-touch-events';
+
 import FurniImg from './components/FurniImg.vue';
 import './services/authMixin';
 import DebouncedOnClick from './services/debounceAction.js';
 import utils from './utils';
+import { createBottomSheet } from 'bottom-sheet-vue3';
+import '@webzlodimir/vue-bottom-sheet/dist/style.css';
 
 // eslint-disable-next-line no-unused-vars
 import { debounce } from 'lodash';
+import 'bottom-sheet-vue3/style.css';
 
-Vue.component('font-awesome-icon', FontAwesomeIcon); // Register the FontAwesomeIcon globally
-Vue.component('furni-img', FurniImg);
-Vue.use(utils);
+const app = createApp(App);
 
-Vue.config.productionTip = false;
+app.component('font-awesome-icon', FontAwesomeIcon); // Register the FontAwesomeIcon globally
+app.component('furni-img', FurniImg);
+app.use(utils);
+app.use(createBottomSheet());
 
-new Vue({
-  el: '#app',
-  store,
-  router,
-  mixins: [DebouncedOnClick],
-  Vue2TouchEvents,
-  render: (h) => h(App),
-});
+app.config.productionTip = false;
+
+app.mixin(DebouncedOnClick);
+
+app.use(store);
+app.use(router);
+
+app.mount('#app');

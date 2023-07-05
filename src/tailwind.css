@@ -133,6 +133,10 @@ body::before {
   color: white;
 }
 
+.bottom-sheet {
+  background: transparent !important;
+}
+
 .bottom-sheet__card {
   border: 1px solid #000000 !important;
   background: linear-gradient(180deg, #495864 0%, #161c21 85.42%) !important;

@@ -77,7 +77,8 @@
 </template>
 
 <script>
-import VueBottomSheet from '@webzlodimir/vue-bottom-sheet';
+import { VueBottomSheet } from '@webzlodimir/vue-bottom-sheet';
+
 import axios from 'axios';
 
 export default {

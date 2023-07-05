@@ -42,6 +42,7 @@
 <script>
 import { mapState } from 'vuex';
 import axios from 'axios';
+import { EventBus } from '@/eventBus'; // Import the EventBus
 
 export default {
   name: 'ItemCatalog',
@@ -128,7 +129,7 @@ export default {
       }
     },
     addToRoom(classname) {
-      this.$root.$emit('add-to-room', classname);
+      EventBus.$emit('add-to-room', classname);
     },
     selectItem() {},
   },

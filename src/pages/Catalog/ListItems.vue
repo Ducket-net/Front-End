@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import JsonSchema from '@roma219/vue-jsonschema-form';
+// import JsonSchema from '@roma219/vue-jsonschema-form';
 
 const schema = {
   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -84,7 +84,7 @@ const schema = {
 
 export default {
   name: 'App',
-  components: { JsonSchema },
+  // components: { JsonSchema },
   data() {
     return {
       value: {},

@@ -50,7 +50,8 @@
 </template>
 
 <script>
-import VueBottomSheet from '@webzlodimir/vue-bottom-sheet';
+import { VueBottomSheet } from '@webzlodimir/vue-bottom-sheet';
+import { ref, onMounted } from 'vue';
 import { FloorFurniture } from '@tetreum/shroom';
 import Game from '@/game';
 import { EventBus } from '@/eventBus'; // Import the EventBus
@@ -58,7 +59,42 @@ import RoomItemsList from '@/components/RoomItemList.vue'; // Import RoomItemsLi
 import GameController from '@/components/GameController.vue';
 import RoomSettings from '@/components/RoomSettings.vue';
 
+const myBottomSheet = ref(null);
+// eslint-disable-next-line no-unused-vars
+const open = () => {
+  myBottomSheet.value.open();
+};
+
+// eslint-disable-next-line no-unused-vars
+const close = () => {
+  myBottomSheet.value.close();
+};
+
 export default {
+  setup() {
+    const myBottomSheet = ref(null);
+
+    const open = () => {
+      if (myBottomSheet.value) {
+        myBottomSheet.value.open();
+      }
+    };
+
+    onMounted(() => {
+      EventBus.on('item-selected', (item) => {
+        console.log('item-selected', item);
+        // ...
+        open();
+      });
+
+      // ... other EventBus listeners
+    });
+
+    return {
+      myBottomSheet,
+      // ... other returned properties and methods
+    };
+  },
   name: 'GameRoom',
   components: {
     RoomItemsList,
@@ -101,7 +137,7 @@ export default {
         roomX: 4,
         roomY: 4,
         roomZ: 0,
-        direction: 2,
+        direction: 0.1,
         animation: 1,
       },
     };
@@ -162,11 +198,12 @@ export default {
       localStorage.setItem('roomY', this.game.room.y);
     },
 
-    open() {
-      this.$refs.myBottomSheet.open();
-    },
+    // open() {
+    // this.$refs.myBottomSheet.open();
+    // myBottomSheet.value.open();
+    // },
     close() {
-      this.$refs.myBottomSheet.close();
+      // this.$refs.myBottomSheet.close();
     },
     addItemByClassName(classname) {
       let roomX = 2;
@@ -194,7 +231,7 @@ export default {
     addItem() {
       const newItem = new FloorFurniture({ ...this.form });
       this.game.addItem(newItem);
-      EventBus.$emit('furni-added', newItem);
+      EventBus.emit('furni-added', newItem);
     },
 
     handleKeydown(event) {
@@ -227,48 +264,48 @@ export default {
   async created() {
     // Listen for the 'item-selected' event and update selectedItemType
 
-    EventBus.$on('item-selected', (item) => {
-      this.selectedItem = item;
-      this.selectedItemType = item.type;
-      this.open();
-    });
+    // EventBus.on('item-selected', (item) => {
+    //   this.selectedItem = item;
+    //   this.selectedItemType = item.type;
+    //   this.open();
+    // });
 
     // Listen for the 'item-unselected' event and clear selectedItemType
-    EventBus.$on('item-unselected', () => {
+    EventBus.on('item-unselected', () => {
       if (!this.selectedItem) return;
       this.unselectItem();
       this.close();
     });
 
-    this.$root.$on('add-to-room', (classname) => {
+    EventBus.on('add-to-room', (classname) => {
       this.addItemByClassName(classname);
       this.$store.commit('saveRoomToLocalStorage');
     });
 
-    EventBus.$on('select-item', (item) => {
+    EventBus.on('select-item', (item) => {
       this.game.onFurnitureItemClick(item);
     });
 
-    EventBus.$on('furni-added', () => {
+    EventBus.on('furni-added', () => {
       //   this.selectedItem = item;
       //   this.game.onFurnitureItemClick(item);
       //   this.$store.commit('saveRoomToLocalStorage');
     });
 
-    EventBus.$on('update-item', () => {
+    EventBus.on('update-item', () => {
       this.game.updateItem(this.selectedItem);
       this.$store.commit('saveRoomToLocalStorage');
     });
 
-    EventBus.$on('item-settings', () => {
+    EventBus.on('item-settings', () => {
       this.roomSettingsOpen = !this.roomSettingsOpen;
     });
 
-    EventBus.$on('bg-color-change', (color) => {
+    EventBus.on('bg-color-change', (color) => {
       this.game.setBackground(color);
     });
 
-    EventBus.$on('download', () => {
+    EventBus.on('download', () => {
       this.downloadCanvas();
     });
   },

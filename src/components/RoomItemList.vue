@@ -44,10 +44,10 @@ export default {
   },
   methods: {
     emitSettings() {
-      EventBus.$emit('item-settings');
+      EventBus.emit('item-settings');
     },
     selectItem(item) {
-      EventBus.$emit('select-item', item);
+      EventBus.emit('select-item', item);
     },
     getIconUrl(type) {
       //Remove from here
@@ -61,16 +61,16 @@ export default {
     this.localRoomItems = [...this.roomItems].reverse();
   },
   created() {
-    EventBus.$on('item-selected', (item) => {
+    EventBus.on('item-selected', (item) => {
       this.selectedItem = item;
     });
 
-    EventBus.$on('furni-added', (item) => {
+    EventBus.on('furni-added', (item) => {
       // Add the item to the start of the array
       this.localRoomItems.unshift(item);
     });
 
-    EventBus.$on('furni-removed', (item) => {
+    EventBus.on('furni-removed', (item) => {
       // Remove the item from the array
       this.localRoomItems.splice(
         this.localRoomItems.findIndex((i) => i === item),
@@ -78,7 +78,7 @@ export default {
       );
     });
 
-    EventBus.$on('item-selected', (item) => {
+    EventBus.on('item-selected', (item) => {
       // Find the index of the selected item
       const itemIndex = this.localRoomItems.findIndex((i) => i === item);
 
@@ -91,7 +91,7 @@ export default {
       }
     });
 
-    EventBus.$on('item-unselected', () => {
+    EventBus.on('item-unselected', () => {
       this.selectedItem = null;
     });
   },

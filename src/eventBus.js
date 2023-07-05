@@ -1,4 +1,4 @@
 // src/eventBus.js
-import Vue from 'vue';
-export const EventBus = new Vue();
+import mitt from 'mitt';
+export const EventBus = mitt();
 export default EventBus;
