@@ -106,7 +106,7 @@ export default {
     goPages() {
       // location.href = '/pages';
       //Router
-      this.$router.push('/pages');
+      this.$router.push('/wired');
     },
   },
 };
