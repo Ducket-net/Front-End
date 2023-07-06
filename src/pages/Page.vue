@@ -3,7 +3,7 @@
     v-if="canShowContent"
     model="page"
     :content="content"
-    :api-key="apiKey"
+    :api-key="2cf1663ebfe04c178f9547e2f5e7eb28"
   />
 </template>
 
