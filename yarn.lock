@@ -1030,6 +1030,11 @@
     "@babel/helper-validator-identifier" "^7.19.1"
     to-fast-properties "^2.0.0"
 
+"@builder.io/sdk-vue@^0.4.4":
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/@builder.io/sdk-vue/-/sdk-vue-0.4.4.tgz#45127868ed4ad78fb139536826de5aaa554fef52"
+  integrity sha512-jotde42ingN68ks2f3IKQawC2hADoDsNgcLn1eAJ0uB4d4u0cubeq0WW9MOAcz2+MMahZs8mkveViHqKmXoA+Q==
+
 "@ckpack/vue-color@1":
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/@ckpack/vue-color/-/vue-color-1.5.0.tgz#938154e9f3ee7b1a66a8668f46dba83db5588bae"
