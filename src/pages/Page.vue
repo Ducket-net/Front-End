@@ -8,13 +8,6 @@
   />
 </template>
 <script>
-// use this if you are on Vue 2
-import {
-  getContent,
-  RenderContent,
-  isPreviewing,
-} from '@builder.io/sdk-vue/vue2';
-// OR use this one if you are on Vue 3
 import {
   getContent,
   RenderContent,
