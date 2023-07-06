@@ -129,7 +129,7 @@ export default {
       }
     },
     addToRoom(classname) {
-      EventBus.$emit('add-to-room', classname);
+      EventBus.emit('add-to-room', classname);
     },
     selectItem() {},
   },
