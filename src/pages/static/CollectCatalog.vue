@@ -39,8 +39,10 @@
             align="center"
             conversation="all"
             cards="hidden"
-            tweet-url="https://twitter.com/wes_wim/status/1663949586652594185"
+            tweet-url="https://twitter.com/wes_wim/status/1677913359625117696"
             >Loading...</Tweet
+
+
           >
         </div>
       </div>
@@ -117,7 +119,7 @@ export default {
   },
   methods: {
     twitter() {
-      window.open('https://twitter.com/weswim', '_blank');
+      window.open('https://twitter.com/wes_wim', '_blank');
     },
   },
 };
