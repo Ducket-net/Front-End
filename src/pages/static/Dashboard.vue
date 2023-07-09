@@ -1,7 +1,10 @@
 <!-- Login.vue -->
 <template>
   <div>
-    <title />
+    <Title
+      title="Welcome to Ducket"
+      subtitle="Minigames, Collectables, Homepages and more."
+    />
     <div class="relative">
       <GameRoom roomId="home" size="small" />
 
@@ -59,7 +62,6 @@
 
 <script>
 import Title from '@/components/ui/Title.vue';
-
 import authService from '@/services/authService';
 import GameRoom from '@/components/GameRoom.vue';
 import SpecialCard from '@/components/SpecialCard.vue';

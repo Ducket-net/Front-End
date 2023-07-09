@@ -246,10 +246,15 @@
 import { EventBus } from '@/eventBus';
 import { FloorFurniture } from '@tetreum/shroom';
 import { shallowRef } from 'vue';
+import { toRefs } from 'vue';
 
 export default {
   name: 'GameController',
   props: ['game'],
+  setup(props) {
+    const { game } = toRefs(props);
+    return { game };
+  },
   data() {
     return {
       increment: 1,
