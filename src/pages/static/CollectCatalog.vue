@@ -84,7 +84,7 @@
 
       <div class="text-white gap-1 flex flex-col">
         <a
-          href="https://old.ducket.net"
+          href="https://ducket.net"
           target="_blank"
           class="bg-black block p-2 rounded-lg"
           >Marketplace</a
@@ -92,7 +92,6 @@
         <a
           href="https://suite.ducket.net/dashboard"
           class="bg-black block p-2 rounded-lg"
-          target="_blank"
         >
           Room Builder</a
         >
