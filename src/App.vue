@@ -1,62 +1,59 @@
 <!-- src/App.vue -->
 <template>
-  <Suspense>
-    <div
-      id="app"
-      class="w-full mx-auto sm:rounded-lg max-w-md overflow-hidden bg-[#1A1F25] sm:shadow-2xl"
-    >
-      <!-- <splash-screen></splash-screen>
+  <div
+    id="app"
+    class="w-full mx-auto sm:rounded-lg max-w-md overflow-hidden sm:shadow-2xl bg-gradient-to-tr from-[#0073ff] to-[#1A1F25]"
+  >
+    <!-- <splash-screen></splash-screen>
 
     <transition name="fade">
       <div v-if="!showSplashScreen"> -->
-      <header class="z-50 fixed top-0 left-0 w-full bg-opacity-25">
-        <div
-          class="max-w-md h-[42px] mx-auto flex items-center justify-between"
+    <header class="z-50 fixed top-0 left-0 w-full bg-opacity-25">
+      <div class="max-w-md h-[42px] mx-auto flex items-center justify-between">
+        <a
+          href="/"
+          class="ml-4 flex-shrink text-white text-[14px] no-underline leading-4 flex items-center space-x-1"
         >
-          <a
-            href="/"
-            class="ml-4 flex-shrink text-white text-[14px] no-underline leading-4 flex items-center space-x-1"
-          >
-            <img src="/logo.png" class="h-[19px] w-[19px] bg-transparent" />
-            <span>Ducket Alpha</span>
-          </a>
+          <img src="/logo.png" class="h-[19px] w-[19px] bg-transparent" />
+          <span>Ducket Alpha</span>
+        </a>
 
-          <!-- <new-room></new-room> -->
-        </div>
-      </header>
-      <div
-        :style="{ backgroundColor, ...backgroundStyles }"
-        id="viewport"
-        class="sm:pb-4 h-screen sm:max-h-[calc(100vh-100px)] overflow-auto overflow-x-hidden no-scrollbar"
-      >
-        <router-view></router-view>
-        <footer
-          class="mt-10 mx-auto text-white my-12 text-center max-w-sm text-xs pb-7 opacity-20"
-        >
-          <div class="block py-2">
-            <a
-              href="https://twitter.com/wes_wim"
-              target="_blank"
-              class="underline text-white"
-              >Twitter</a
-            >
-            |
-            <a href="" class="underline text-white"
-              >Reload <font-awesome-icon :icon="['fas', 'sync-alt']" />
-            </a>
-          </div>
-          <p class="text-white">
-            Ducket is not affiliated with, endorsed, sponsored, or specifically
-            approved by Sulake Corporation Oy or its Affiliates. Ducket may use
-            the trademarks and other intellectual property of Habbo, which is
-            permitted under Habbo Fan Site Policy.
-          </p>
-        </footer>
+        <!-- <new-room></new-room> -->
       </div>
-      <!-- </div>
-    </transition> -->
+    </header>
+
+    <div
+      :style="{ backgroundColor, ...backgroundStyles }"
+      id="viewport"
+      class="sm:pb-4 h-screen sm:max-h-[calc(100vh-100px)] overflow-auto overflow-x-hidden no-scrollbar"
+    >
+      <router-view></router-view>
+      <footer
+        class="mt-10 mx-auto text-white my-12 text-center max-w-sm text-xs pb-7 opacity-20"
+      >
+        <div class="block py-2">
+          <a
+            href="https://twitter.com/wes_wim"
+            target="_blank"
+            class="underline text-white"
+            >Twitter</a
+          >
+          |
+          <a href="" class="underline text-white"
+            >Reload <font-awesome-icon :icon="['fas', 'sync-alt']" />
+          </a>
+        </div>
+        <p class="text-white">
+          Ducket is not affiliated with, endorsed, sponsored, or specifically
+          approved by Sulake Corporation Oy or its Affiliates. Ducket may use
+          the trademarks and other intellectual property of Habbo, which is
+          permitted under Habbo Fan Site Policy.
+        </p>
+      </footer>
     </div>
-  </Suspense>
+    <!-- </div>
+    </transition> -->
+  </div>
 </template>
 
 <script>
@@ -90,12 +87,10 @@ export default {
         backgroundColor: this.backgroundColor,
       };
 
-      if (!this.$isIOS17()) {
-        styles.backgroundImage = "url('6432-grid_2.png')";
-        styles.backgroundPosition = '32px 48px';
-        //not Fixed background image on iOS
-        styles.backgroundAttachment = 'local';
-      }
+      styles.backgroundImage = "url('6432-grid_2.png')";
+      styles.backgroundPosition = '32px 48px';
+      //not Fixed background image on iOS
+      styles.backgroundAttachment = 'local';
 
       return styles;
     },
@@ -136,5 +131,21 @@ export default {
   top: 50%;
   border-width: 16px 32px 0 32px;
   border-color: rgba(255, 255, 255, 0.1) transparent transparent transparent;
+}
+
+.gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  background: linear-gradient(
+    0deg,
+    rgb(203, 189, 189) 0%,
+    rgb(255, 0, 0) 25%
+  ) !important;
+  mix-blend-mode: overlay;
+  z-index: 0;
 }
 </style>

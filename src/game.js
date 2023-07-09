@@ -37,17 +37,18 @@ export default class Game {
 
     //TileMap
     if (!tilemap) {
-      tilemap = `xxxxx
-        x0000
-        x0000
-        x0000
-        x0000`;
+      tilemap = `
+      xxxxx
+      x0000
+      x0000
+      x0000
+      x0000`;
     }
 
     this.room = this.createRoom(roomData, buildMode, tilemap, smallRoom);
 
     this.room.getDefaults = this.getDefaults.bind(this);
-    // this.createBackground();
+    this.createBackground();
     this.createFlag();
 
     if (roomData.avatar) {
@@ -107,9 +108,6 @@ export default class Game {
         background.height = this.application.screen.height;
 
         //Needed, iOS 17 does not seem to respect alpha.
-        if (isIOS17()) {
-          background.alpha = 0.1;
-        }
 
         // Add the TilingSprite to the stage
         this.application.stage.addChildAt(background, 0);

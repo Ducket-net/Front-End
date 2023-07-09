@@ -1,9 +1,9 @@
 {
-  "name": "my-game",
+  "name": "ducket-pixel-companion",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve --https",
+    "serve": "vue-cli-service serve",
     "build": "cd ./lib/shroom/ && yarn install && yarn build && cd ../../ && vue-cli-service build",
     "lint": "vue-cli-service lint",
     "pwa": "npx pwa-asset-generator ./public/splash.html ./public/splashscreens -i ./public/index.html -m ./public/manifest.json --portrait-only -t png"
@@ -36,6 +36,8 @@
     "tailwindcss": "^3.3.2",
     "vue": "^3.3.4",
     "vue-router": "4",
+    "vue-tweet": "^2.0.2",
+    "vue-tweet-embed": "^2.4.0",
     "vuelidate": "^0.7.7",
     "vuex": "4",
     "xml-js": "^1.6.11"

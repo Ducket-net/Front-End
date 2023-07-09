@@ -1,0 +1,76 @@
+{
+  "id": "room-catalog",
+  "wallColor": "#ffffff",
+  "floorColor": "#ffffff",
+  "hideWalls": true,
+  "hideFloors": true,
+  "avatar": null,
+
+  "items": [
+    {
+      "type": "nft_ff23_modesofa_vapor",
+      "roomX": 2,
+      "roomY": 1,
+      "roomZ": 0,
+      "direction": 4,
+      "animation": 1
+    },
+    {
+      "type": "nft_ff23_modesofa_vapor",
+      "roomX": 1,
+      "roomY": 2,
+      "roomZ": 0,
+      "direction": 2,
+      "animation": 1
+    },
+    {
+      "type": "nft_ff23_modestand_z_vapor",
+      "roomX": 1,
+      "roomY": 1,
+      "roomZ": 0,
+      "direction": 2,
+      "animation": 1
+    },
+    {
+      "type": "nft_h23_trippy_dinoegg",
+      "roomX": 1,
+      "roomY": 4,
+      "roomZ": 0,
+      "direction": 2,
+      "animation": 1
+    },
+    {
+      "type": "nft_h22_trippyfountain",
+      "roomX": 4.5,
+      "roomY": 4.5,
+      "roomZ": 1,
+      "direction": 2,
+      "animation": 1
+    },
+    {
+      "type": "nft_h23_trippy_aloe",
+      "roomX": 1.55,
+      "roomY": 1.45,
+      "roomZ": 1,
+      "direction": 2,
+      "animation": 1
+    },
+    {
+      "type": "nft_h23_trippy_elephant",
+      "roomX": 4,
+      "roomY": 1,
+      "roomZ": 0,
+      "direction": 2,
+      "animation": 1
+    }
+  ],
+  "settings": {
+    "hideWalls": true,
+    "hideFloor": true,
+    "wallColor": "#EE7BD1",
+    "floorColor": "#FBC02D",
+    "bgColor": "#1A1F25",
+    "x": 0,
+    "y": -100
+  }
+}

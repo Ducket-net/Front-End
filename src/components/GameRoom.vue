@@ -144,7 +144,20 @@ export default {
   },
   computed: {
     canvasHeight() {
-      return this.size == 'small' ? 380 : 500;
+      switch (this.size) {
+        case 'xs':
+          return 300;
+        case 'small':
+          return 380;
+        case 'default':
+          return 500;
+        case 'lg':
+          return 600;
+        case 'xl':
+          return 800;
+        default:
+          return 500;
+      }
     },
   },
   async mounted() {
@@ -164,6 +177,16 @@ export default {
     this.game.application.stage.addChild(this.game.room);
     this.$store.commit('setGame', this.game);
     this.game.setBackground(this.$store.state.room.settings.bgColor);
+
+    // Set the room position
+    console.log(this.game.room.x, this.game.room.y);
+    this.game.room.x = this.game.room.x + this.$store.state.room.settings.x;
+    this.game.room.y = this.game.room.y + this.$store.state.room.settings.y;
+
+    console.log(
+      'this.$store.state.room.settings',
+      this.$store.state.room.settings
+    );
 
     if (this.$store.state.room.settings.hideWalls) {
       this.game.room.hideWalls = true;

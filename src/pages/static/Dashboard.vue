@@ -1,12 +1,7 @@
 <!-- Login.vue -->
 <template>
   <div>
-    <div class="text-white text-center z-50 relative top-14">
-      <h1 class="text-lg font-bold">Welcome to Ducket</h1>
-      <p class="text-sm w-48 mx-auto">
-        Play Games and Buld your Pixel Creations!
-      </p>
-    </div>
+    <title />
     <div class="relative">
       <GameRoom roomId="home" size="small" />
 
@@ -63,13 +58,17 @@
 </template>
 
 <script>
+import Title from '@/components/ui/Title.vue';
+
 import authService from '@/services/authService';
 import GameRoom from '@/components/GameRoom.vue';
 import SpecialCard from '@/components/SpecialCard.vue';
 import ChatContainer from '@/components/ChatContainer.vue';
 
 export default {
+  name: 'DashboardPage',
   components: {
+    Title,
     SpecialCard,
     GameRoom,
     ChatContainer,

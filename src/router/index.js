@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import RoomPage from '@/pages/RoomPage.vue';
 import GameRoom from '../components/GameRoom.vue';
 import CatalogPage from '../pages/CatalogPage.vue';
-import DashboardPage from '../pages/DashboardPage.vue';
+import Dashboard from '../pages/static/Dashboard.vue';
 import Login from '@/pages/LoginPage.vue';
 import AuthCallback from '@/pages/AuthCallback.vue';
 import SpeechPage from '@/pages/SpeechPage.vue';
@@ -14,19 +14,32 @@ import CatalogListItems from '@/pages/Catalog/ListItems.vue';
 import CatalogSink from '@/pages/Catalog/CatalogPage.vue';
 import Page from '@/pages/Page.vue';
 import Wired from '@/pages/Wired.vue';
+import DynamicComponentLoader from '@/pages/DynamicComponentLoader.vue';
+import CollectCatalog from '@/pages/static/CollectCatalog.vue';
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: DashboardPage, // Set the home component for the root URL
+    name: 'Homepage',
+    component: CollectCatalog, // Set the home component for the root URL
+    meta: {
+      title: 'Mobile Pixel Companion',
+    },
+  },
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: Dashboard, // Set the home component for the root URL
   },
   {
     path: '/catalog-sink',
     name: 'Catalog Sink',
     component: CatalogSink, // Set the home component for the root URL
+    meta: {
+      title: 'Kitchen Sink',
+    },
   },
-  { path: '/wired', component: Wired, name: 'Wired' },
+  { path: '/wired', component: Wired, name: 'Wired', meta: { title: 'Wired' } },
 
   {
     path: '/list',
@@ -66,20 +79,17 @@ const routes = [
   { path: '/login', component: Login },
   { path: '/auth/callback', component: AuthCallback },
   { path: '/speech', name: 'SpeechPage', component: SpeechPage },
-  {
-    path: '/:catchAll(.*)',
-    name: 'Pages',
-    component: Page,
-  },
-  {
-    path: '/*',
-    component: DashboardPage,
-  },
+  { path: '/:componentName(.*)', component: DynamicComponentLoader },
 ];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+});
+
+router.beforeEach((to, from) => {
+  let title = 'Ducket - ' + to.meta?.title ?? to.name;
+  document.title = title;
 });
 
 export default router;
