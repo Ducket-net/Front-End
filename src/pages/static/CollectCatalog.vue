@@ -45,7 +45,7 @@
         </div>
       </div>
 
-      <a href="https://ducket.net?redirectToOld=true">
+      <a href="https://api.ducket.net/home">
         <figure class="box blue">
           <div class="box-strip"></div>
           <div class="box-gradient"></div>
