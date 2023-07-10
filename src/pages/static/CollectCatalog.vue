@@ -45,6 +45,18 @@
         </div>
       </div>
 
+      <a href="https://ducket.net?redirectToOld=true">
+        <figure class="box blue">
+          <div class="box-strip"></div>
+          <div class="box-gradient"></div>
+          <img src="/hotel-views/web_view_bg_nl.gif" alt="Room Name" />
+          <figcaption>
+            Rare Values
+            <p class="text-xs text-gray-400">Live rare values on [.com]</p>
+          </figcaption>
+        </figure>
+      </a>
+
       <figure class="box green saturate-[20%] opacity-30">
         <div class="box-strip"></div>
         <div class="box-gradient"></div>
