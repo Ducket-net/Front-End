@@ -41,8 +41,6 @@
             cards="hidden"
             tweet-url="https://twitter.com/wes_wim/status/1677913359625117696"
             >Loading...</Tweet
-
-
           >
         </div>
       </div>
@@ -85,7 +83,9 @@
       </figure>
 
       <div class="text-white gap-1 flex flex-col">
-        <a href="https://ducket.net" class="bg-black block p-2 rounded-lg"
+        <a
+          href="https://ducket.net?redirectToOld=true"
+          class="bg-black block p-2 rounded-lg"
           >Marketplace</a
         >
         <a
