@@ -83,10 +83,7 @@
       </figure>
 
       <div class="text-white gap-1 flex flex-col">
-        <a
-          href="https://ducket.net"
-          target="_blank"
-          class="bg-black block p-2 rounded-lg"
+        <a href="https://ducket.net" class="bg-black block p-2 rounded-lg"
           >Marketplace</a
         >
         <a
