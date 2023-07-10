@@ -96,11 +96,6 @@
 
       <div class="text-white gap-1 flex flex-col">
         <a
-          href="https://ducket.net?redirectToOld=true"
-          class="bg-black block p-2 rounded-lg"
-          >Marketplace</a
-        >
-        <a
           href="https://suite.ducket.net/dashboard"
           class="bg-black block p-2 rounded-lg"
         >
