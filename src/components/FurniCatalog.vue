@@ -124,7 +124,6 @@ export default {
 
       //Scroll to top of div
       const catalogDiv = document.getElementById('viewport');
-      catalogDiv.scrollTop = 0;
 
       setTimeout(() => {
         category = category.trim();

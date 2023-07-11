@@ -8,7 +8,6 @@
       ref="canvasContainer"
       id="canvasContainer"
       class="relative"
-      @keydown="handleKeydown"
       tabindex="0"
     >
       <div class="mx-auto fade-in">

@@ -1,11 +1,11 @@
 <template>
-  <main>
+  <main class="h-full">
     <Title
       title="Welcome to Ducket"
       subtitle="Minigames, Collectables, Homepages and more."
     />
 
-    <section>
+    <section class="pointer-events-none">
       <GameRoom roomId="catalog" size="xs" />
       <!-- <details>
         <div>1,699</div>
@@ -13,7 +13,7 @@
       </details> -->
     </section>
 
-    <div class="grid gap-2 p-2">
+    <div class="grid gap-3 p-2">
       <figure class="box white" @click="twitter">
         <div class="box-strip"></div>
         <div class="box-gradient"></div>
@@ -22,8 +22,8 @@
           <div class="flex justify-start gap-2 items-center">
             <div>👾</div>
             <div>
-              Join the Waitlist<br />
-              <p class="text-xs text-gray-300">
+              Join the Waitlist
+              <p class="text-xs opacity-70">
                 Ducket is currently invite-only, follow for more.
               </p>
             </div>
@@ -31,7 +31,41 @@
         </figcaption>
       </figure>
 
-      <div class="max-wd-sm overflow-hidden">
+      <a href="https://api.ducket.net/home">
+        <figure class="box blue">
+          <div class="box-strip"></div>
+          <div class="box-gradient"></div>
+          <img src="/hotel-views/web_view_bg_nl.gif" alt="Room Name" />
+          <figcaption>
+            <div class="flex justify-start gap-2 items-center">
+              <div>💳</div>
+              <div>
+                Rare Values
+                <p class="text-xs opacity-70">Live rare values on [.com]</p>
+              </div>
+            </div>
+          </figcaption>
+        </figure>
+      </a>
+
+      <a href="/dashboard">
+        <figure class="box red">
+          <div class="box-strip"></div>
+          <div class="box-gradient"></div>
+          <img src="/hotel-views/web_view_bg_de.gif" alt="Room Name" />
+          <figcaption>
+            <div class="flex justify-start gap-2 items-center">
+              <div>🏠</div>
+              <div>
+                Room Builder
+                <p class="text-xs opacity-70">Mobile 5x5 Rooms</p>
+              </div>
+            </div>
+          </figcaption>
+        </figure>
+      </a>
+
+      <!-- <div class="max-wd-sm overflow-hidden">
         <div class="scale-75 w-[126%] -ml-[13.5%] -my-[3rem]">
           <Tweet
             theme="dark"
@@ -43,51 +77,39 @@
             >Loading...</Tweet
           >
         </div>
-      </div>
+      </div> -->
 
-      <a href="https://api.ducket.net/home">
-        <figure class="box blue">
-          <div class="box-strip"></div>
-          <div class="box-gradient"></div>
-          <img src="/hotel-views/web_view_bg_nl.gif" alt="Room Name" />
-          <figcaption>
-            Rare Values
-            <p class="text-xs text-gray-400">Live rare values on [.com]</p>
-          </figcaption>
-        </figure>
-      </a>
-
-      <figure class="box green saturate-[20%] opacity-30">
+      <figure class="box">
         <div class="box-strip"></div>
         <div class="box-gradient"></div>
-        <img src="/hotel-views/web_view_bg_nl.gif" alt="Room Name" />
+        <img src="/hotel-views/web_view_bg_us.gif" alt="Room Name" />
         <figcaption>
           Putt Putt
           <p class="text-xs text-gray-400">Summer 2023</p>
         </figcaption>
       </figure>
-      <figure class="box purple saturate-[20%] opacity-30">
+      <figure class="box">
         <div class="box-strip"></div>
         <div class="box-gradient"></div>
-        <img src="/hotel-views/web_view_bg_cn2.gif" alt="Room Name" />
+        <img src="/hotel-views/web_view_bg_es.gif" alt="Room Name" />
         <figcaption>
           Habbo Collectable Catalog
           <p class="text-xs text-gray-400">Beta</p>
         </figcaption>
       </figure>
-      <figure class="box red saturate-[20%] opacity-30">
+      <figure class="box">
         <div class="box-strip"></div>
         <div class="box-gradient"></div>
-        <img src="/hotel-views/web_view_bg_ca.gif" alt="Room Name" />
+        <img src="/hotel-views/web_view_bg_fi.gif" alt="Room Name" />
         <figcaption>
           Historic Catalog
           <p class="text-xs text-gray-400">Beta</p>
         </figcaption>
       </figure>
-      <figure class="box blue saturate-[20%] opacity-30">
+      <figure class="box">
         <div class="box-strip"></div>
         <div class="box-gradient"></div>
-        <img src="/hotel-views/web_view_bg_nl.gif" alt="Room Name" />
+        <img src="/hotel-views/web_view_bg_au.gif" alt="Room Name" />
         <figcaption>
           Global Fansite API
           <p class="text-xs text-gray-400">In Development</p>
@@ -242,12 +264,11 @@ export default {
 
 .box figcaption {
   position: absolute;
-  bottom: 0;
+  bottom: 2px;
   left: 0;
   width: 100%;
   padding: 10px;
   color: white;
-  font-weight: 600;
   font-size: 1.2rem;
   text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.465);
 }
