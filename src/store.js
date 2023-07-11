@@ -219,7 +219,7 @@ const store = createStore({
           `${process.env.VUE_APP_DUCKET_URL}/api/catalog`,
           {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+             // Authorization: `Bearer ${localStorage.getItem('access_token')}`,
               Accept: 'application/json',
               ContentType: 'application/json',
             },

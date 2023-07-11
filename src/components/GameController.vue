@@ -320,7 +320,7 @@ export default {
     },
     getIconUrl(type) {
       //Remove from here
-      return `https://ducket.net/assets/furni/${type.replace(
+      return `https://api.ducket.net/assets/furni/${type.replace(
         '*',
         '_'
       )}_icon.png`;
