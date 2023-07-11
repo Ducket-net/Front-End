@@ -10,12 +10,8 @@
       class="relative"
       tabindex="0"
     >
-      <div class="mx-auto relative">
-        <img
-          src="floor.png"
-          class="absolute z-0"
-          v-if="!roomLoaded && !withController"
-        />
+      <div class="mx-auto relative fade-in">
+      
 
         <canvas
           ref="canvas"

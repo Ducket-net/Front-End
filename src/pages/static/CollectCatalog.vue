@@ -5,7 +5,7 @@
       subtitle="Minigames, Collectables, Homepages and more."
     />
 
-    <section class="">
+    <section class="pointer-events-none">
       <GameRoom roomId="catalog" size="xs" />
 
       <!-- <details>
