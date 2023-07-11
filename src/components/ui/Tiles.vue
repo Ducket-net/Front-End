@@ -90,6 +90,7 @@ export default {
   width: 64px;
   height: 32px;
   position: relative;
+  z-index: 3;
 }
 
 .no-antialias {
