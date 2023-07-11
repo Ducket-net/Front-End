@@ -10,7 +10,7 @@ const redirectUri = process.env.VUE_APP_REDIRECT_URI;
 const authService = {
   getAuthorizationCode() {
     const url =
-      `${ducketUrl}/oauth/authorize?client_id=` +
+      `https://api.ducket.net/oauth/authorize?client_id=` +
       clientId +
       `&redirect_uri=${redirectUri}&response_type=code&scope=*`;
     window.location.href = url;
@@ -18,7 +18,7 @@ const authService = {
 
   async getAccessToken(code) {
     try {
-      const response = await axios.post(`${ducketUrl}/oauth/token`, {
+      const response = await axios.post(`https://api.ducket.net/oauth/token`, {
         grant_type: 'authorization_code',
         client_id: clientId,
         client_secret: clientSecret,
