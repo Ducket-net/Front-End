@@ -1,76 +1,78 @@
 <!-- src/App.vue -->
 <template>
-  <div id="app" class="container mx-auto sm:rounded-lg max-w-md sm:shadow-2xl">
-    <header class="header">
-      <header class="z-50 fixed top-0 left-0 w-full bg-opacity-25">
-        <div
-          class="max-w-md h-[42px] mx-auto flex items-center justify-between"
-        >
-          <a
-            href="/"
-            class="ml-4 flex-shrink text-white text-[14px] no-underline leading-4 flex items-center space-x-1"
+  <div class="mx-auto max-w-md shadow-2xl overflow-hidden">
+    <Tiles></Tiles>
+
+    <div id="mainApp" class="container z-10 relative">
+      <header class="header">
+        <header class="z-50 fixed top-0 left-0 w-full bg-opacity-25">
+          <div
+            class="max-w-md h-[42px] mx-auto flex items-center justify-between"
           >
-            <img src="/logo.png" class="h-[19px] w-[19px] bg-transparent" />
-            <span>Ducket Alpha</span>
-          </a>
-
-          <!-- <new-room></new-room> -->
-        </div>
-      </header>
-    </header>
-    <div class="scrollable-content">
-      <!-- Long content goes here -->
-      <div
-        :style="{ backgroundColor, ...backgroundStyles }"
-        id="viewport"
-        class="sm:pb-4"
-      >
-        <router-view></router-view>
-        <footer
-          class="mt-10 mx-auto text-white my-12 text-center max-w-sm text-xs pb-7 opacity-20"
-        >
-          <div class="block py-2">
             <a
-              href="https://twitter.com/wes_wim"
-              target="_blank"
-              class="underline text-white"
-              >Twitter</a
+              href="/"
+              class="ml-4 flex-shrink text-white text-[14px] no-underline leading-4 flex items-center space-x-1"
             >
-            |
-            <a href="" class="underline text-white"
-              >Reload <font-awesome-icon :icon="['fas', 'sync-alt']" />
+              <img src="/logo.png" class="h-[19px] w-[19px] bg-transparent" />
+              <span>Ducket Alpha</span>
             </a>
-          </div>
-          <p class="text-white">
-            Ducket is not affiliated with, endorsed, sponsored, or specifically
-            approved by Sulake Corporation Oy or its Affiliates. Ducket may use
-            the trademarks and other intellectual property of Habbo, which is
-            permitted under Habbo Fan Site Policy.
-          </p>
-        </footer>
-      </div>
-    </div>
 
-    <!-- <splash-screen></splash-screen>
+            <!-- <new-room></new-room> -->
+          </div>
+        </header>
+      </header>
+      <div class="scrollable-content">
+        <!-- Long content goes here -->
+        <div id="viewport" class="sm:pb-4">
+          <router-view></router-view>
+          <footer
+            class="mt-10 mx-auto text-white my-12 text-center max-w-sm text-xs pb-7 opacity-20"
+          >
+            <div class="block py-2">
+              <a
+                href="https://twitter.com/wes_wim"
+                target="_blank"
+                class="underline text-white"
+                >Twitter</a
+              >
+              |
+              <a href="" class="underline text-white"
+                >Reload <font-awesome-icon :icon="['fas', 'sync-alt']" />
+              </a>
+            </div>
+            <p class="text-white">
+              Ducket is not affiliated with, endorsed, sponsored, or
+              specifically approved by Sulake Corporation Oy or its Affiliates.
+              Ducket may use the trademarks and other intellectual property of
+              Habbo, which is permitted under Habbo Fan Site Policy.
+            </p>
+          </footer>
+        </div>
+      </div>
+
+      <!-- <splash-screen></splash-screen>
 
       
 
     <transition name="fade">
       <div v-if="!showSplashScreen"> -->
 
-    <!-- </div>
+      <!-- </div>
     </transition> -->
+    </div>
   </div>
 </template>
 
 <script>
 // import NewRoom from '@/components/NewRoom.vue';
 // import SplashScreen from '@/components/SplashScreen.vue'; // Add this line to import the SplashScreen component
+import Tiles from '@/components/ui/Tiles.vue';
 
 export default {
   components: {
     // NewRoom,
     // SplashScreen, // Add this line to register the SplashScreen component
+    Tiles,
   },
   computed: {
     loggedInUser() {

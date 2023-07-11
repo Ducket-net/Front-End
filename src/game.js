@@ -48,7 +48,7 @@ export default class Game {
     this.room = this.createRoom(roomData, buildMode, tilemap, smallRoom);
 
     this.room.getDefaults = this.getDefaults.bind(this);
-    this.createBackground();
+    // this.createBackground();
     this.createFlag();
 
     if (roomData.avatar) {
@@ -68,7 +68,7 @@ export default class Game {
       autoDensity: true,
       width: canvasWidth,
       height: document.getElementById('canvas').clientHeight,
-      transparent: false,
+      transparent: true,
     });
     // eslint-disable-next-line no-undef
     globalThis.__PIXI_APP__ = this.application;

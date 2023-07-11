@@ -18,8 +18,13 @@
  * ----------------------------------------
  */
 
+#mainApp {
+  animation: bounce-in-bottom 1.6s;
+}
+
 body,
 html {
+  background-color: #15191e;
   width: 100%;
   height: 100%;
   margin: 0;
@@ -28,10 +33,6 @@ html {
 
 body {
   font-family: 'Lato', sans-serif;
-  background-repeat: repeat;
-  background-position: 38px 44px;
-  background-color: #15191e;
-  background-image: url('../public/6432-grid_2.png');
 }
 
 /* Set up container to occupy full height and width */

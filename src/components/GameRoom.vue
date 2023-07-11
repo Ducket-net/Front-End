@@ -175,7 +175,7 @@ export default {
     );
     this.game.application.stage.addChild(this.game.room);
     this.$store.commit('setGame', this.game);
-    this.game.setBackground(this.$store.state.room.settings.bgColor);
+    // this.game.setBackground(this.$store.state.room.settings.bgColor);
 
     // Set the room position
     console.log(this.game.room.x, this.game.room.y);
