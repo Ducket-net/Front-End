@@ -113,7 +113,7 @@ export default {
     },
     async fetchSearchResults(query) {
       try {
-        const ducketUrl = process.env.VUE_APP_DUCKET_URL;
+        const ducketUrl = process.env.VUE_APP_API_URL;
         const response = await axios.get(
           `${ducketUrl}/api/marketSearch/basicSearch?search=${query}`
         );

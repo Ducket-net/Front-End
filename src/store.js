@@ -156,7 +156,7 @@ const store = createStore({
     async authenticate({ commit }, accessToken) {
       try {
         const response = await axios.get(
-          `${process.env.VUE_APP_DUCKET_URL}/api/me`,
+          `${process.env.VUE_APP_API_URL}/api/me`,
           {
             headers: { Authorization: `Bearer ${accessToken}` },
           }
@@ -216,10 +216,10 @@ const store = createStore({
       }
       try {
         const response = await axios.get(
-          `${process.env.VUE_APP_DUCKET_URL}/api/catalog`,
+          `${process.env.VUE_APP_API_URL}/api/catalog`,
           {
             headers: {
-             // Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+              // Authorization: `Bearer ${localStorage.getItem('access_token')}`,
               Accept: 'application/json',
               ContentType: 'application/json',
             },

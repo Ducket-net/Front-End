@@ -41,7 +41,7 @@ export default {
     };
   },
   async mounted() {
-    let serverurl = process.env.VUE_APP_DUCKET_URL;
+    let serverurl = process.env.VUE_APP_API_URL;
     try {
       const response = await axios.get(`${serverurl}/api/mocks/feed`);
       this.feedData = response.data.data;

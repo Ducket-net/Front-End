@@ -3,14 +3,14 @@ import axios from 'axios';
 
 const clientId = process.env.VUE_APP_CLIENT_ID;
 const clientSecret = process.env.VUE_APP_CLIENT_SECRET;
-const ducketUrl = process.env.VUE_APP_DUCKET_URL;
+const ducketUrl = process.env.VUE_APP_API_URL;
 // const appUrl = process.env.VUE_APP_URL;
 const redirectUri = process.env.VUE_APP_REDIRECT_URI;
 
 const authService = {
   getAuthorizationCode() {
     const url =
-      `https://api.ducket.net/oauth/authorize?client_id=` +
+      `${ducketUrl}/oauth/authorize?client_id=` +
       clientId +
       `&redirect_uri=${redirectUri}&response_type=code&scope=*`;
     window.location.href = url;
@@ -18,7 +18,7 @@ const authService = {
 
   async getAccessToken(code) {
     try {
-      const response = await axios.post(`https://api.ducket.net/oauth/token`, {
+      const response = await axios.post(`${ducketUrl}/oauth/token`, {
         grant_type: 'authorization_code',
         client_id: clientId,
         client_secret: clientSecret,
