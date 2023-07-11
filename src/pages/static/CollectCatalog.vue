@@ -39,7 +39,7 @@
           <img src="/hotel-views/web_view_bg_nl.gif" alt="Room Name" />
           <figcaption>
             <div class="flex justify-start gap-2 items-center">
-              <div>💳</div>
+              <div>📊</div>
               <div>
                 Rare Values
                 <p class="text-xs opacity-70">Live rare values on [.com]</p>
