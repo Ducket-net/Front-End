@@ -22,8 +22,7 @@
           id="canvas"
           class="w-full fade-in"
           :style="{
-            height: canvasHeight + 'px',
-            backgroundColor: $store.state.room.settings.bgColor,
+            height: canvasHeight + 'px'
           }"
         ></canvas>
         <div
