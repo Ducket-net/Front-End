@@ -8,7 +8,7 @@ import './tailwind.css';
 import { FontAwesomeIcon } from './fontAwesome'; // Import the FontAwesomeIcon component
 
 import FurniImg from './components/FurniImg.vue';
-import './services/authMixin';
+import globalMixin from './services/authMixin';
 import DebouncedOnClick from './services/debounceAction.js';
 import utils from './utils';
 import { createBottomSheet } from 'bottom-sheet-vue3';
@@ -34,7 +34,7 @@ app.use(StoryblokVue, {
 
 app.config.productionTip = false;
 
-app.mixin(DebouncedOnClick);
+app.use(globalMixin);
 
 app.use(store);
 app.use(router);

@@ -1,9 +1,17 @@
 <template>
   <main class="h-full">
-    <Title
-      title="Welcome to Ducket"
-      subtitle="Minigames, Collectables, Homepages and more."
-    />
+    <div v-if="isUserLoggedIn">
+      <Title
+        :title="`Welcome ${loggedInUser.user.name}!`"
+        subtitle="Minigames, Collectables, Homepages and more."
+      />
+    </div>
+    <div v-else>
+      <Title
+        title="Welcome to Ducket"
+        subtitle="Minigames, Collectables, Homepages and more."
+      />
+    </div>
 
     <section class="pointer-events-none">
       <GameRoom roomId="catalog" size="xs" />
@@ -117,13 +125,11 @@
         </figcaption>
       </figure>
 
-      <div class="text-white gap-1 flex flex-col">
-        <a
-          href="https://suite.ducket.net/dashboard"
-          class="bg-black block p-2 rounded-lg"
-        >
-          Room Builder</a
-        >
+      <div class="text-white gap-1 flex flex-col" v-if="isUserLoggedIn">
+        <a href="/logout" class="bg-black block p-2 rounded-lg"> Logout</a>
+      </div>
+      <div class="text-white gap-1 flex flex-col" v-if="!isUserLoggedIn">
+        <a href="/login" class="bg-black block p-2 rounded-lg"> Login</a>
       </div>
     </div>
   </main>

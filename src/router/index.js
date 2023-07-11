@@ -5,6 +5,7 @@ import GameRoom from '../components/GameRoom.vue';
 import CatalogPage from '../pages/CatalogPage.vue';
 import Dashboard from '../pages/static/Dashboard.vue';
 import Login from '@/pages/LoginPage.vue';
+import Logout from '@/pages/Logout.vue';
 import AuthCallback from '@/pages/AuthCallback.vue';
 import SpeechPage from '@/pages/SpeechPage.vue';
 import GamePage from '@/pages/GamePage.vue';
@@ -77,6 +78,7 @@ const routes = [
     component: GameRoom,
   },
   { path: '/login', component: Login },
+  { path: '/logout', component: Logout },
   { path: '/auth/callback', component: AuthCallback },
   { path: '/auth/discord/callback', component: AuthCallback },
   { path: '/speech', name: 'SpeechPage', component: SpeechPage },

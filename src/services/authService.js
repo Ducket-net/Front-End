@@ -1,5 +1,7 @@
 // authService.js
 import axios from 'axios';
+import store from '../store';
+import router from '../router';
 
 const clientId = process.env.VUE_APP_CLIENT_ID;
 const clientSecret = process.env.VUE_APP_CLIENT_SECRET;
@@ -28,6 +30,20 @@ const authService = {
       const token = response.data.access_token;
       // Save token (e.g., in localStorage, Vuex, or cookies)
       return token;
+    } catch (error) {
+      console.error('Error getting access token:', error);
+    }
+  },
+
+  async logout() {
+    try {
+      //Clear Token from Store
+
+      store.commit('setAccessTokenAndUser', { token: null, user: null });
+
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('user');
+      router.push('/');
     } catch (error) {
       console.error('Error getting access token:', error);
     }

@@ -176,6 +176,7 @@ const store = createStore({
         return false;
       }
     },
+
     updateShowSplashScreen({ commit }, value) {
       commit('setShowSplashScreen', value);
     },
