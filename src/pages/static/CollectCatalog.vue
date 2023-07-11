@@ -5,8 +5,9 @@
       subtitle="Minigames, Collectables, Homepages and more."
     />
 
-    <section class="pointer-events-none">
+    <section class="">
       <GameRoom roomId="catalog" size="xs" />
+
       <!-- <details>
         <div>1,699</div>
         <div>890</div>
@@ -131,12 +132,10 @@
 <script>
 import Title from '@/components/ui/Title.vue';
 import GameRoom from '@/components/GameRoom.vue';
-import Tweet from 'vue-tweet';
 
 export default {
   components: {
     Title,
-    Tweet,
     GameRoom,
   },
   props: {},
@@ -192,23 +191,23 @@ export default {
 }
 
 .white {
-  background: #701a95;
+  background: #701a95 !important;
 }
 
 .purple {
-  background: #501c79;
+  background: #501c79 !important;
 }
 
 .red {
-  background: #8b1f1f;
+  background: #8b1f1f !important;
 }
 
 .blue {
-  background: #27277d;
+  background: #27277d !important;
 }
 
 .green {
-  background: #007f00;
+  background: #007f00 !important;
 }
 
 .box {
@@ -217,6 +216,7 @@ export default {
   height: 100%;
   border-radius: 10px;
   overflow: hidden;
+  background: #202020;
   border: 1px solid #000000;
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
   min-height: 70px;
@@ -272,4 +272,6 @@ export default {
   font-size: 1.2rem;
   text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.465);
 }
+
+/* Rectangle 109 */
 </style>

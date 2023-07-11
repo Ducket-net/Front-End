@@ -10,13 +10,27 @@
       class="relative"
       tabindex="0"
     >
-      <div class="mx-auto fade-in">
+      <div class="mx-auto relative">
+        <img
+          src="floor.png"
+          class="absolute z-0"
+          v-if="!roomLoaded && !withController"
+        />
+
         <canvas
           ref="canvas"
           id="canvas"
-          class="w-full"
-          :style="{ height: canvasHeight + 'px' }"
+          class="w-full fade-in"
+          :style="{
+            height: canvasHeight + 'px',
+            backgroundColor: $store.state.room.settings.bgColor,
+          }"
         ></canvas>
+        <div
+          class="hexagon"
+          :style="{ left: canvasWidth / 2 + 'px' }"
+          v-if="!withController"
+        ></div>
       </div>
     </div>
 
@@ -127,6 +141,7 @@ export default {
   },
   data() {
     return {
+      roomLoaded: false,
       game: null,
       roomSettingsOpen: false,
       selectedItemType: '',
@@ -194,6 +209,12 @@ export default {
       this.game.room.hideWalls = true;
       this.game.room.hideFloor = true;
     }
+
+    setTimeout(() => {
+      this.roomLoaded = true;
+    }, 1900);
+
+    this.canvasWidth = this.$refs.canvasContainer.clientWidth;
   },
   methods: {
     async downloadCanvas() {
@@ -387,5 +408,38 @@ export default {
   100% {
     transform: translateY(0%);
   }
+}
+
+.hexagon {
+  filter: blur(6px);
+  position: fixed;
+  transform: translateX(-50%);
+  z-index: -1;
+  top: -55px;
+  width: 265px;
+  height: 15px;
+  opacity: 0.2;
+  background: #000000;
+  position: relative;
+}
+
+.hexagon:before,
+.hexagon:after {
+  content: '';
+  position: absolute;
+  width: 0;
+  border-left: 132.5px solid transparent;
+  border-right: 132.5px solid transparent;
+}
+
+.hexagon:before {
+  bottom: 100%;
+  border-bottom: 65px solid #000000;
+}
+
+.hexagon:after {
+  top: 100%;
+  width: 0;
+  border-top: 65px solid #000000;
 }
 </style>

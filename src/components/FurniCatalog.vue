@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/require-v-for-key -->
 <template>
-  <div>
+  <div class="overflow-y-scroll overflow-x-hidden">
     <div
       v-if="selectedCategory"
       class="grid grid-cols-9 gap-1 p-0.5 mt-2 rounded-lg"
@@ -124,6 +124,7 @@ export default {
 
       //Scroll to top of div
       const catalogDiv = document.getElementById('viewport');
+      catalogDiv.scrollTop = 0;
 
       setTimeout(() => {
         category = category.trim();

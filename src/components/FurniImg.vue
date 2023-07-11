@@ -10,15 +10,15 @@
 
 <script>
 export default {
-  name: "FurniImg",
+  name: 'FurniImg',
   props: {
     classname: {
       type: String,
-      default: "",
+      default: '',
     },
     classes: {
       type: String,
-      default: "",
+      default: '',
     },
   },
   data() {
@@ -31,7 +31,7 @@ export default {
 
   computed: {
     fallbackSrc() {
-      return `https://ducket.net/assets/furni/${this.replaceAsteriskWithUnderscore(
+      return `https://api.ducket.net/assets/furni/${this.replaceAsteriskWithUnderscore(
         this.classname
       )}_icon.png`;
     },
@@ -39,7 +39,7 @@ export default {
   methods: {
     replaceAsteriskWithUnderscore(classname) {
       const match = classname.match(/\*(\d+)$/);
-      return match ? classname.replace(/\*(\d+)$/, "_" + match[1]) : classname;
+      return match ? classname.replace(/\*(\d+)$/, '_' + match[1]) : classname;
     },
     onImageError() {
       this.src = this.fallbackSrc;

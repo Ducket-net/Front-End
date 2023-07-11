@@ -2,8 +2,8 @@
 <template>
   <div>
     <Title
-      title="Welcome to Ducket"
-      subtitle="Minigames, Collectables, Homepages and more."
+      title="Big Room or Small?"
+      subtitle="Create a room to start building."
     />
     <div class="relative">
       <GameRoom roomId="home" size="small" />
@@ -13,7 +13,7 @@
       </div>
     </div>
 
-    <div class="p-4 grid grid-flow-row grid-cols-2 gap-4">
+    <div class="p-4 grid grid-flow-row gap-3">
       <SpecialCard @card-click="createPage">
         <h2 class="font-bold text-sm">
           <font-awesome-icon :icon="['fas', 'bomb']" />
@@ -24,13 +24,6 @@
         <h2 class="font-bold text-sm">
           <font-awesome-icon :icon="['fas', 'kiwi-bird']" />
           <span class="pl-1">Create a Mini Room</span>
-        </h2>
-      </SpecialCard>
-
-      <SpecialCard @card-click="goPages">
-        <h2 class="font-bold text-sm">
-          <font-awesome-icon :icon="['fas', 'newspaper']" />
-          <span class="pl-1">Wired</span>
         </h2>
       </SpecialCard>
 

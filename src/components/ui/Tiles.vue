@@ -130,7 +130,7 @@ export default {
   position: fixed;
   top: 0;
   mix-blend-mode: screen;
-  opacity: 0.1;
+  opacity: 0.05;
   bottom: 0;
   top: 0;
   height: 100%;
@@ -150,7 +150,7 @@ export default {
   top: 0;
   height: 100%;
   width: 100%;
-  background: linear-gradient(140deg, #574258 0%, #3c1130 100%);
+  background: linear-gradient(140deg, #252525 0%, #191919 100%);
   z-index: 1;
 }
 </style>

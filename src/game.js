@@ -59,7 +59,7 @@ export default class Game {
     this.selectedFurnitureItem = null;
   }
   setupPixiApp(view) {
-    const canvasContainer = document.getElementById('app');
+    const canvasContainer = document.getElementById('mainApp');
     const canvasWidth = canvasContainer.clientWidth;
     this.application = new PIXI.Application({
       view,
@@ -108,6 +108,9 @@ export default class Game {
         background.height = this.application.screen.height;
 
         //Needed, iOS 17 does not seem to respect alpha.
+        if (isIOS17()) {
+          background.alpha = 0.1;
+        }
 
         // Add the TilingSprite to the stage
         this.application.stage.addChildAt(background, 0);
