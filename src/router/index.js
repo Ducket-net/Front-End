@@ -78,6 +78,7 @@ const routes = [
   },
   { path: '/login', component: Login },
   { path: '/auth/callback', component: AuthCallback },
+  { path: '/auth/discord/callback', component: AuthCallback },
   { path: '/speech', name: 'SpeechPage', component: SpeechPage },
   { path: '/:componentName(.*)', component: DynamicComponentLoader },
 ];
