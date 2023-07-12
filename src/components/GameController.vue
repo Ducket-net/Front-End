@@ -180,49 +180,49 @@
           class="col-span-2 w-full grid auto-cols-max grid-flow-col p-2 overflow-hidden overflow-x-scroll no-scrollbar"
         >
           <button
-            @click="selectedItem.animation = 0"
+            @click="setAnimation(0)"
             class="h-[42px] rounded-lg bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button border border-black"
           >
             0
           </button>
           <button
-            @click="selectedItem.animation = 1"
+            @click="setAnimation(1)"
             class="h-[42px] rounded-lg bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button border border-black"
           >
             1
           </button>
           <button
-            @click="selectedItem.animation = 2"
+            @click="setAnimation(2)"
             class="h-[42px] rounded-lg bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button border border-black"
           >
             2
           </button>
           <button
-            @click="selectedItem.animation = 3"
+            @click="setAnimation(3)"
             class="h-[42px] rounded-lg bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button border border-black"
           >
             3
           </button>
           <button
-            @click="selectedItem.animation = 4"
+            @click="setAnimation(4)"
             class="h-[42px] rounded-lg bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button border border-black"
           >
             4
           </button>
           <button
-            @click="selectedItem.animation = 5"
+            @click="setAnimation(5)"
             class="h-[42px] rounded-lg bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button border border-black"
           >
             5
           </button>
           <button
-            @click="selectedItem.animation = 6"
+            @click="setAnimation(6)"
             class="h-[42px] rounded-lg bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button border border-black"
           >
             6
           </button>
           <button
-            @click="selectedItem.animation = 7"
+            @click="setAnimation(7)"
             class="h-[42px] rounded-lg bg-black p-3 w-full font-semibold text-white text-xs active:bg-gray-800 controller-button border border-black"
           >
             7
@@ -291,6 +291,11 @@ export default {
       if (this.selectedItem) {
         this.game.addItem(this.selectedItem);
         this.$store.commit('saveRoomToLocalStorage');
+      }
+    },
+    setAnimation(animation) {
+      if (this.selectedItem) {
+        this.selectedItem.animation = animation;
       }
     },
     rotateFurni() {
