@@ -4,27 +4,53 @@
     <Tiles></Tiles>
 
     <div id="mainApp" class="container z-10 relative">
-      <header class="header">
-        <header class="z-50 fixed top-0 left-0 w-full bg-opacity-25">
+      <header class="header overflow-hidden">
+        <header
+          class="z-50 bg-black fixed top-0 left-0 w-full flex overflow-hidden"
+        >
+          <!-- If not on homepage, show back button -->
+          <div v-if="$route.path !== '/'" class="fixed ml-4">
+            <router-link to="/" class="text-gray-500 hover:text-gray-700">
+              <div
+                class="h-[42px] flex items-center active:border-gray-500 rounded-md text-sm"
+              >
+                <font-awesome-icon :icon="['fas', 'arrow-left']" /> &nbsp; Back
+                to home
+              </div>
+            </router-link>
+          </div>
           <div
             class="max-w-md h-[42px] mx-auto flex items-center justify-between"
           >
-            <a
-              href="/"
-              class="ml-4 flex-shrink text-white text-[14px] no-underline leading-4 flex items-center space-x-1"
+            <router-link
+              to="/"
+              class="flex-shrink text-white text-[14px] no-underline leading-4 flex items-center space-x-1"
             >
               <img src="/logo.png" class="h-[19px] w-[19px] bg-transparent" />
               <span>Ducket Alpha</span>
-            </a>
+            </router-link>
 
             <!-- <new-room></new-room> -->
+          </div>
+          <div class="fixed right-4">
+            <router-link to="/login" class="text-gray-500 hover:text-gray-700">
+              <div
+                class="h-[42px] flex items-center active:border-gray-500 rounded-md text-sm font-bold"
+              >
+                Login
+              </div>
+            </router-link>
           </div>
         </header>
       </header>
       <div class="scrollable-content">
         <!-- Long content goes here -->
         <div id="viewport" class="sm:pb-4">
-          <router-view></router-view>
+          <router-view v-slot="{ Component }">
+            <transition name="fade" mode="out-in">
+              <component :is="Component" />
+            </transition>
+          </router-view>
           <footer
             class="mt-10 mx-auto text-white my-12 text-center max-w-sm text-xs pb-7 opacity-20"
           >
@@ -114,13 +140,14 @@ export default {
 /* Move the fade transition styles to SplashScreen.vue */
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 1s;
+  transition: opacity 0.4s;
 }
 
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
 }
+
 .isometric-tile::before,
 .isometric-tile::after {
   content: '';
@@ -140,6 +167,21 @@ export default {
   top: 50%;
   border-width: 16px 32px 0 32px;
   border-color: rgba(255, 255, 255, 0.1) transparent transparent transparent;
+}
+
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.3s ease;
+}
+
+.slide-enter,
+.slide-leave-to {
+  transform: translateX(100%);
+}
+
+.slide-enter.home,
+.slide-leave-to.home {
+  transform: translateX(-100%);
 }
 
 .gradient {

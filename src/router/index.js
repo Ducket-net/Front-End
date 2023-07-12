@@ -6,7 +6,6 @@ import CatalogPage from '../pages/CatalogPage.vue';
 import Dashboard from '../pages/static/Dashboard.vue';
 import Login from '@/pages/LoginPage.vue';
 import Logout from '@/pages/Logout.vue';
-import AuthCallback from '@/pages/AuthCallback.vue';
 import SpeechPage from '@/pages/SpeechPage.vue';
 import GamePage from '@/pages/GamePage.vue';
 import SmallRoomPage from '@/pages/SmallRoomPage.vue';
@@ -79,8 +78,6 @@ const routes = [
   },
   { path: '/login', component: Login },
   { path: '/logout', component: Logout },
-  { path: '/auth/callback', component: AuthCallback },
-  { path: '/auth/discord/callback', component: AuthCallback },
   { path: '/speech', name: 'SpeechPage', component: SpeechPage },
   { path: '/:componentName(.*)', component: DynamicComponentLoader },
 ];
@@ -98,9 +95,14 @@ const router = createRouter({
   },
 });
 
-router.beforeEach((to, from) => {
+router.beforeEach((to, from, next) => {
   let title = 'Ducket - ' + to.meta?.title ?? to.name;
   document.title = title;
+
+  const appElement = document.getElementById('app');
+  const routerViewElement = appElement.querySelector('router-view');
+
+  next();
 });
 
 export default router;

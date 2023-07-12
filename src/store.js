@@ -1,6 +1,7 @@
 // src/store.js
 import { createStore } from 'vuex';
 import axios from 'axios';
+import authService from './services/authService';
 const storedAccessToken = localStorage.getItem('access_token');
 const storedUser = JSON.parse(localStorage.getItem('user'));
 
@@ -155,13 +156,8 @@ const store = createStore({
     },
     async authenticate({ commit }, accessToken) {
       try {
-        const response = await axios.get(
-          `${process.env.VUE_APP_API_URL}/api/me`,
-          {
-            headers: { Authorization: `Bearer ${accessToken}` },
-          }
-        );
-        const user = response.data;
+        // Get the user's data from the server
+        const { user } = await authService.getUser(accessToken);
 
         // Save the access token and user data in the Vuex state
         commit('setAccessTokenAndUser', { token: accessToken, user: user });

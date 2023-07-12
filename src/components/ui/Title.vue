@@ -1,5 +1,5 @@
 <template>
-  <header class="text-white text-center z-50 relative top-14">
+  <header class="text-white text-center z-50 relative top-16">
     <h1 class="text-lg font-bold">
       <slot name="title">{{ title }}</slot>
     </h1>

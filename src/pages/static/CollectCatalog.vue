@@ -2,7 +2,7 @@
   <main class="h-full">
     <div v-if="isUserLoggedIn">
       <Title
-        :title="`Welcome ${loggedInUser.user.name}!`"
+        :title="`Welcome ${loggedInUser.name}!`"
         subtitle="Minigames, Collectables, Homepages and more."
       />
     </div>
@@ -57,7 +57,7 @@
         </figure>
       </a>
 
-      <a href="/dashboard">
+      <router-link to="/dashboard">
         <figure class="box red">
           <div class="box-strip"></div>
           <div class="box-gradient"></div>
@@ -72,8 +72,7 @@
             </div>
           </figcaption>
         </figure>
-      </a>
-
+      </router-link>
       <!-- <div class="max-wd-sm overflow-hidden">
         <div class="scale-75 w-[126%] -ml-[13.5%] -my-[3rem]">
           <Tweet

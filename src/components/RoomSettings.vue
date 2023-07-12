@@ -98,7 +98,6 @@
 
 <script>
 import { Sketch } from '@ckpack/vue-color';
-import authService from '@/services/authService';
 import EventBus from '@/eventBus.js';
 import SpecialButton from './SpecialButton.vue';
 
@@ -145,9 +144,6 @@ export default {
       this.$store.commit('setRoomBgColor', hexColor);
       this.$store.commit('saveRoomToLocalStorage');
       EventBus.emit('bg-color-change', hexColor);
-    },
-    authorize() {
-      authService.getAuthorizationCode();
     },
     clearLocalStorage() {
       // Confirm

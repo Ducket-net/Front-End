@@ -1,0 +1,60 @@
+{
+  "id": "room-catalog",
+  "wallColor": "#ffffff",
+  "floorColor": "#ffffff",
+  "hideWalls": true,
+  "hideFloors": true,
+  "avatar": null,
+
+  "items": [
+    {
+      "type": "nft_h23_vintaque_statue",
+      "roomX": 2,
+      "roomY": 2,
+      "roomZ": 0,
+      "direction": 2,
+      "animation": 0
+    },
+    {
+      "type": "rare_daffodil_rug",
+      "roomX": 2.22,
+      "roomY": 0.34,
+      "roomZ": -0.7,
+      "direction": 2,
+      "animation": 0
+    },
+    {
+      "type": "rare_daffodil_rug",
+      "roomX": 2.9,
+      "roomY": 3,
+      "roomZ": 0,
+      "direction": 2,
+      "animation": 1
+    },
+    {
+      "type": "rare_daffodil_rug",
+      "roomX": 0.41,
+      "roomY": 2.39,
+      "roomZ": -0.6,
+      "direction": 2,
+      "animation": 1
+    },
+    {
+      "type": "rare_daffodil_rug",
+      "roomX": 0.49,
+      "roomY": 0.44,
+      "roomZ": -0.44999999999999996,
+      "direction": 2,
+      "animation": 1
+    }
+  ],
+  "settings": {
+    "hideWalls": true,
+    "hideFloor": true,
+    "wallColor": "#EE7BD1",
+    "floorColor": "#FBC02D",
+    "bgColor": "#1A1F25",
+    "x": 0,
+    "y": -100
+  }
+}

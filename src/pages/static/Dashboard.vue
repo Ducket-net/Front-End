@@ -27,7 +27,7 @@
         </h2>
       </SpecialCard>
 
-      <div v-if="!$store.state.user">
+      <div v-if="!isUserLoggedIn">
         <SpecialCard @card-click="authorize">
           <h2 class="font-bold text-sm">
             <font-awesome-icon :icon="['fas', 'lock']" />

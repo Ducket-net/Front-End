@@ -15,30 +15,63 @@ const authService = {
       `${ducketUrl}/oauth/authorize?client_id=` +
       clientId +
       `&redirect_uri=${redirectUri}&response_type=code&scope=*`;
-    window.location.href = url;
+    window.location.replace(url);
   },
 
-  async getAccessToken(code) {
+  async login(username, password) {
     try {
       const response = await axios.post(`${ducketUrl}/oauth/token`, {
-        grant_type: 'authorization_code',
+        grant_type: 'password',
         client_id: clientId,
         client_secret: clientSecret,
-        redirect_uri: `${redirectUri}`,
-        code,
+        username,
+        password,
       });
+
+      if (response.status !== 200) {
+        throw new Error('Invalid response from server');
+      }
       const token = response.data.access_token;
-      // Save token (e.g., in localStorage, Vuex, or cookies)
-      return token;
+      await store.dispatch('authenticate', token);
+
+      return response.data;
     } catch (error) {
-      console.error('Error getting access token:', error);
+      // Laravel Passport standard error response handling
+      if (error.response && error.response.data) {
+        const { data } = error.response;
+        if (data.error && data.error === 'invalid_credentials') {
+          throw new Error('Invalid email or password');
+        } else if (data.error && data.error === 'invalid_request') {
+          throw new Error('Invalid request');
+        } else if (data.message) {
+          throw new Error(data.message);
+        } else {
+          throw new Error('An unknown error occurred');
+        }
+      } else {
+        console.error('Error getting access token:', error);
+      }
+    }
+  },
+
+  async getUser(token) {
+    try {
+      const response = await axios.get(`${ducketUrl}/api/me`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const user = response.data;
+      // Save user (e.g., in localStorage, Vuex, or cookies)
+      return user;
+    } catch (error) {
+      console.error('Error getting user:', error);
     }
   },
 
   async logout() {
     try {
       //Clear Token from Store
-
       store.commit('setAccessTokenAndUser', { token: null, user: null });
 
       localStorage.removeItem('access_token');
