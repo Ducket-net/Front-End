@@ -245,7 +245,6 @@
 <script>
 import { EventBus } from '@/eventBus';
 import { FloorFurniture } from '@tetreum/shroom';
-import { shallowRef } from 'vue';
 import { toRefs } from 'vue';
 
 export default {
@@ -258,7 +257,7 @@ export default {
   data() {
     return {
       increment: 1,
-      selectedItem: shallowRef(null),
+      selectedItem: null,
       isContentVisible: false,
       touchLocked: false,
       actionInProgress: false,
@@ -267,7 +266,7 @@ export default {
   created() {
     EventBus.on('item-selected', (item) => {
       this.selectedItem = item;
-      console.log('GameController: item-selected');
+      console.log('GameController: item-selected', item);
     });
 
     EventBus.on('item-unselected', () => {
@@ -301,10 +300,13 @@ export default {
           const currentIndex = directions.indexOf(this.selectedItem.direction);
 
           // Check if we are at the last direction, if yes set it to first, else set it to the next direction
-          this.selectedItem.direction =
-            currentIndex < directions.length - 1
-              ? directions[currentIndex + 1]
-              : directions[0];
+          //remove game item and readd it
+
+          const direction =
+            currentIndex === directions.length - 1
+              ? directions[0]
+              : directions[currentIndex + 1];
+          this.game.updateItem(this.selectedItem, direction);
         }
       });
     },

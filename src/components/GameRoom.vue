@@ -11,14 +11,12 @@
       tabindex="0"
     >
       <div class="mx-auto relative fade-in">
-      
-
         <canvas
           ref="canvas"
           id="canvas"
           class="w-full fade-in"
           :style="{
-            height: canvasHeight + 'px'
+            height: canvasHeight + 'px',
           }"
         ></canvas>
         <div

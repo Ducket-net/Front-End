@@ -25,6 +25,9 @@
 body,
 html {
   background-color: #000000;
+  background-repeat: repeat;
+  background-position: 38px 44px;
+  background: url('../public/6432-grid_2.png');
   width: 100%;
   height: 100%;
   margin: 0;

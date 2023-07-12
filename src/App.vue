@@ -32,12 +32,21 @@
 
             <!-- <new-room></new-room> -->
           </div>
-          <div class="fixed right-4">
+          <div class="fixed right-4" v-if="!loggedInUser">
             <router-link to="/login" class="text-gray-500 hover:text-gray-700">
               <div
                 class="h-[42px] flex items-center active:border-gray-500 rounded-md text-sm font-bold"
               >
                 Login
+              </div>
+            </router-link>
+          </div>
+          <div class="fixed right-4" v-if="loggedInUser">
+            <router-link to="/login" class="text-gray-500 hover:text-gray-700">
+              <div
+                class="h-[42px] flex items-center active:border-gray-500 rounded-md text-sm font-bold"
+              >
+                {{ loggedInUser.name }}
               </div>
             </router-link>
           </div>

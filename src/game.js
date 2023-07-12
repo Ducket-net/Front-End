@@ -123,15 +123,9 @@ export default class Game {
     });
   }
   onFurnitureItemClick(item) {
-    if (this.selectedFurnitureItem && this.selectedFurnitureItem !== item) {
-      this.room.roomObjects.forEach((object) => {
-        if (object instanceof FloorFurniture && object !== item) {
-          // object.alpha = 0.5;
-        }
-      });
-      // this.alpha = 1;
-      EventBus.emit('item-unselected', this.selectedFurnitureItem);
-    }
+    // if (this.selectedFurnitureItem && this.selectedFurnitureItem !== item) {
+    //   EventBus.emit('item-unselected', this.selectedFurnitureItem);
+    // }
 
     if (this.selectedFurnitureItem === item) {
       EventBus.emit('item-unselected', item);
@@ -249,11 +243,26 @@ export default class Game {
       this.onFurnitureItemClick(this.selectedFurnitureItem);
     }
   }
-  updateItem(itemData) {
+  updateItem(itemData, direction) {
     if (this.selectedFurnitureItem) {
       this.room.removeRoomObject(this.selectedFurnitureItem);
       const updatedItem = this.createAndSetFurnitureItem(itemData);
-      updatedItem.highlight = 1;
+
+      updatedItem.direction = direction;
+
+      updatedItem.onClick = (event) => {
+        //Lock for 500ms
+        if (this.actionLock) {
+          return;
+        }
+        this.actionLock = true;
+        setTimeout(() => {
+          this.actionLock = false;
+        }, 500);
+        this.animateTap(updatedItem);
+
+        this.onFurnitureItemClick(updatedItem);
+      };
 
       this.room.addRoomObject(updatedItem);
       this.selectedFurnitureItem = updatedItem;
@@ -287,7 +296,6 @@ export default class Game {
     if (buildMode) {
       furnitureItem.onClick = (event) => {
         //Lock for 500ms
-        console.log(this.actionLock);
         if (this.actionLock) {
           return;
         }
@@ -296,15 +304,10 @@ export default class Game {
           this.actionLock = false;
         }, 500);
         this.animateTap(furnitureItem);
-        this.onFurnitureItemClick(furnitureItem);
-      };
-      furnitureItem.onDoubleClick = (event) => {
-        //Animaton off and on
-        if (furnitureItem.animation === 1) {
-          furnitureItem.animation = 0;
-        } else {
-          furnitureItem.animation = 1;
-        }
+
+        setTimeout(() => {
+          this.onFurnitureItemClick(furnitureItem);
+        }, 100);
       };
     }
 

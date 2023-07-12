@@ -12,6 +12,9 @@
         <GameRoom roomId="login" size="xs" />
       </section>
       <div class="px-4">
+        <SpecialButton @button-click="manage" buttonClass="w-full mb-2">
+          Manage Account
+        </SpecialButton>
         <SpecialButton @button-click="logout" buttonClass="w-full">
           <font-awesome-icon :icon="['fas', 'sign-out-alt']" />
           Logout
@@ -122,6 +125,9 @@ export default {
     },
     logout() {
       authService.logout();
+    },
+    manage() {
+      location.href = `${process.env.VUE_APP_API_URL}/me/profile`;
     },
   },
 };

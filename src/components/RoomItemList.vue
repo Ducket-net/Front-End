@@ -61,10 +61,6 @@ export default {
     this.localRoomItems = [...this.roomItems].reverse();
   },
   created() {
-    EventBus.on('item-selected', (item) => {
-      this.selectedItem = item;
-    });
-
     EventBus.on('furni-added', (item) => {
       // Add the item to the start of the array
       this.localRoomItems.unshift(item);
@@ -78,17 +74,23 @@ export default {
       );
     });
 
-    EventBus.on('item-selected', (item) => {
+    EventBus.on('select-item', (item) => {
       // Find the index of the selected item
+
+      console.log(this.localRoomItems);
+
       const itemIndex = this.localRoomItems.findIndex((i) => i === item);
 
-      // If the item is found, remove it from its current position
       if (itemIndex !== -1) {
         this.localRoomItems.splice(itemIndex, 1);
 
         // Add the item to the start of the array
         this.localRoomItems.unshift(item);
       }
+
+      this.selectedItem = item;
+
+      // If the item is found, remove it from its current position
     });
 
     EventBus.on('item-unselected', () => {
