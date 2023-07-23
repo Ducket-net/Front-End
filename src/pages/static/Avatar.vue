@@ -1,5 +1,12 @@
 <template>
-  <canvas ref="gameCanvas" id="root"></canvas>
+  <div class="mt-12 text-white">
+    <div
+      class="rounded-lg border-1 border-opacity-50 border-white border w-[150px] mx-auto"
+    >
+      <canvas ref="gameCanvas" id="root" class="w-[150px]"></canvas>
+      {{ effect }}
+    </div>
+  </div>
 </template>
 
 <script>
@@ -17,27 +24,18 @@ export default {
   setup() {
     const gameCanvas = ref(null);
 
-    function createBackground() {
-      // Load the texture from an image URL
-      PIXI.Loader.shared.reset(); // Reset the PIXI.Loader.shared
-      PIXI.Loader.shared
-        .add('backgroundImage', '6432-grid_2.png')
-        .load((_, resources) => {
-          // Create a TilingSprite from the texture
-          const background = new PIXI.TilingSprite(
-            resources.backgroundImage.texture,
-            this.application.screen.width,
-            this.application.screen.height
-          );
+    //High FPS Walk
+    // let effect = ref(194);
 
-          // Set the size of the TilingSprite
-          background.width = this.application.screen.width;
-          background.height = this.application.screen.height;
+    //Jump
+    let effect = ref(193);
 
-          // Add the TilingSprite to the stage
-          this.application.stage.addChildAt(background, 0);
-        });
-    }
+    // 156
+    //165
+    // 175
+    // 185
+    //193
+    //195
 
     onMounted(() => {
       const application = new PIXI.Application({
@@ -46,6 +44,8 @@ export default {
         backgroundColor: 0x1e1e1e,
         resolution: window.devicePixelRatio,
         autoDensity: true,
+        height: 250,
+        width: 200,
       });
 
       const shroom = Shroom.create({
@@ -55,32 +55,31 @@ export default {
 
       const room = Room.create(shroom, {
         tilemap: `
-          00
-          00
+          0
         `,
       });
       room.hideWalls = true;
-      room.x = 200;
-      room.y = 200;
+      room.x = 42;
+      room.y = 175;
 
       const avatar = new Avatar({
-        roomX: 0.5,
-        roomY: 0.5,
+        roomX: 0,
+        roomY: 0,
         roomZ: 0,
         direction: 2,
-        look: 'hd-180-1.hr-828-56.ch-255-1420.lg-281-1420.sh-295-62',
+        look: 'hd-3762-2.hd-180-1.hr-828-56.ch-255-1420.lg-281-1420.sh-295-62',
       });
 
-      avatar.effect = '220';
+      avatar.effect = effect.value.toString();
 
-      // avatar.addAction(AvatarAction.Sleep);
-      avatar.addAction(AvatarAction.Move);
+      avatar.addAction(AvatarAction.Sit);
+      // avatar.addAction(AvatarAction.Lay);
 
       room.addRoomObject(avatar);
       application.stage.addChild(room);
     });
 
-    return { gameCanvas };
+    return { gameCanvas, effect };
   },
 };
 </script>
