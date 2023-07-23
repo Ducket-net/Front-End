@@ -1,24 +1,22 @@
-# my-game
+# Ducket Vue App
 
-## Project setup
-```
-yarn install
-```
+[![Netlify Status](https://api.netlify.com/api/v1/badges/6c03db51-8e02-4ff5-a084-f70ae4929b25/deploy-status)](https://app.netlify.com/sites/fabulous-blini-e83ba4/deploys)
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+## Installation
 
-### Compiles and minifies for production
-```
-yarn build
-```
+👋 Pull down this repo, then run `yarn install` and `yarn serve` to run the app locally.
 
-### Lints and fixes files
-```
-yarn lint
-```
+## Deployment
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Pushing to `main` will trigger a Netlify build and deploy.
+
+To rebuild all of the PWA and app icons run `yarn run pwa`. Which uses pwa-asset-generator to generate the icons.
+
+## Built With
+
+- Vue 3
+- Vue Router
+- Vuex
+- Tailwind CSS
+- Netlify
+- Cloudfare
