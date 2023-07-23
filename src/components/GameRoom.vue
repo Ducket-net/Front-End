@@ -14,12 +14,16 @@
         <canvas
           ref="canvas"
           id="canvas"
-          class="w-full relative z-10"
+          class="w-full"
           :style="{
             height: canvasHeight + 'px',
           }"
         ></canvas>
-        <img src="/floor.png" class="absolute top-0 z-0" />
+        <img
+          src="/floor.png"
+          class="absolute top-0 z-0 touch-none fade-out"
+          v-if="!withController"
+        />
         <div
           class="hexagon"
           :style="{ left: canvasWidth / 2 + 'px' }"
@@ -349,6 +353,34 @@ export default {
 };
 </script>
 <style scoped>
+.fade-out {
+  -webkit-animation: 1.5s ease 0s normal forwards 1 fadeout;
+  animation: 1.5s ease 0s normal forwards 1 fadeout;
+}
+
+@keyframes fadeout {
+  0% {
+    opacity: 1;
+  }
+  66% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes fadeout {
+  0% {
+    opacity: 1;
+  }
+  66% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
 .fade-in {
   -webkit-animation: 1.5s ease 0s normal forwards 1 fadein;
   animation: 1.5s ease 0s normal forwards 1 fadein;
