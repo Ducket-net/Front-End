@@ -119,7 +119,7 @@ export default class Game {
   createShroom() {
     return Shroom.create({
       application: this.application,
-      resourcePath: 'https://ducket-net.github.io/resources',
+      resourcePath: 'https://ducket.net/resources',
     });
   }
   onFurnitureItemClick(item) {

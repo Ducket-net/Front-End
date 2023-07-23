@@ -10,15 +10,16 @@
       class="relative"
       tabindex="0"
     >
-      <div class="mx-auto relative fade-in">
+      <div class="mx-auto relative">
         <canvas
           ref="canvas"
           id="canvas"
-          class="w-full fade-in"
+          class="w-full relative z-10"
           :style="{
             height: canvasHeight + 'px',
           }"
         ></canvas>
+        <img src="/floor.png" class="absolute top-0 z-0" />
         <div
           class="hexagon"
           :style="{ left: canvasWidth / 2 + 'px' }"
@@ -349,8 +350,8 @@ export default {
 </script>
 <style scoped>
 .fade-in {
-  -webkit-animation: 1.9s ease 0s normal forwards 1 fadein;
-  animation: 1.9s ease 0s normal forwards 1 fadein;
+  -webkit-animation: 1.5s ease 0s normal forwards 1 fadein;
+  animation: 1.5s ease 0s normal forwards 1 fadein;
 }
 
 @keyframes fadein {
