@@ -2,6 +2,8 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/6c03db51-8e02-4ff5-a084-f70ae4929b25/deploy-status)](https://app.netlify.com/sites/fabulous-blini-e83ba4/deploys)
 
+Production URL: https://ducket.net | Sandbox URL: https://sandbox.ducket.net
+
 ## Installation
 
 👋 Pull down this repo, then run `yarn install` and `yarn serve` to run the app locally.
