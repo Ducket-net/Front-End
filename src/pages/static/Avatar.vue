@@ -83,6 +83,50 @@
           </option>
         </select>
       </div>
+      <div>
+        <label for="emote" class="text-white text-sm pb-1.5 block">
+          Emote
+        </label>
+        <select
+          class="input-class text-black"
+          v-model="emote"
+          @change="updateEmote"
+        >
+          <option value="Move" id="Move">"Move"</option>
+          <option value="Wave" id="Wave">"Wave"</option>
+          <option value="Talk" id="Talk">"Talk"</option>
+          <option value="Swim" id="Swim">"Swim"</option>
+          <option value="Float" id="Float">"Float"</option>
+          <option value="Sign" id="Sign">"Sign"</option>
+          <option value="Respect" id="Respect">"Respect"</option>
+          <option value="Blow" id="Blow">"Blow"</option>
+          <option value="Laugh" id="Laugh">"Laugh"</option>
+          <option value="SnowWarRun" id="SnowWarRun">"SnowWarRun"</option>
+          <option value="SnowWarDieFront" id="SnowWarDieFront">
+            "SnowWarDieFront"
+          </option>
+          <option value="SnowWarDieBack" id="SnowWarDieBack">
+            "SnowWarDieBack"
+          </option>
+          <option value="SnowWarPick" id="SnowWarPick">"SnowWarPick"</option>
+          <option value="SnowWarThrow" id="SnowWarThrow">"SnowWarThrow"</option>
+          <option value="Lay" id="Lay">"Lay"</option>
+          <option value="Sit" id="Sit">"Sit"</option>
+          <option value="Idle" id="Idle">"Idle"</option>
+          <option value="Dance" id="Dance">"Dance"</option>
+          <option value="UseItem" id="UseItem">"UseItem"</option>
+          <option value="CarryItem" id="CarryItem">"CarryItem"</option>
+          <option value="Gesture" id="Gesture">"Gesture"</option>
+          <option value="GestureSmile" id="GestureSmile">"GestureSmile"</option>
+          <option value="GestureSad" id="GestureSad">"GestureSad"</option>
+          <option value="GestureAngry" id="GestureAngry">"GestureAngry"</option>
+          <option value="GestureSurprised" id="GestureSurprised">
+            "GestureSurprised"
+          </option>
+          <option value="Sleep" id="Sleep">"Sleep"</option>
+          <option value="Default" id="Default">"Default"</option>
+        </select>
+      </div>
       <div class="border-t border-white border-1 pt-2 mt-6 border-opacity-25">
         <SpecialButton
           class="w-full mt-2 text-sm"
@@ -124,6 +168,7 @@ export default {
     });
     //Jump
     let effect = ref(0);
+    let emote = ref('');
     let look = ref('hd-180-1.hr-828-56.ch-255-1420.lg-281-1420.sh-295-62');
     //Watch for change of effect
     onMounted(async () => {
@@ -162,11 +207,18 @@ export default {
       avatar.effect = effect.value.toString();
       // avatar.addAction(AvatarAction.Sit);
       // avatar.addAction(AvatarAction.Lay);
+      avatar.addAction(AvatarAction[emote.value]);
       room.addRoomObject(avatar);
       application.stage.addChild(room);
       loading.value = false;
     }
     function updateEffect() {
+      room.removeRoomObject(avatar);
+      renderAvatar(application, room);
+    }
+
+    function updateEmote() {
+      console.log(emote.value);
       room.removeRoomObject(avatar);
       renderAvatar(application, room);
     }
@@ -238,6 +290,8 @@ export default {
       country,
       username,
       loading,
+      emote,
+      updateEmote,
     };
   },
   components: { SpecialButton },
