@@ -175,20 +175,15 @@ export default {
       //Loading
       loading.value = true;
       room.removeRoomObject(avatar);
-      renderAvatar(application, room);
-
-      room.removeRoomObject(avatar);
       //Get from https://api.ducket.net/habbo/{username}
 
       axios
         .get('https://api.ducket.net/api/habbo/' + username.value + '/')
         .then((response) => {
           const data = response.data;
-          look = data.figureString;
+          look = ref(data.figureString);
           renderAvatar(application, room);
         });
-
-      renderAvatar(application, room);
     }
 
     function prepareRoomForDownload() {
