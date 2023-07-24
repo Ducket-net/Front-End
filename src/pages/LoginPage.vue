@@ -134,25 +134,6 @@ export default {
 </script>
 
 <style scoped>
-.input-class {
-  background-color: #f1f1f1;
-  border: 1px solid black;
-  box-shadow: inset 0 1px 0 rgb(255, 255, 255), inset 0 -1px 0 rgb(53, 53, 53);
-  padding: 12px 16px;
-  font-size: 16px;
-  border-radius: 4px;
-  outline: none;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.input-class:focus {
-  border-color: #495057;
-  box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.1),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.1), 0 0 0 0.2rem rgba(73, 80, 87, 0.25);
-}
-
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s;

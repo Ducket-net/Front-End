@@ -23,13 +23,13 @@
     </section>
 
     <div class="grid gap-3 p-2">
-      <figure class="box white" @click="twitter">
+      <figure class="box green" @click="twitter">
         <div class="box-strip"></div>
         <div class="box-gradient"></div>
         <img src="/hotel-views/web_view_bg_cn2.gif" alt="Room Name" />
         <figcaption>
           <div class="flex justify-start gap-2 items-center">
-            <div>👾</div>
+            <div>🌳</div>
             <div>
               Join the Waitlist
               <p class="text-xs opacity-70">
@@ -47,10 +47,29 @@
           <img src="/hotel-views/web_view_bg_nl.gif" alt="Room Name" />
           <figcaption>
             <div class="flex justify-start gap-2 items-center">
-              <div>📊</div>
+              <div>👔</div>
               <div>
                 Rare Values
                 <p class="text-xs opacity-70">Live rare values on [.com]</p>
+              </div>
+            </div>
+          </figcaption>
+        </figure>
+      </a>
+
+      <a href="https://www.ducket.net/Avatar">
+        <figure class="box yellow">
+          <div class="box-strip"></div>
+          <div class="box-gradient"></div>
+          <img src="/hotel-views/web_view_bg_nl.gif" alt="Room Name" />
+          <figcaption>
+            <div class="flex justify-start gap-2 items-center">
+              <div>⭐️</div>
+              <div>
+                Avatar Creator
+                <p class="text-xs opacity-70">
+                  Open Labs - Check it out, with effects.
+                </p>
               </div>
             </div>
           </figcaption>
@@ -213,6 +232,10 @@ export default {
 
 .green {
   background: #007f00 !important;
+}
+
+.yellow {
+  background: #7f7f00 !important;
 }
 
 .box {
