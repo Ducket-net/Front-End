@@ -26,7 +26,7 @@
                 Habbo Username
               </label>
 
-              <div class="grid grid-cols-[auto,100px] gap-1">
+              <div class="grid grid-cols-[1.5fr,1fr] gap-1">
                 <input
                   type="text"
                   class="input-class text-black"
@@ -179,7 +179,7 @@ export default {
     let shroom = null;
     let avatar = null;
     let loading = ref(true);
-    let country = ref('us');
+    let country = ref('com');
     const state = reactive({
       items: [{ id: 0, lib: 'None' }],
     });
