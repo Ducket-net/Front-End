@@ -18,114 +18,130 @@
     </div>
 
     <div class="p-4 grid gap-2">
-      <div>
-        <label for="effect" class="text-white text-sm pb-1.5 block">
-          Habbo Username
-        </label>
+      <div class="">
+        <form @submit.prevent="updateAvatarLook">
+          <div class="grid gap-1">
+            <div>
+              <label for="effect" class="text-white text-sm pb-1.5 block">
+                Habbo Username
+              </label>
 
-        <div class="grid grid-cols-[auto,100px] gap-1">
-          <input
-            type="text"
+              <div class="grid grid-cols-[auto,100px] gap-1">
+                <input
+                  type="text"
+                  class="input-class text-black"
+                  v-model="username"
+                  required
+                />
+                <!-- Country Select -->
+                <select class="input-class text-black" v-model="country">
+                  <option id="us" value="com">English - COM</option>
+                  <option id="es" value="es">Spanish - ES</option>
+                  <option id="pr_br" value="com.br">Portuguese - PT/BR</option>
+                  <option id="fr" value="fr">French - FR</option>
+                  <option id="nl" value="nl">Dutch - NL</option>
+                  <option id="fi" value="fi">Finnish - FI</option>
+                  <option id="au" value="it">Italian - IT</option>
+                  <option id="au" value="de">German - DE</option>
+                  <option id="com_tr" value="com.tr">Turkish - TR</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <SpecialButton
+                class="w-full mt-2 text-sm bg-green-500 text-white"
+                :color="`bg-green-500`"
+                :icon="['fas', 'sync-alt']"
+              >
+                Update Avatar
+              </SpecialButton>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="grid grid-cols-2 gap-1">
+        <div>
+          <label for="effect" class="text-white text-sm pb-1.5 block">
+            Effect
+          </label>
+          <select
             class="input-class text-black"
-            v-model="username"
-          />
-          <!-- Country Select -->
-          <select class="input-class text-black" v-model="country">
-            <option id="us" value="us">COM</option>
-            <option id="es" value="es">ES</option>
-            <option id="fi" value="fi">FI</option>
-            <option id="au" value="au">IT</option>
-            <option id="au" value="au">DE</option>
+            v-model="effect"
+            @change="updateEffect"
+          >
+            <option v-for="item in state.items" :key="item.id" :value="item.id">
+              {{ item.lib }}
+            </option>
+          </select>
+        </div>
+        <div>
+          <label for="emote" class="text-white text-sm pb-1.5 block">
+            Emote
+          </label>
+          <select
+            class="input-class text-black"
+            v-model="emote"
+            @change="updateEmote"
+          >
+            <option value="None" id="None">None</option>
+            <option value="Move" id="Move">Move</option>
+            <option value="Wave" id="Wave">Wave</option>
+            <option value="Talk" id="Talk">Talk</option>
+            <option value="Swim" id="Swim">Swim</option>
+            <option value="Float" id="Float">Float</option>
+            <option value="Sign" id="Sign">Sign</option>
+            <option value="Respect" id="Respect">Respect</option>
+            <option value="Blow" id="Blow">Blow</option>
+            <option value="Laugh" id="Laugh">Laugh</option>
+            <option value="Lay" id="Lay">Lay</option>
+            <option value="Sit" id="Sit">Sit</option>
+            <option value="Idle" id="Idle">Idle</option>
+            <option value="Dance" id="Dance">Dance</option>
+            <option value="UseItem" id="UseItem">UseItem</option>
+            <option value="CarryItem" id="CarryItem">CarryItem</option>
+            <option value="Gesture" id="Gesture">Gesture</option>
+            <option value="GestureSmile" id="GestureSmile">GestureSmile</option>
+            <option value="GestureSad" id="GestureSad">GestureSad</option>
+            <option value="GestureAngry" id="GestureAngry">GestureAngry</option>
+            <option value="GestureSurprised" id="GestureSurprised">
+              GestureSurprised
+            </option>
+            <option value="Sleep" id="Sleep">Sleep</option>
+            <option value="Default" id="Default">Default</option>
           </select>
         </div>
       </div>
       <div>
-        <SpecialButton
-          class="w-full mt-2 text-sm bg-green-500"
-          @button-click="updateAvatarLook"
-          :icon="['fas', 'sync-alt']"
-        >
-          Update Avatar
-        </SpecialButton>
-      </div>
-      <div>
-        <label for="effect" class="text-white text-sm pb-1.5 block">
-          Habbo Look String (Override)
-        </label>
-        <p class="text-xs text-gray-400 pb-2">
-          <a
-            class="underline"
-            target="_blank"
-            href="http://labs.habox.org/generator-avatar"
-            >Get Code from url on Habbox imager.</a
-          ><br />
-          Example: hd-180-1.hr-828-56.ch-255-1420.lg-281-1420.sh-295-62
-        </p>
-        <input
-          type="text"
-          class="input-class text-black"
-          v-model="look"
-          @change="updateAvatarLook"
-        />
-      </div>
+        <!-- Advanced Expander -->
 
-      <div>
-        <label for="effect" class="text-white text-sm pb-1.5 block">
-          Effect
-        </label>
-        <select
-          class="input-class text-black"
-          v-model="effect"
-          @change="updateEffect"
+        <div
+          class="text-gray-500 text-sm block underline cursor-pointer"
+          @click="advanced = !advanced"
         >
-          <option v-for="item in state.items" :key="item.id" :value="item.id">
-            {{ item.lib }}
-          </option>
-        </select>
-      </div>
-      <div>
-        <label for="emote" class="text-white text-sm pb-1.5 block">
-          Emote
-        </label>
-        <select
-          class="input-class text-black"
-          v-model="emote"
-          @change="updateEmote"
-        >
-          <option value="Move" id="Move">"Move"</option>
-          <option value="Wave" id="Wave">"Wave"</option>
-          <option value="Talk" id="Talk">"Talk"</option>
-          <option value="Swim" id="Swim">"Swim"</option>
-          <option value="Float" id="Float">"Float"</option>
-          <option value="Sign" id="Sign">"Sign"</option>
-          <option value="Respect" id="Respect">"Respect"</option>
-          <option value="Blow" id="Blow">"Blow"</option>
-          <option value="Laugh" id="Laugh">"Laugh"</option>
-          <option value="SnowWarRun" id="SnowWarRun">"SnowWarRun"</option>
-          <option value="SnowWarDieFront" id="SnowWarDieFront">
-            "SnowWarDieFront"
-          </option>
-          <option value="SnowWarDieBack" id="SnowWarDieBack">
-            "SnowWarDieBack"
-          </option>
-          <option value="SnowWarPick" id="SnowWarPick">"SnowWarPick"</option>
-          <option value="SnowWarThrow" id="SnowWarThrow">"SnowWarThrow"</option>
-          <option value="Lay" id="Lay">"Lay"</option>
-          <option value="Sit" id="Sit">"Sit"</option>
-          <option value="Idle" id="Idle">"Idle"</option>
-          <option value="Dance" id="Dance">"Dance"</option>
-          <option value="UseItem" id="UseItem">"UseItem"</option>
-          <option value="CarryItem" id="CarryItem">"CarryItem"</option>
-          <option value="Gesture" id="Gesture">"Gesture"</option>
-          <option value="GestureSmile" id="GestureSmile">"GestureSmile"</option>
-          <option value="GestureSad" id="GestureSad">"GestureSad"</option>
-          <option value="GestureAngry" id="GestureAngry">"GestureAngry"</option>
-          <option value="GestureSurprised" id="GestureSurprised">
-            "GestureSurprised"
-          </option>
-          <option value="Sleep" id="Sleep">"Sleep"</option>
-          <option value="Default" id="Default">"Default"</option>
-        </select>
+          Advanced
+        </div>
+
+        <div v-if="advanced">
+          <label for="effect" class="text-white text-sm pb-1.5 pt-4 block">
+            Habbo Look String (Override)
+          </label>
+          <p class="text-xs text-gray-400 pb-2">
+            <a
+              class="underline"
+              target="_blank"
+              href="http://labs.habox.org/generator-avatar"
+              >Get Code from url on Habbox imager.</a
+            ><br />
+            Example: hd-180-1.hr-828-56.ch-255-1420.lg-281-1420.sh-295-62
+          </p>
+          <input
+            type="text"
+            class="input-class text-black"
+            v-model="look"
+            @change="updateAvatarLook"
+          />
+        </div>
       </div>
       <div class="border-t border-white border-1 pt-2 mt-6 border-opacity-25">
         <SpecialButton
@@ -157,6 +173,7 @@ export default {
   setup() {
     const gameCanvas = ref(null);
     let application = null;
+    let advanced = ref(false);
     let username = ref('');
     let room = null;
     let shroom = null;
@@ -168,7 +185,7 @@ export default {
     });
     //Jump
     let effect = ref(0);
-    let emote = ref('');
+    let emote = ref('None');
     let look = ref('hd-180-1.hr-828-56.ch-255-1420.lg-281-1420.sh-295-62');
     //Watch for change of effect
     onMounted(async () => {
@@ -230,7 +247,12 @@ export default {
       //Get from https://api.ducket.net/habbo/{username}
 
       axios
-        .get('https://api.ducket.net/api/habbo/' + username.value + '/')
+        .get(
+          'https://api.ducket.net/api/habbo/' +
+            username.value +
+            '/' +
+            country.value
+        )
         .then((response) => {
           const data = response.data;
           look = ref(data.figureString);
@@ -292,6 +314,7 @@ export default {
       loading,
       emote,
       updateEmote,
+      advanced,
     };
   },
   components: { SpecialButton },

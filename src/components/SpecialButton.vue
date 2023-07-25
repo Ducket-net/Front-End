@@ -1,7 +1,7 @@
 <template>
   <button
-    class="overflow-hidden z-0 relative top-0 rounded-lg w-[50px] furni-box h-[50px] border border-black bottom-1 bg-gray-200 flex-shrink-0 flex items-center justify-center p-1 active:shadow-inner active:border-2 active:border-blue-500 active:bg-blue-300"
-    :class="buttonClass"
+    class="text-black overflow-hidden z-0 relative top-0 rounded-lg w-[50px] furni-box h-[50px] border border-black bottom-1 flex-shrink-0 flex items-center justify-center p-1 active:shadow-inner active:border-2 active:border-blue-500 active:bg-blue-300"
+    :class="buttonClass + ' ' + color"
     @click="$emit('button-click')"
   >
     <slot></slot>
@@ -47,6 +47,10 @@ export default {
     icon: {
       type: Array,
       required: false,
+    },
+    color: {
+      type: String,
+      default: 'bg-[#F1F1F1]',
     },
   },
 };
