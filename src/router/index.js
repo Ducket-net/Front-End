@@ -16,6 +16,7 @@ import Page from '@/pages/Page.vue';
 import Wired from '@/pages/Wired.vue';
 import DynamicComponentLoader from '@/pages/DynamicComponentLoader.vue';
 import CollectCatalog from '@/pages/static/CollectCatalog.vue';
+import Avatar from '@/pages/Avatar.vue';
 
 const routes = [
   {
@@ -31,6 +32,7 @@ const routes = [
     name: 'Dashboard',
     component: Dashboard, // Set the home component for the root URL
   },
+  { path: '/avatar', component: Avatar, name: 'Avatar Maker' },
   {
     path: '/catalog-sink',
     name: 'Catalog Sink',

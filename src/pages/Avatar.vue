@@ -1,7 +1,19 @@
 <template>
-  <div class="mt-12 text-white">
+  <div class="text-white h-full">
+    <div v-if="isUserLoggedIn">
+      <Title
+        :title="`Welcome ${loggedInUser.name}!`"
+        subtitle="Try our our new avatar creator."
+      />
+    </div>
+    <div v-else>
+      <Title
+        title="Design your Avatar"
+        subtitle="Create your own unique avatar."
+      />
+    </div>
     <div
-      class="relative rounded-lg border-1 border-opacity-50 border-white border w-[150px] mx-auto overflow-hidden"
+      class="relative rounded-lg mt-20 border-1 border-opacity-50 border-white border w-[150px] mx-auto overflow-hidden"
     >
       <div
         v-if="loading"
@@ -161,6 +173,7 @@ import SpecialButton from '@/components/SpecialButton.vue';
 import * as PIXI from 'pixi.js';
 import xml2js from 'xml-js';
 import axios from 'axios';
+import Title from '@/components/ui/Title.vue';
 import {
   Room,
   Avatar,
@@ -170,6 +183,8 @@ import {
 } from '@tetreum/shroom';
 
 export default {
+  name: 'Avatar',
+
   setup() {
     const gameCanvas = ref(null);
     let application = null;
@@ -257,6 +272,36 @@ export default {
           const data = response.data;
           look = ref(data.figureString);
           renderAvatar(application, room);
+
+          if (localStorage.getItem('access_token')) {
+            //Update api.ducket.net/api/keyValueStore
+            // Bearer Token
+            // key
+            // value
+            // sub_key
+
+            axios
+              .post(
+                'https://api.ducket.net/api/keyValueStore',
+                {
+                  key: 'avatar',
+                  value: data.figureString,
+                  sub_key: username.value,
+                },
+                {
+                  headers: {
+                    Authorization:
+                      'Bearer ' + localStorage.getItem('access_token'),
+                  },
+                }
+              )
+              .then((response) => {
+                console.log(response);
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          }
         });
     }
 
@@ -315,9 +360,10 @@ export default {
       emote,
       updateEmote,
       advanced,
+      Title,
     };
   },
-  components: { SpecialButton },
+  components: { SpecialButton, Title },
 };
 </script>
 

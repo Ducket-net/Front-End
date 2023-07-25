@@ -57,7 +57,7 @@
         </figure>
       </a>
 
-      <a href="https://www.ducket.net/Avatar">
+      <router-link to="/avatar">
         <figure class="box yellow">
           <div class="box-strip"></div>
           <div class="box-gradient"></div>
@@ -74,7 +74,7 @@
             </div>
           </figcaption>
         </figure>
-      </a>
+      </router-link>
 
       <router-link to="/dashboard">
         <figure class="box red">
