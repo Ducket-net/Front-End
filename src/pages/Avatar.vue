@@ -1,6 +1,9 @@
 <template>
   <div class="text-white h-full">
-    <div v-if="isUserLoggedIn">
+    <div v-if="habboName">
+      <Title :title="`${habboName}`" :subtitle="`${motto}`" />
+    </div>
+    <div v-else-if="isUserLoggedIn">
       <Title
         :title="`Welcome ${loggedInUser.name}!`"
         subtitle="Customize your Habbo."
@@ -266,6 +269,7 @@ export default {
     let effect = ref(0);
     let emote = ref('None');
     let look = ref('');
+    let motto = ref('');
     //Watch for change of effect
     onMounted(async () => {
       application = new PIXI.Application({
@@ -349,6 +353,7 @@ export default {
         );
         const data = response.data;
         look = ref(data.figureString);
+        motto.value = data.motto;
         renderAvatar(application, room);
 
         if (localStorage.getItem('access_token')) {
@@ -507,6 +512,7 @@ export default {
       updateBackgroundColor,
       floorColor,
       updateFloorColor,
+      motto,
     };
   },
   components: { SpecialButton, Title },
