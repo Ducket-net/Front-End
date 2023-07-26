@@ -9,22 +9,84 @@
     <div v-else>
       <Title title="Design your Avatar" subtitle="Customize your Habbo." />
     </div>
-    <div
-      class="relative rounded-lg mt-20 border-1 border-opacity-50 border-white border w-[150px] mx-auto overflow-hidden"
-    >
-      <div
-        v-if="loading"
-        class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-20 flex items-center justify-center"
-      >
-        <div class="text-white text-center">
-          <div class="animate-pulse">
-            <i class="fas fa-spinner fa-spin fa-2x"></i>
-          </div>
-          <p class="text-xs">Loading...</p>
+    <section class="mt-20 flex">
+      <div class="absolute left-5 items-center justify-center">
+        <div
+          class="bg-black bg-opacity-50 text-center rounded-lg p-2 mt-2 items-center justify-center"
+        >
+          <input
+            v-model="backgroundColor"
+            type="color"
+            class="colorPicker"
+            @change="updateBackgroundColor"
+          />
+          <label
+            for="effect"
+            class="text-white text-xs block uppercase font-mono"
+          >
+            <font-awesome-icon icon="palette" />
+            BG
+          </label>
+        </div>
+        <div
+          class="bg-black bg-opacity-50 text-center rounded-lg p-2 mt-2 items-center justify-center"
+        >
+          <SpecialButton
+            class="w-fulltext-sm text-gray-900"
+            @button-click="prepareRoomForDownload"
+          >
+            <font-awesome-icon icon="download" />
+          </SpecialButton>
         </div>
       </div>
-      <canvas ref="gameCanvas" id="root" class="w-[150px]"></canvas>
-    </div>
+
+      <div class="absolute right-5 items-center justify-center">
+        <div
+          class="bg-black bg-opacity-50 text-center rounded-lg p-2 mt-2 items-center justify-center"
+        >
+          <input
+            v-model="floorColor"
+            type="color"
+            class="colorPicker"
+            @change="updateFloorColor"
+          />
+          <label
+            for="effect"
+            class="text-white text-xs block uppercase font-mono"
+          >
+            Floor
+          </label>
+        </div>
+        <div
+          class="bg-black bg-opacity-50 text-center rounded-lg p-2 mt-2 items-center justify-center"
+        >
+          <SpecialButton
+            class="w-fulltext-sm text-white"
+            @button-click="updateAvatarLook"
+            :color="`bg-green-500`"
+          >
+            <font-awesome-icon icon="sync" />
+          </SpecialButton>
+        </div>
+      </div>
+
+      <div
+        class="relative rounded-lg border-1 border-opacity-50 border-white border w-[150px] mx-auto overflow-hidden"
+      >
+        <div
+          v-if="loading"
+          class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-20 flex items-center justify-center"
+        >
+          <div class="text-white text-center">
+            <div class="animate-pulse">
+              <i class="fas fa-spinner fa-spin fa-2x"></i>
+            </div>
+            <p class="text-xs">Loading...</p>
+          </div>
+        </div>
+        <canvas ref="gameCanvas" id="root" class="w-[150px]"></canvas>
+      </div>
+    </section>
 
     <div class="p-4 grid gap-2">
       <div class="">
@@ -55,15 +117,6 @@
                   <option id="com_tr" value="com.tr">Turkish - TR</option>
                 </select>
               </div>
-            </div>
-            <div>
-              <SpecialButton
-                class="w-full mt-2 text-sm bg-green-500 text-white"
-                :color="`bg-green-500`"
-                :icon="['fas', 'sync-alt']"
-              >
-                Update Avatar
-              </SpecialButton>
             </div>
           </div>
         </form>
@@ -151,23 +204,6 @@
             @change="updateAvatarLook"
           />
         </div>
-        <div>
-          <input
-            v-model="backgroundColor"
-            type="color"
-            id="head"
-            name="head"
-            @change="updateBackgroundColor"
-          />
-        </div>
-      </div>
-      <div class="border-t border-white border-1 pt-2 mt-6 border-opacity-25">
-        <SpecialButton
-          class="w-full mt-2 text-sm"
-          @button-click="prepareRoomForDownload"
-        >
-          Download (PNG)
-        </SpecialButton>
       </div>
     </div>
   </div>
@@ -184,8 +220,8 @@ import {
   Room,
   Avatar,
   Shroom,
-  BaseAvatar,
   AvatarAction,
+  loadRoomTexture,
 } from '@tetreum/shroom';
 import { hexToNumber } from '@/utils';
 
@@ -207,14 +243,10 @@ export default {
     }
 
     const gameCanvas = ref(null);
-    let backgroundColor = ref('#ff0000');
+    let backgroundColor = ref('#ff0088');
     let strippedColor = backgroundColor.value.replace('#', '');
-    console.log('Stripped Color');
-    console.log(strippedColor);
     let backgroundNumber = hexToNumber(strippedColor);
-    console.log('BG COlor');
-    console.log(backgroundNumber);
-
+    let floorColor = ref('#e6e6e6');
     let application = null;
     let advanced = ref(false);
     let username = ref('');
@@ -230,7 +262,7 @@ export default {
     //Jump
     let effect = ref(0);
     let emote = ref('None');
-    let look = ref('hd-180-1.hr-828-56.ch-255-1420.lg-281-1420.sh-295-62');
+    let look = ref('');
     //Watch for change of effect
     onMounted(async () => {
       application = new PIXI.Application({
@@ -239,7 +271,7 @@ export default {
         backgroundColor: backgroundNumber,
         resolution: window.devicePixelRatio,
         autoDensity: true,
-        height: 250,
+        height: 300,
         width: 150,
       });
       shroom = Shroom.create({
@@ -248,10 +280,13 @@ export default {
       });
       room = Room.create(shroom, {
         tilemap: `
-          0
+          00
+          00
         `,
       });
       room.hideWalls = true;
+      room.floorColor = floorColor.value;
+      room.floorTexture = loadRoomTexture('newTile.png');
       room.x = 42;
       room.y = 175;
       await fetchXMLData();
@@ -259,8 +294,8 @@ export default {
     });
     function renderAvatar(application, room) {
       avatar = new Avatar({
-        roomX: 0,
-        roomY: 0,
+        roomX: 0.5,
+        roomY: 0.5,
         roomZ: 0,
         direction: 2,
         look: look.value,
@@ -284,8 +319,17 @@ export default {
       renderAvatar(application, room);
     }
 
+    function updateFloorColor() {
+      room.floorColor = floorColor.value;
+    }
+
     async function updateAvatarLook() {
       // Loading
+
+      if (username.value == '') {
+        alert('Please enter a username.');
+        return;
+      }
       loading.value = true;
       room.removeRoomObject(avatar);
 
@@ -385,6 +429,8 @@ export default {
       backgroundColor,
       backgroundNumber,
       updateBackgroundColor,
+      floorColor,
+      updateFloorColor,
     };
   },
   components: { SpecialButton, Title },
@@ -394,5 +440,25 @@ export default {
 <style scoped>
 #root {
   /* Add your styles here */
+}
+
+/*------ Style 2 ------*/
+.colorPicker {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  width: 42px;
+  height: 60px;
+  border: none;
+  cursor: pointer;
+}
+.colorPicker::-webkit-color-swatch {
+  border-radius: 5px;
+  border: 2px solid #ffffff;
+}
+.colorPicker::-moz-color-swatch {
+  border-radius: 5px;
+  border: 2px solid #fffdfd;
 }
 </style>
