@@ -67,6 +67,7 @@
             class="w-fulltext-sm text-white"
             @button-click="updateAvatarLook"
             :color="`bg-green-500`"
+            :class="{ 'bg-gray-500': !habboName, 'bg-green-500': habboName }"
           >
             <font-awesome-icon icon="sync" />
           </SpecialButton>
@@ -427,14 +428,14 @@ export default {
               // Create a new canvas for the background and avatar
               const finalCanvas = document.createElement('canvas');
               finalCanvas.width = 150;
-              finalCanvas.height = 250;
+              finalCanvas.height = 300;
               const ctx = finalCanvas.getContext('2d');
 
               // Draw the background color
               ctx.fillStyle = `#${backgroundNumber
                 .toString(16)
                 .padStart(6, '0')}`;
-              ctx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
+              // ctx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
 
               // Draw the avatar canvas on top of the background
               ctx.drawImage(avatarCanvas, 0, 0);
