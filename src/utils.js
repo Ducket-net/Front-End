@@ -4,8 +4,13 @@ export const isIOS17 = () => {
   return iOS17Regex.test(navigator.userAgent);
 };
 
+export const hexToNumber = (hex) => {
+  return parseInt(hex, 16);
+};
+
 export default {
   install(app) {
     app.config.globalProperties.$isIOS17 = isIOS17;
+    app.config.globalProperties.$hexToNumber = hexToNumber;
   },
 };

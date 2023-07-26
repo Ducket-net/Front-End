@@ -151,6 +151,15 @@
             @change="updateAvatarLook"
           />
         </div>
+        <div>
+          <input
+            v-model="backgroundColor"
+            type="color"
+            id="head"
+            name="head"
+            @change="updateBackgroundColor"
+          />
+        </div>
       </div>
       <div class="border-t border-white border-1 pt-2 mt-6 border-opacity-25">
         <SpecialButton
@@ -178,12 +187,34 @@ import {
   BaseAvatar,
   AvatarAction,
 } from '@tetreum/shroom';
+import { hexToNumber } from '@/utils';
 
 export default {
   name: 'Avatar',
 
   setup() {
+    hexToNumber((hex) => {
+      //Strip # if it appears
+      hex = hex.replace('#', '');
+      //Convert 3 digit hex to 6 digit hex
+      return parseInt(hex, 16);
+    });
+
+    function updateBackgroundColor() {
+      strippedColor = backgroundColor.value.replace('#', '');
+      backgroundNumber = hexToNumber(strippedColor);
+      application.renderer.backgroundColor = backgroundNumber;
+    }
+
     const gameCanvas = ref(null);
+    let backgroundColor = ref('#ff0000');
+    let strippedColor = backgroundColor.value.replace('#', '');
+    console.log('Stripped Color');
+    console.log(strippedColor);
+    let backgroundNumber = hexToNumber(strippedColor);
+    console.log('BG COlor');
+    console.log(backgroundNumber);
+
     let application = null;
     let advanced = ref(false);
     let username = ref('');
@@ -192,6 +223,7 @@ export default {
     let avatar = null;
     let loading = ref(true);
     let country = ref('com');
+
     const state = reactive({
       items: [{ id: 0, lib: 'None' }],
     });
@@ -204,7 +236,7 @@ export default {
       application = new PIXI.Application({
         view: gameCanvas.value,
         transparent: false,
-        backgroundColor: 1973790,
+        backgroundColor: backgroundNumber,
         resolution: window.devicePixelRatio,
         autoDensity: true,
         height: 250,
@@ -350,6 +382,9 @@ export default {
       updateEmote,
       advanced,
       Title,
+      backgroundColor,
+      backgroundNumber,
+      updateBackgroundColor,
     };
   },
   components: { SpecialButton, Title },
