@@ -3,14 +3,11 @@
     <div v-if="isUserLoggedIn">
       <Title
         :title="`Welcome ${loggedInUser.name}!`"
-        subtitle="Try our our new avatar creator."
+        subtitle="Customize your Habbo."
       />
     </div>
     <div v-else>
-      <Title
-        title="Design your Avatar"
-        subtitle="Create your own unique avatar."
-      />
+      <Title title="Design your Avatar" subtitle="Customize your Habbo." />
     </div>
     <div
       class="relative rounded-lg mt-20 border-1 border-opacity-50 border-white border w-[150px] mx-auto overflow-hidden"
@@ -255,54 +252,46 @@ export default {
       renderAvatar(application, room);
     }
 
-    function updateAvatarLook() {
-      //Loading
+    async function updateAvatarLook() {
+      // Loading
       loading.value = true;
       room.removeRoomObject(avatar);
-      //Get from https://api.ducket.net/habbo/{username}
 
-      axios
-        .get(
+      try {
+        const response = await axios.get(
           'https://api.ducket.net/api/habbo/' +
             username.value +
             '/' +
             country.value
-        )
-        .then((response) => {
-          const data = response.data;
-          look = ref(data.figureString);
-          renderAvatar(application, room);
+        );
+        const data = response.data;
+        look = ref(data.figureString);
+        renderAvatar(application, room);
 
-          if (localStorage.getItem('access_token')) {
-            //Update api.ducket.net/api/keyValueStore
-            // Bearer Token
-            // key
-            // value
-            // sub_key
-
-            axios
-              .post(
-                'https://api.ducket.net/api/keyValueStore',
-                {
-                  key: 'avatar',
-                  value: data.figureString,
-                  sub_key: username.value,
+        if (localStorage.getItem('access_token')) {
+          try {
+            const response = await axios.post(
+              'https://api.ducket.net/api/keyValueStore',
+              {
+                key: 'avatar',
+                value: data.figureString,
+                sub_key: username.value,
+              },
+              {
+                headers: {
+                  Authorization:
+                    'Bearer ' + localStorage.getItem('access_token'),
                 },
-                {
-                  headers: {
-                    Authorization:
-                      'Bearer ' + localStorage.getItem('access_token'),
-                  },
-                }
-              )
-              .then((response) => {
-                console.log(response);
-              })
-              .catch((error) => {
-                console.log(error);
-              });
+              }
+            );
+            console.log(response);
+          } catch (error) {
+            console.log(error);
           }
-        });
+        }
+      } catch (error) {
+        console.error('Error fetching avatar data:', error);
+      }
     }
 
     function prepareRoomForDownload() {
