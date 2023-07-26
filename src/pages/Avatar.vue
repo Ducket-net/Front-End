@@ -28,7 +28,7 @@
             class="text-white text-xs block uppercase font-mono"
           >
             <font-awesome-icon icon="palette" />
-            BG
+            GIF
           </label>
         </div>
         <div
@@ -40,6 +40,30 @@
           >
             <font-awesome-icon icon="download" />
           </SpecialButton>
+          <label
+            for="effect"
+            class="text-white text-xs block pt-1 uppercase font-mono"
+          >
+            <font-awesome-icon icon="palette" />
+            Gif
+          </label>
+        </div>
+        <div
+          class="bg-black bg-opacity-50 text-center rounded-lg p-2 mt-2 items-center justify-center"
+        >
+          <SpecialButton
+            class="w-fulltext-sm text-gray-900"
+            @button-click="prepareRoomForDownloadPNG"
+          >
+            <font-awesome-icon icon="download" />
+          </SpecialButton>
+          <label
+            for="effect"
+            class="text-white text-xs block pt-1 uppercase font-mono"
+          >
+            <font-awesome-icon icon="palette" />
+            PNG
+          </label>
         </div>
       </div>
 
@@ -69,7 +93,7 @@
             :color="`bg-green-500`"
             :class="{ 'bg-gray-500': !habboName, 'bg-green-500': habboName }"
           >
-            <font-awesome-icon icon="sync" />
+            <font-awesome-icon icon="save" />
           </SpecialButton>
         </div>
       </div>
@@ -383,6 +407,50 @@ export default {
       }
     }
 
+    function prepareRoomForDownloadPNG() {
+      downloadRoomAsPNG(
+        'avatar.png',
+        application,
+        room,
+        avatar,
+        backgroundNumber
+      );
+    }
+
+    function downloadRoomAsPNG(filename = 'avatar.png', application, room) {
+      const renderTexture = PIXI.RenderTexture.create({
+        width: 150,
+        height: 250,
+        resolution: application.renderer.resolution,
+      });
+      application.renderer.render(room, renderTexture);
+      const extract = application.renderer.plugins.extract;
+      const canvas = extract.canvas(renderTexture);
+
+      //Add Bg
+      const finalCanvas = document.createElement('canvas');
+      finalCanvas.width = 150;
+      finalCanvas.height = 300;
+      const ctx = finalCanvas.getContext('2d');
+      ctx.fillStyle = `#${backgroundNumber.toString(16).padStart(6, '0')}`;
+      ctx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
+      ctx.drawImage(canvas, 0, 0);
+
+      finalCanvas.toBlob((blob) => {
+        // Create a temporary anchor element to trigger the download
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = filename;
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        // Clean up
+        URL.revokeObjectURL(link.href);
+        application.stage.removeChild(renderTexture);
+      }, 'image/png');
+    }
+
     function prepareRoomForDownload() {
       downloadRoomAsGIF(
         'avatar.gif',
@@ -435,7 +503,7 @@ export default {
               ctx.fillStyle = `#${backgroundNumber
                 .toString(16)
                 .padStart(6, '0')}`;
-              // ctx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
+              ctx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
 
               // Draw the avatar canvas on top of the background
               ctx.drawImage(avatarCanvas, 0, 0);
@@ -514,6 +582,8 @@ export default {
       floorColor,
       updateFloorColor,
       motto,
+      downloadRoomAsPNG,
+      prepareRoomForDownloadPNG,
     };
   },
   components: { SpecialButton, Title },
