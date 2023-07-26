@@ -88,20 +88,20 @@
       </div>
     </section>
 
-    <div class="p-4 grid gap-2">
+    <div class="p-4 grid gap-2 bg-black m-3 rounded-lg">
       <div class="">
         <form @submit.prevent="updateAvatarLook">
           <div class="grid gap-1">
             <div>
               <label for="effect" class="text-white text-sm pb-1.5 block">
-                Habbo Username
+                Habbo Name
               </label>
 
               <div class="grid grid-cols-[1.5fr,1fr] gap-1">
                 <input
                   type="text"
                   class="input-class text-black"
-                  v-model="username"
+                  v-model="habboName"
                   required
                 />
                 <!-- Country Select -->
@@ -210,9 +210,12 @@
 </template>
 
 <script>
+import GIF from 'gif.js';
+
 import { onMounted, ref, reactive } from 'vue';
 import SpecialButton from '@/components/SpecialButton.vue';
 import * as PIXI from 'pixi.js';
+import { Ticker } from 'pixi.js';
 import xml2js from 'xml-js';
 import axios from 'axios';
 import Title from '@/components/ui/Title.vue';
@@ -249,7 +252,7 @@ export default {
     let floorColor = ref('#e6e6e6');
     let application = null;
     let advanced = ref(false);
-    let username = ref('');
+    let habboName = ref('');
     let room = null;
     let shroom = null;
     let avatar = null;
@@ -274,6 +277,8 @@ export default {
         height: 300,
         width: 150,
       });
+      globalThis.__PIXI_APP__ = application;
+
       shroom = Shroom.create({
         application,
         resourcePath: 'https://ducket.net/resources',
@@ -307,6 +312,8 @@ export default {
       room.addRoomObject(avatar);
       application.stage.addChild(room);
       loading.value = false;
+
+      console.log(avatar);
     }
     function updateEffect() {
       room.removeRoomObject(avatar);
@@ -326,8 +333,8 @@ export default {
     async function updateAvatarLook() {
       // Loading
 
-      if (username.value == '') {
-        alert('Please enter a username.');
+      if (habboName.value == '') {
+        alert('Please enter a habboName.');
         return;
       }
       loading.value = true;
@@ -336,7 +343,7 @@ export default {
       try {
         const response = await axios.get(
           'https://api.ducket.net/api/habbo/' +
-            username.value +
+            habboName.value +
             '/' +
             country.value
         );
@@ -351,7 +358,7 @@ export default {
               {
                 key: 'avatar',
                 value: data.figureString,
-                sub_key: username.value,
+                sub_key: habboName.value,
               },
               {
                 headers: {
@@ -371,18 +378,85 @@ export default {
     }
 
     function prepareRoomForDownload() {
-      downloadRoomAsPNG('avatar.png', application, room);
+      downloadRoomAsGIF(
+        'avatar.gif',
+        application,
+        room,
+        avatar,
+        backgroundNumber
+      );
     }
-    function downloadRoomAsPNG(filename = 'room.png', application, room) {
-      const renderTexture = PIXI.RenderTexture.create({
+    async function downloadRoomAsGIF(
+      filename = 'avatar.gif',
+      application,
+      room,
+      avatar,
+      backgroundNumber = 0xffffff,
+      numFrames = 60,
+      frameDelay = 1000 / 60
+    ) {
+      loading.value = true;
+      const gif = new GIF({
+        workers: 2,
+        quality: 10,
         width: 150,
         height: 250,
-        resolution: application.renderer.resolution,
       });
-      application.renderer.render(room, renderTexture);
-      const extract = application.renderer.plugins.extract;
-      const canvas = extract.canvas(renderTexture);
-      canvas.toBlob((blob) => {
+
+      const ticker = avatar.animationTicker;
+      let frameCount = 0;
+
+      function captureFrame() {
+        return new Promise((resolve) => {
+          function tick() {
+            if (frameCount < numFrames) {
+              const renderTexture = PIXI.RenderTexture.create({
+                width: 150,
+                height: 250,
+                resolution: application.renderer.resolution,
+              });
+              application.renderer.render(room, renderTexture);
+              const extract = application.renderer.plugins.extract;
+              const avatarCanvas = extract.canvas(renderTexture);
+
+              // Create a new canvas for the background and avatar
+              const finalCanvas = document.createElement('canvas');
+              finalCanvas.width = 150;
+              finalCanvas.height = 250;
+              const ctx = finalCanvas.getContext('2d');
+
+              // Draw the background color
+              ctx.fillStyle = `#${backgroundNumber
+                .toString(16)
+                .padStart(6, '0')}`;
+              ctx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
+
+              // Draw the avatar canvas on top of the background
+              ctx.drawImage(avatarCanvas, 0, 0);
+
+              gif.addFrame(finalCanvas, { delay: frameDelay });
+
+              frameCount++;
+            }
+
+            if (frameCount >= numFrames) {
+              resolve();
+            }
+          }
+
+          const unsubscribe = ticker.subscribe(tick);
+          if (frameCount >= numFrames) {
+            unsubscribe();
+          }
+        });
+      }
+
+      //Delay 2 seconds
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      await captureFrame();
+
+      gif.on('finished', (blob) => {
         // Create a temporary anchor element to trigger the download
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
@@ -393,9 +467,11 @@ export default {
         document.body.removeChild(link);
         // Clean up
         URL.revokeObjectURL(link.href);
-        application.stage.removeChild(renderTexture);
-      }, 'image/png');
+      });
+      loading.value = false;
+      gif.render();
     }
+
     const fetchXMLData = async () => {
       const response = await axios.get(
         'https://ducket.net/resources/effectmap.xml'
@@ -418,9 +494,9 @@ export default {
       state,
       look,
       prepareRoomForDownload,
-      downloadRoomAsPNG,
+      downloadRoomAsGIF,
       country,
-      username,
+      habboName,
       loading,
       emote,
       updateEmote,
