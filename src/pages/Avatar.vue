@@ -13,7 +13,7 @@
       <Title title="Design your Avatar" subtitle="Customize your Habbo." />
     </div>
     <section class="mt-20 flex">
-      <div class="absolute left-5 items-center justify-center">
+      <div class="absolute z-50 left-5 items-center justify-center">
         <div
           class="bg-black bg-opacity-50 text-center rounded-lg p-2 mt-2 items-center justify-center"
         >
@@ -35,7 +35,7 @@
           class="bg-black bg-opacity-50 text-center rounded-lg p-2 mt-2 items-center justify-center"
         >
           <SpecialButton
-            class="w-fulltext-sm text-gray-900"
+            class="w-full text-sm text-gray-900"
             @button-click="prepareRoomForDownload"
           >
             <font-awesome-icon icon="download" />
@@ -48,26 +48,9 @@
             Gif
           </label>
         </div>
-        <div
-          class="bg-black bg-opacity-50 text-center rounded-lg p-2 mt-2 items-center justify-center"
-        >
-          <SpecialButton
-            class="w-fulltext-sm text-gray-900"
-            @button-click="prepareRoomForDownloadPNG"
-          >
-            <font-awesome-icon icon="download" />
-          </SpecialButton>
-          <label
-            for="effect"
-            class="text-white text-xs block pt-1 uppercase font-mono"
-          >
-            <font-awesome-icon icon="palette" />
-            PNG
-          </label>
-        </div>
       </div>
 
-      <div class="absolute right-5 items-center justify-center">
+      <div class="absolute z-50 right-5 items-center justify-center">
         <div
           class="bg-black bg-opacity-50 text-center rounded-lg p-2 mt-2 items-center justify-center"
         >
@@ -88,18 +71,23 @@
           class="bg-black bg-opacity-50 text-center rounded-lg p-2 mt-2 items-center justify-center"
         >
           <SpecialButton
-            class="w-fulltext-sm text-white"
-            @button-click="updateAvatarLook"
-            :color="`bg-green-500`"
-            :class="{ 'bg-gray-500': !habboName, 'bg-green-500': habboName }"
+            class="w-full text-sm text-gray-900"
+            @button-click="prepareRoomForDownloadPNG"
           >
-            <font-awesome-icon icon="save" />
+            <font-awesome-icon icon="download" />
           </SpecialButton>
+          <label
+            for="effect"
+            class="text-white text-xs block pt-1 uppercase font-mono"
+          >
+            <font-awesome-icon icon="palette" />
+            PNG
+          </label>
         </div>
       </div>
 
       <div
-        class="relative rounded-lg border-1 border-opacity-50 border-white border w-[150px] mx-auto overflow-hidden"
+        class="relative rounded-lg border-1 border-opacity-50 border-white border w-[250px] mx-auto overflow-hidden"
       >
         <div
           v-if="loading"
@@ -112,7 +100,7 @@
             <p class="text-xs">Loading...</p>
           </div>
         </div>
-        <canvas ref="gameCanvas" id="root" class="w-[150px]"></canvas>
+        <canvas ref="gameCanvas" id="root" class="w-[250px]"></canvas>
       </div>
     </section>
 
@@ -125,7 +113,7 @@
                 Habbo Name
               </label>
 
-              <div class="grid grid-cols-[1.5fr,1fr] gap-1">
+              <div class="grid grid-cols-[1.4fr,0.7fr.1fr] gap-1">
                 <input
                   type="text"
                   class="input-class text-black"
@@ -134,23 +122,58 @@
                 />
                 <!-- Country Select -->
                 <select class="input-class text-black" v-model="country">
-                  <option id="us" value="com">English - COM</option>
-                  <option id="es" value="es">Spanish - ES</option>
-                  <option id="pr_br" value="com.br">Portuguese - PT/BR</option>
-                  <option id="fr" value="fr">French - FR</option>
-                  <option id="nl" value="nl">Dutch - NL</option>
-                  <option id="fi" value="fi">Finnish - FI</option>
-                  <option id="au" value="it">Italian - IT</option>
-                  <option id="au" value="de">German - DE</option>
-                  <option id="com_tr" value="com.tr">Turkish - TR</option>
+                  <option id="us" value="com">.com</option>
+                  <option id="es" value="es">.es</option>
+                  <option id="pr_br" value="com.br">.com.br</option>
+                  <option id="fr" value="fr">.fr</option>
+                  <option id="nl" value="nl">.nl</option>
+                  <option id="fi" value="fi">.fi</option>
+                  <option id="au" value="it">.it</option>
+                  <option id="au" value="de">.de</option>
+                  <option id="com_tr" value="com.tr">.com.tr</option>
                 </select>
+
+                <SpecialButton
+                  class="text-sm text-white"
+                  @button-click="updateAvatarLook"
+                  :color="`bg-green-500`"
+                  :class="{
+                    'bg-gray-500': !habboName,
+                    'bg-green-500': habboName,
+                  }"
+                >
+                  Load
+                </SpecialButton>
               </div>
             </div>
           </div>
         </form>
       </div>
 
-      <div class="grid grid-cols-2 gap-1">
+      <div class="grid grid-cols-3 gap-1">
+        <div>
+          <label for="emote" class="text-white text-sm pb-1.5 block">
+            Direction
+          </label>
+          <div class="flex flex-row gap-1">
+            <SpecialButton
+              class="text-sm text-black"
+              @button-click="direction('left')"
+              ><font-awesome-icon
+                :icon="['fas', 'arrow-right']"
+                :style="{ transform: 'rotate(180deg)' }"
+              />
+            </SpecialButton>
+            <SpecialButton
+              class="text-sm text-black"
+              @button-click="direction('left')"
+              ><font-awesome-icon
+                :icon="['fas', 'arrow-right']"
+                :style="{ transform: 'rotate(365deg)' }"
+              />
+            </SpecialButton>
+          </div>
+        </div>
         <div>
           <label for="effect" class="text-white text-sm pb-1.5 block">
             Effect
@@ -216,7 +239,7 @@
           <label for="effect" class="text-white text-sm pb-1.5 pt-4 block">
             Habbo Look String (Override)
           </label>
-          <p class="text-xs text-gray-400 pb-2">
+          <p class="text-xs text-gray-250 pb-2">
             <a
               class="underline"
               target="_blank"
@@ -240,7 +263,7 @@
 <script>
 import GIF from 'gif.js';
 
-import { onMounted, ref, reactive } from 'vue';
+import { onMounted, ref, reactive, watch } from 'vue';
 import SpecialButton from '@/components/SpecialButton.vue';
 import * as PIXI from 'pixi.js';
 import { Ticker } from 'pixi.js';
@@ -285,7 +308,35 @@ export default {
     let shroom = null;
     let avatar = null;
     let loading = ref(true);
+
+    //Use Local Storage
     let country = ref('com');
+    let countryStorage = localStorage.getItem('country');
+
+    if (countryStorage) {
+      country = ref(countryStorage);
+    }
+
+    //Watch for change of country
+    watch(country, (newValue, oldValue) => {
+      localStorage.setItem('country', newValue);
+    });
+
+    //User Local Storage for habboName
+    let habboNameStorage = localStorage.getItem('habboName');
+
+    if (habboNameStorage) {
+      habboName = ref(habboNameStorage);
+      updateAvatarLook();
+    }
+
+    //Set habboName when model is updated
+    habboName.value = habboNameStorage;
+
+    //Watch for change of habboName
+    watch(habboName, (newValue, oldValue) => {
+      localStorage.setItem('habboName', newValue);
+    });
 
     const state = reactive({
       items: [{ id: 0, lib: 'None' }],
@@ -303,8 +354,8 @@ export default {
         backgroundColor: backgroundNumber,
         resolution: window.devicePixelRatio,
         autoDensity: true,
-        height: 300,
-        width: 150,
+        height: 250,
+        width: 250,
       });
       globalThis.__PIXI_APP__ = application;
 
@@ -321,8 +372,8 @@ export default {
       room.hideWalls = true;
       room.floorColor = floorColor.value;
       room.floorTexture = loadRoomTexture('newTile.png');
-      room.x = 42;
-      room.y = 175;
+      room.x = 95;
+      room.y = 150;
       await fetchXMLData();
       renderAvatar(application, room);
     });
@@ -331,7 +382,7 @@ export default {
         roomX: 0.5,
         roomY: 0.5,
         roomZ: 0,
-        direction: 2,
+        direction: 4,
         look: look.value,
       });
       avatar.effect = effect.value.toString();
@@ -347,6 +398,23 @@ export default {
     function updateEffect() {
       room.removeRoomObject(avatar);
       renderAvatar(application, room);
+    }
+
+    function direction(dir) {
+      //Increment to 7 and then reset to 0.
+      if (dir == 'left') {
+        if (avatar.direction == 7) {
+          avatar.direction = 0;
+        } else {
+          avatar.direction++;
+        }
+      } else {
+        if (avatar.direction == 0) {
+          avatar.direction = 7;
+        } else {
+          avatar.direction--;
+        }
+      }
     }
 
     function updateEmote() {
@@ -367,7 +435,6 @@ export default {
         return;
       }
       loading.value = true;
-      room.removeRoomObject(avatar);
 
       try {
         const response = await axios.get(
@@ -379,6 +446,7 @@ export default {
         const data = response.data;
         look = ref(data.figureString);
         motto.value = data.motto;
+        room.removeRoomObject(avatar);
         renderAvatar(application, room);
 
         if (localStorage.getItem('access_token')) {
@@ -419,34 +487,46 @@ export default {
 
     function downloadRoomAsPNG(filename = 'avatar.png', application, room) {
       const renderTexture = PIXI.RenderTexture.create({
-        width: 150,
+        width: 250,
         height: 250,
         resolution: application.renderer.resolution,
+        scaleMode: PIXI.SCALE_MODES.NEAREST,
       });
-      application.renderer.render(room, renderTexture);
+
+      // create a background before rendering the room
+      const background = new PIXI.Graphics();
+      let backgroundNumber = hexToNumber(
+        backgroundColor.value.replace('#', '')
+      );
+      background.beginFill(backgroundNumber);
+      background.drawRect(0, 0, 250, 250);
+      background.endFill();
+      application.stage.addChildAt(background, 0); // Ensure it's the bottommost layer
+
+      application.renderer.render(application.stage, renderTexture); // Render the whole stage
       const extract = application.renderer.plugins.extract;
       const canvas = extract.canvas(renderTexture);
 
-      //Add Bg
-      const finalCanvas = document.createElement('canvas');
-      finalCanvas.width = 150;
-      finalCanvas.height = 300;
-      const ctx = finalCanvas.getContext('2d');
-      ctx.fillStyle = `#${backgroundNumber.toString(16).padStart(6, '0')}`;
-      ctx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
-      ctx.drawImage(canvas, 0, 0);
-
-      finalCanvas.toBlob((blob) => {
-        // Create a temporary anchor element to trigger the download
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = filename;
-        link.style.display = 'none';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        // Clean up
-        URL.revokeObjectURL(link.href);
+      canvas.toBlob((blob) => {
+        if (navigator.share) {
+          // Web Share API is available, share the image
+          const file = new File([blob], filename, { type: 'image/png' });
+          navigator
+            .share({
+              files: [file],
+            })
+            .catch((error) => console.log('Sharing failed', error));
+        } else {
+          // Web Share API is not available, fall back to download
+          const link = document.createElement('a');
+          link.href = URL.createObjectURL(blob);
+          link.download = filename;
+          link.style.display = 'none';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          URL.revokeObjectURL(link.href);
+        }
         application.stage.removeChild(renderTexture);
       }, 'image/png');
     }
@@ -466,14 +546,14 @@ export default {
       room,
       avatar,
       backgroundNumber = 0xffffff,
-      numFrames = 60,
+      numFrames = 85,
       frameDelay = 1000 / 60
     ) {
       loading.value = true;
       const gif = new GIF({
         workers: 2,
         quality: 10,
-        width: 150,
+        width: 250,
         height: 250,
       });
 
@@ -485,32 +565,31 @@ export default {
           function tick() {
             if (frameCount < numFrames) {
               const renderTexture = PIXI.RenderTexture.create({
-                width: 150,
+                width: 250,
                 height: 250,
                 resolution: application.renderer.resolution,
               });
-              application.renderer.render(room, renderTexture);
+
+              // Create a PIXI background
+              const background = new PIXI.Graphics();
+              background.beginFill(backgroundNumber);
+              background.drawRect(0, 0, 250, 250);
+              background.endFill();
+
+              // Add background and room to stage ensuring room is rendered over background
+              application.stage.addChild(background);
+              application.stage.addChild(room);
+
+              // Render the scene
+              application.renderer.render(application.stage, renderTexture);
               const extract = application.renderer.plugins.extract;
               const avatarCanvas = extract.canvas(renderTexture);
 
-              // Create a new canvas for the background and avatar
-              const finalCanvas = document.createElement('canvas');
-              finalCanvas.width = 150;
-              finalCanvas.height = 300;
-              const ctx = finalCanvas.getContext('2d');
-
-              // Draw the background color
-              ctx.fillStyle = `#${backgroundNumber
-                .toString(16)
-                .padStart(6, '0')}`;
-              ctx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
-
-              // Draw the avatar canvas on top of the background
-              ctx.drawImage(avatarCanvas, 0, 0);
-
-              gif.addFrame(finalCanvas, { delay: frameDelay });
+              gif.addFrame(avatarCanvas, { delay: frameDelay });
 
               frameCount++;
+              // Remove background and room from stage after rendering
+              application.stage.removeChild(background);
             }
 
             if (frameCount >= numFrames) {
@@ -526,23 +605,34 @@ export default {
       }
 
       //Delay 2 seconds
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, 2500));
 
       await captureFrame();
 
       gif.on('finished', (blob) => {
-        // Create a temporary anchor element to trigger the download
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = filename;
-        link.style.display = 'none';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        // Clean up
-        URL.revokeObjectURL(link.href);
+        if (navigator.share) {
+          // Web Share API is available, share the gif
+          const file = new File([blob], filename, { type: 'image/gif' });
+          navigator
+            .share({
+              files: [file],
+            })
+            .catch((error) => console.log('Sharing failed', error));
+        } else {
+          // Web Share API is not available, fall back to download
+          const link = document.createElement('a');
+          link.href = URL.createObjectURL(blob);
+          link.download = filename;
+          link.style.display = 'none';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          URL.revokeObjectURL(link.href);
+        }
+
+        loading.value = false;
       });
-      loading.value = false;
+
       gif.render();
     }
 
@@ -560,6 +650,7 @@ export default {
       });
       state.items.unshift({ id: 0, lib: 'None' });
     };
+
     return {
       gameCanvas,
       effect,
@@ -584,6 +675,7 @@ export default {
       motto,
       downloadRoomAsPNG,
       prepareRoomForDownloadPNG,
+      direction,
     };
   },
   components: { SpecialButton, Title },
