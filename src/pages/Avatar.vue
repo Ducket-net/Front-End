@@ -166,7 +166,7 @@
             </SpecialButton>
             <SpecialButton
               class="text-sm text-black"
-              @button-click="direction('left')"
+              @button-click="direction('right')"
               ><font-awesome-icon
                 :icon="['fas', 'arrow-right']"
                 :style="{ transform: 'rotate(365deg)' }"
