@@ -105,6 +105,39 @@
           >
         </div>
       </div> -->
+      <div class="grid grid-cols-2 gap-1">
+        <a href="https://events.ducket.net/staff" target="_self">
+          <figure class="box navy">
+            <div class="box-strip"></div>
+            <div class="box-gradient"></div>
+            <img src="/hotel-views/web_view_bg_cn1.gif" alt="Room Name" />
+            <figcaption>
+              <div class="flex justify-start gap-2 items-center">
+                <div>
+                  Team
+                  <p class="text-xs opacity-70">Meet the dedicated team!</p>
+                </div>
+              </div>
+            </figcaption>
+          </figure>
+        </a>
+
+        <a href="https://discord.gg/xq9VXzgx7P" target="_blank">
+          <figure class="box navy">
+            <div class="box-strip"></div>
+            <div class="box-gradient"></div>
+            <img src="/hotel-views/web_view_bg_cn1.gif" alt="Room Name" />
+            <figcaption>
+              <div class="flex justify-start gap-2 items-center">
+                <div>
+                  Discord
+                  <p class="text-xs opacity-70">Join the community!</p>
+                </div>
+              </div>
+            </figcaption>
+          </figure>
+        </a>
+      </div>
 
       <figure class="box">
         <div class="box-strip"></div>
@@ -238,6 +271,10 @@ export default {
   background: #7f7f00 !important;
 }
 
+.navy {
+  background: #495b81 !important;
+}
+
 .box {
   position: relative;
   width: 100%;
@@ -282,6 +319,8 @@ export default {
   object-position: 0% 50%;
   touch-action: none;
   pointer-events: none;
+  width: 100%;
+  height: 100%;
 
   -webkit-touch-callout: none;
 
