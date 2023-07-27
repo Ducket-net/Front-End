@@ -1,10 +1,10 @@
 <!-- src/components/Home.vue -->
 <template>
   <div class="home-container max-w-md">
-    <div class="game-room-container fixed overflow-hidden">
+    <div class="game-room-container overflow-hidden bg-[#1E1E1E]">
       <GameRoom room-id="blank" :withController="true" />
     </div>
-    <div class="mt-[500px] m-2 rounded-lg">
+    <div class="mt-[20px] m-2 rounded-lg">
       <FurniCatalog :index="1" />
     </div>
     <div class="item-catalog-container no-scrollbar"></div>
@@ -42,6 +42,9 @@ export default {
   /* position: sticky; */
   z-index: 9; /* Set a high z-index to ensure it's above the scrolling content */
   touch-action: none;
+  background-repeat: repeat;
+  background-position: 38px 44px;
+  background: url('../../public/6432-grid_2.png');
 }
 
 .item-catalog-container {

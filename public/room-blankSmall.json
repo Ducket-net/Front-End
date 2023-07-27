@@ -10,46 +10,5 @@
     "y": 0
   },
   "wallColor": "#C73621",
-  "items": [
-    {
-      "type": "red_tv",
-      "roomX": 4.05,
-      "roomY": 2.7,
-      "roomZ": 0.4,
-      "direction": 4,
-      "animation": 1
-    },
-    {
-      "type": "stand_polyfon_z",
-      "roomX": 4.05,
-      "roomY": 2.65,
-      "roomZ": 0,
-      "direction": 2,
-      "animation": 1
-    },
-    {
-      "type": "sofa_polyfon",
-      "roomX": 3.5,
-      "roomY": 4.1,
-      "roomZ": 0,
-      "direction": 0,
-      "animation": 1
-    },
-    {
-      "type": "sofa_polyfon",
-      "roomX": 3.25,
-      "roomY": 3.25,
-      "roomZ": 0,
-      "direction": 2,
-      "animation": 1
-    },
-    {
-      "type": "carpet_standard*4",
-      "roomX": 3.25,
-      "roomY": 2.25,
-      "roomZ": 0,
-      "direction": 0,
-      "animation": 1
-    }
-  ]
+  "items": []
 }

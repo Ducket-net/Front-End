@@ -1,7 +1,7 @@
 <!-- src/components/Home.vue -->
 <template>
   <div>
-    <div class="mt-10">
+    <div class="mt-10 bg-red-500">
       <FurniCatalog :index="1" :search="search" />
     </div>
   </div>

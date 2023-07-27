@@ -28,12 +28,11 @@ export default {
   },
   data() {
     return {
-      tilemap: `xxxxxx
-      xxxx00
-      xx0000
-      xx0000
-      x00000
-      x00000`,
+      tilemap: `xxxxx
+      x000
+      x000
+      x000
+      xxxx`,
     };
   },
   methods: {

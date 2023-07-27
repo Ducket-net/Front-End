@@ -1,69 +1,71 @@
 <!-- eslint-disable vue/require-v-for-key -->
 <template>
-  <div class="overflow-y-scroll overflow-x-hidden">
-    <div
-      v-if="selectedCategory"
-      class="grid grid-cols-9 gap-1 p-0.5 mt-2 rounded-lg"
-    >
-      <button
-        class="capitalize min-h-[42px] text-center col-span-3 items-center px-2 bg-white rounded cursor-pointer hover:bg-black hover:text-white"
-        @click.stop="clearSearch"
-      >
-        Clear {{ selectedCategory }}
-      </button>
+  <div class="h-full">
+    <div class="overflow-y-scroll overflow-x-hidden">
       <div
-        v-for="item in searchResults"
-        :key="item.id"
-        class="flex min-h-[42px] items-center px-2 bg-white rounded cursor-pointer hover:bg-black object-center"
-        @click.stop="addToRoom(item.classname)"
+        v-if="selectedCategory"
+        class="grid grid-cols-9 gap-1 p-0.5 mt-2 rounded-lg"
       >
-        <div class="mx-auto">
-          <furni-img :classname="item.classname" />
+        <button
+          class="capitalize min-h-[42px] text-center col-span-3 items-center px-2 bg-white rounded cursor-pointer hover:bg-black hover:text-white"
+          @click.stop="clearSearch"
+        >
+          Clear {{ selectedCategory }}
+        </button>
+        <div
+          v-for="item in searchResults"
+          :key="item.id"
+          class="flex min-h-[42px] items-center px-2 bg-white rounded cursor-pointer hover:bg-black object-center"
+          @click.stop="addToRoom(item.classname)"
+        >
+          <div class="mx-auto">
+            <furni-img :classname="item.classname" />
+          </div>
         </div>
       </div>
-    </div>
-    <div v-if="$store.state.user">
-      <ItemCatalog :index="99" />
-    </div>
-    <SpecialButton
-      class="bg-black text-white text-sm font-bold mt-2 p-3 rounded-lg w-full"
-      @button-click="loadCatalog"
-      v-if="!catalog.lines.length"
-    >
-      {{ catalogLoading ? 'Loading...' : 'Open Catalog' }}
-    </SpecialButton>
-    <SpecialButton
-      class="bg-black text-white text-sm font-bold mt-2 p-3 rounded-lg w-full"
-      @button-click="previewMode"
-    >
-      Download Room PNG
-    </SpecialButton>
-    <div class="grid grid-cols-4 gap-1" v-if="catalog.lines.length">
-      <h2
-        class="col-span-4 bg-black text-white text-sm font-bold mt-2 p-3 rounded-lg"
-      >
-        Lines
-      </h2>
-      <div
-        class="bg-white p-1 rounded-lg capitalize text-center text-sm font-bold py-3 active:bg-[#1A1F25] active:text-white"
-        v-for="line in catalog.lines"
-        @click="toggleCatalog('line', line)"
-        :class="{ 'bg-slate-900 text-white': selectedLine == line }"
-      >
-        {{ line }}
+      <div v-if="$store.state.user">
+        <ItemCatalog :index="99" />
       </div>
-      <h2
-        class="col-span-4 bg-black text-white text-sm font-bold mt-2 p-3 rounded-lg"
+      <SpecialButton
+        class="bg-black text-white text-sm font-bold mt-2 p-3 rounded-lg w-full"
+        @button-click="loadCatalog"
+        v-if="!catalog.lines.length"
       >
-        Categories
-      </h2>
-      <div
-        class="bg-white p-1 rounded-lg capitalize text-center text-sm font-bold py-3 active:bg-[#1A1F25] active:text-white"
-        v-for="catagory in catalog.categories"
-        @click="toggleCatalog('category', catagory)"
-        :class="{ 'bg-slate-900 text-white': selectedCategory == catagory }"
+        {{ catalogLoading ? 'Loading...' : 'Open Catalog' }}
+      </SpecialButton>
+      <SpecialButton
+        class="bg-black text-white text-sm font-bold mt-2 p-3 rounded-lg w-full"
+        @button-click="previewMode"
       >
-        {{ catagory }}
+        Download Room PNG
+      </SpecialButton>
+      <div class="grid grid-cols-4 gap-1" v-if="catalog.lines.length">
+        <h2
+          class="col-span-4 bg-black text-white text-sm font-bold mt-2 p-3 rounded-lg"
+        >
+          Lines
+        </h2>
+        <div
+          class="bg-white p-1 rounded-lg capitalize text-center text-sm font-bold py-3 active:bg-[#1A1F25] active:text-white"
+          v-for="line in catalog.lines"
+          @click="toggleCatalog('line', line)"
+          :class="{ 'bg-slate-900 text-white': selectedLine == line }"
+        >
+          {{ line }}
+        </div>
+        <h2
+          class="col-span-4 bg-black text-white text-sm font-bold mt-2 p-3 rounded-lg"
+        >
+          Categories
+        </h2>
+        <div
+          class="bg-white p-1 rounded-lg capitalize text-center text-sm font-bold py-3 active:bg-[#1A1F25] active:text-white"
+          v-for="catagory in catalog.categories"
+          @click="toggleCatalog('category', catagory)"
+          :class="{ 'bg-slate-900 text-white': selectedCategory == catagory }"
+        >
+          {{ catagory }}
+        </div>
       </div>
     </div>
   </div>

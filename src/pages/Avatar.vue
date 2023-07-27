@@ -389,6 +389,7 @@ export default {
       // avatar.addAction(AvatarAction.Sit);
       // avatar.addAction(AvatarAction.Lay);
       avatar.addAction(AvatarAction[emote.value]);
+
       room.addRoomObject(avatar);
       application.stage.addChild(room);
       loading.value = false;
