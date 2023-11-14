@@ -1,9 +1,11 @@
 <template>
   <div class="max-w-md relative">
     <div
-      class="background-grid max-w-md left-1/2 transform -translate-x-1/2"
+      class="background-grid max-w-3xl left-1/2 transform -translate-x-1/2"
     ></div>
-    <div class="background max-w-md left-1/2 transform -translate-x-1/2"></div>
+    <div
+      class="background max-w-3xl left-1/2 md:shadow-2xl transform -translate-x-1/2"
+    ></div>
 
     <div
       class="isometric-grid max-w-md fixed mx-auto bottom-0 left-0 top-0 right-0 h-screen w-screen"

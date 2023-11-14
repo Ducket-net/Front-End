@@ -1,6 +1,6 @@
 <!-- src/App.vue -->
 <template>
-  <div id="mainApp" class="mx-auto max-w-md shadow-2xl overflow-hidden">
+  <div id="mainApp" class="mx-auto max-w-2xl shadow-2xl overflow-hidden">
     <Tiles></Tiles>
 
     <div id="mainApp" class="container z-10 relative">

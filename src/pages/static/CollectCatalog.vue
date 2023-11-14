@@ -22,23 +22,40 @@
       </details> -->
     </section>
 
-    <div class="grid gap-3 p-2">
-      <figure class="box green" @click="twitter">
-        <div class="box-strip"></div>
-        <div class="box-gradient"></div>
-        <img src="/hotel-views/web_view_bg_cn2.gif" alt="Room Name" />
-        <figcaption>
-          <div class="flex justify-start gap-2 items-center">
-            <div>🌳</div>
-            <div>
-              Join the Waitlist
-              <p class="text-xs opacity-70">
-                Ducket is currently invite-only, follow for more.
-              </p>
-            </div>
-          </div>
-        </figcaption>
-      </figure>
+    <div class="grid gap-3 md:gap-5 p-2">
+      <div class="grid grid-cols-2 gap-3 md:gap-5">
+        <a href="https://events.ducket.net/staff" target="_self">
+          <figure class="box green">
+            <div class="box-strip"></div>
+            <div class="box-gradient"></div>
+            <img src="/hotel-views/web_view_bg_cn1.gif" alt="Room Name" />
+            <figcaption>
+              <div class="flex justify-start gap-2 items-center">
+                <div>
+                  Team
+                  <p class="text-xs opacity-70">Meet the dedicated team!</p>
+                </div>
+              </div>
+            </figcaption>
+          </figure>
+        </a>
+
+        <a href="https://discord.gg/xq9VXzgx7P" target="_blank">
+          <figure class="box purple">
+            <div class="box-strip"></div>
+            <div class="box-gradient"></div>
+            <img src="/hotel-views/web_view_bg_cn1.gif" alt="Room Name" />
+            <figcaption>
+              <div class="flex justify-start gap-2 items-center">
+                <div>
+                  Discord
+                  <p class="text-xs opacity-70">Join the community!</p>
+                </div>
+              </div>
+            </figcaption>
+          </figure>
+        </a>
+      </div>
 
       <a href="https://api.ducket.net/home">
         <figure class="box blue">
@@ -105,76 +122,6 @@
           >
         </div>
       </div> -->
-      <div class="grid grid-cols-2 gap-1">
-        <a href="https://events.ducket.net/staff" target="_self">
-          <figure class="box navy">
-            <div class="box-strip"></div>
-            <div class="box-gradient"></div>
-            <img src="/hotel-views/web_view_bg_cn1.gif" alt="Room Name" />
-            <figcaption>
-              <div class="flex justify-start gap-2 items-center">
-                <div>
-                  Team
-                  <p class="text-xs opacity-70">Meet the dedicated team!</p>
-                </div>
-              </div>
-            </figcaption>
-          </figure>
-        </a>
-
-        <a href="https://discord.gg/xq9VXzgx7P" target="_blank">
-          <figure class="box navy">
-            <div class="box-strip"></div>
-            <div class="box-gradient"></div>
-            <img src="/hotel-views/web_view_bg_cn1.gif" alt="Room Name" />
-            <figcaption>
-              <div class="flex justify-start gap-2 items-center">
-                <div>
-                  Discord
-                  <p class="text-xs opacity-70">Join the community!</p>
-                </div>
-              </div>
-            </figcaption>
-          </figure>
-        </a>
-      </div>
-
-      <figure class="box">
-        <div class="box-strip"></div>
-        <div class="box-gradient"></div>
-        <img src="/hotel-views/web_view_bg_us.gif" alt="Room Name" />
-        <figcaption>
-          Putt Putt
-          <p class="text-xs text-gray-400">Summer 2023</p>
-        </figcaption>
-      </figure>
-      <figure class="box">
-        <div class="box-strip"></div>
-        <div class="box-gradient"></div>
-        <img src="/hotel-views/web_view_bg_es.gif" alt="Room Name" />
-        <figcaption>
-          Habbo Collectable Catalog
-          <p class="text-xs text-gray-400">Beta</p>
-        </figcaption>
-      </figure>
-      <figure class="box">
-        <div class="box-strip"></div>
-        <div class="box-gradient"></div>
-        <img src="/hotel-views/web_view_bg_fi.gif" alt="Room Name" />
-        <figcaption>
-          Historic Catalog
-          <p class="text-xs text-gray-400">Beta</p>
-        </figcaption>
-      </figure>
-      <figure class="box">
-        <div class="box-strip"></div>
-        <div class="box-gradient"></div>
-        <img src="/hotel-views/web_view_bg_au.gif" alt="Room Name" />
-        <figcaption>
-          Global Fansite API
-          <p class="text-xs text-gray-400">In Development</p>
-        </figcaption>
-      </figure>
 
       <div class="text-white gap-1 flex flex-col" v-if="isUserLoggedIn">
         <a href="/logout" class="bg-black block p-2 rounded-lg"> Logout</a>
@@ -284,7 +231,7 @@ export default {
   background: #202020;
   border: 1px solid #000000;
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
-  min-height: 70px;
+  height: 70px;
 }
 .box-strip {
   width: 94%;

@@ -5,6 +5,7 @@
       <GameRoom room-id="blank" :withController="true" />
     </div>
     <div class="mt-[20px] m-2 rounded-lg">
+      <ItemCatalogContainer />
       <FurniCatalog :index="1" />
     </div>
     <div class="item-catalog-container no-scrollbar"></div>
@@ -15,11 +16,13 @@
 import GameRoom from '@/components/GameRoom.vue';
 import { EventBus } from '@/eventBus.js';
 import FurniCatalog from '@/components/FurniCatalog.vue';
+import ItemCatalogContainer from '@/components/ItemCatalogContainer.vue';
 
 export default {
   components: {
     GameRoom,
     FurniCatalog,
+    ItemCatalogContainer,
   },
   data() {
     return {};
