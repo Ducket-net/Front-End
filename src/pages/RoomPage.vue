@@ -1,6 +1,6 @@
 <!-- src/components/Home.vue -->
 <template>
-  <div class="home-container max-w-md">
+  <div class="home-container">
     <div class="game-room-container overflow-hidden bg-[#1E1E1E]">
       <GameRoom room-id="blank" :withController="true" />
     </div>
