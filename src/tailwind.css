@@ -58,7 +58,6 @@ body {
   -webkit-overflow-scrolling: touch; /* Smooth scrolling for iOS */
 }
 
-/* Hide scrollbar on Firefox */
 .scrollable-content {
   scrollbar-width: none;
 }
