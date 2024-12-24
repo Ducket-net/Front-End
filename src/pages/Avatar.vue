@@ -439,7 +439,7 @@ export default {
 
       try {
         const response = await axios.get(
-          'https://api.ducket.net/api/habbo/' +
+          'https://ducket.net/api/habbo/' +
             habboName.value +
             '/' +
             country.value
